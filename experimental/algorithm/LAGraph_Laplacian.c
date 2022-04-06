@@ -121,6 +121,9 @@ int LAGraph_norm2
     GrB_Vector v
 )
 {
+    GrB_Vector t = NULL ;
+    GrB_Index len ;
+
     GRB_TRY (GrB_Vector_size (&len, v)) ;
     GRB_TRY (GrB_Vector_new (&t, GrB_FP32, len)) ;
 #if LG_SUITESPARSE
@@ -136,20 +139,31 @@ int LAGraph_norm2
     return (GrB_SUCCESS) ;
 }
 
-int LAGraph_Laplacian       // vertex triangle-centrality
+int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
 (
     // outputs:
-    GrB_Matrix *Lap,     // centrality(i): triangle centrality of i
-    float *inform ,       // # of triangles in the graph
+    GrB_Matrix *Lap,    // Laplacian of G->A
+    float *inform,      // infinity norm of Lap
     // inputs:
-    LAGraph_Graph G,            // input matrix, symmetric
+    LAGraph_Graph G,    // input matrix, symmetric
+//  GrB_Type type,      // the type of Lap, typically GrB_FP32, ...
     char *msg
 )
 {
+    GrB_Index ncol ;
 
-    GRB_TRY (GrB_Matrix_ncols(&ncol, Lap)) ;
+    // TODO: assert G->A is symmetric
+
+    // Lap = (float) offdiag (G->A)
+    GRB_TRY (GrB_Matrix_ncols(&ncol, G->A)) ;
+    GRB_TRY (GrB_Matrix_new (Lap, GrB_FP32, ncol, ncol)) ;
+    GRB_TRY (GrB_select (*Lap,NULL,NULL,GrB_OFFDIAG,G->A,0,NULL,NULL)) ;
+
+    // t = row degree of Lap
+
+    // t = Lap * x via the LAGraph_plus_one_fp32 semiring
     GRB_TRY (GrB_Vector_new (&t, GrB_FP32, ncol)) ;
-    GRB_TRY(GxB_select(Lap,NULL,NULL,GxB_OFFDIAG,NULL,NULL,NULL))
     GRB_TRY(GrB_mxv(t,NULL,NULL,NULL,))
+
     return (GrB_SUCCESS);
 }
