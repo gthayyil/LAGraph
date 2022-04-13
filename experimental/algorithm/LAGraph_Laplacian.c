@@ -76,8 +76,10 @@
 #include "LG_internal.h"
 
 //------------------------------------------------------------------------------
-// LAGraph_VertexCentrality_Triangle: vertex triangle-centrality
+// LAGraph_Laplacian
 //------------------------------------------------------------------------------
+
+//TODO:work on freeing the variables after implementation of hdip_fiedler
 
 int LAGraph_Happly //happly
 (
@@ -150,8 +152,10 @@ int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
     char *msg
 )
 {
-    GrB_Index ncol ;
-
+    GrB_Index ncol;
+    GrB_Matrix *sparseM;
+    GrB_Matrix *DMatrix;
+    float *inform;
     // TODO: assert G->A is symmetric
 
     // Lap = (float) offdiag (G->A)
@@ -163,7 +167,30 @@ int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
 
     // t = Lap * x via the LAGraph_plus_one_fp32 semiring
     GRB_TRY (GrB_Vector_new (&t, GrB_FP32, ncol)) ;
-    GRB_TRY(GrB_mxv(t,NULL,NULL,NULL,))
+    GRB_TRY(GrB_mxv(t,NULL,GrB_FP32,LAGraph_plus_one_fp32,*Lap,t,NULL));
 
+
+    //creates a sparse Matrix with same dimensions as *Lap, and assigns -1 with *Lap as a Mask
+    GRB_TRY (GrB_Matrix_new (sparseM, GrB_FP32, ncol, ncol)) ;
+    //Python code has descriptor = S, but im not sure its purpose
+    GRB_TRY(GrB_assign(*sparseM,*Lap,NULL,-1,NULL,NULL,NULL,NULL,   );
+
+    
+    //create a mask of 0s in vector t, and use that to replace the 0s with 1s. 
+    GRB_TRY (GrB_Vector_new (&k, GrB_FP32, ncol)) ;
+    GRB_TRY(GxB_select(k,NULL,NULL,GxB_EQ_ZERO,t,NULL,NULL);
+    //Python code uses descriptor=gb.descriptor.S , unsure of its purpose
+    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL,   );
+
+    //inf norm calc using vector d and MAX_MONOID 
+    GRB_TRY (GrB_reduce (*inform, NULL, GrB_MAX_MONOID, t, NULL));
+    *inform=*inform*2;
+    
+    //Using Matrix_diag to create a diagonal matrix from a vector    
+    GRB_TRY (GrB_Matrix_new (DMatrix, GrB_FP32, ncol, ncol)) ;
+    GRB_TRY (GrB_Matrix_diag(*DMatrix,t,NULL,NULL));
+    
+    //Calculating the Laplacian by adding the Dmatrix with SparseM.    
+    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, *DMatrix, *sparseM, NULL)) :
     return (GrB_SUCCESS);
 }
