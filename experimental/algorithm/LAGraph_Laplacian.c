@@ -58,7 +58,7 @@
 
 //------------------------------------------------------------------------------
 
-#define LAGraph_FREE_WORK           \
+#define LG_FREE_WORK                \
 {                                   \
     GrB_free (&T) ;                 \
     GrB_free (&u) ;                 \
@@ -68,8 +68,9 @@
     GrB_free (&thunk) ;             \
 }
 
-
-    LAGraph_FREE_WORK ;             \
+#define LG_FREE_ALL                 \
+{                                   \
+    LG_FREE_WORK ;                  \
     GrB_free (centrality) ;         \
 }
 
@@ -117,17 +118,23 @@ int LAGraph_hmhx
     GRB_TRY (GrB_Vector_setElement_FP32(z, 0, 0));
     return 0;
 }
+
+#undef  LG_FREE_ALL
+#define LG_FREE_ALL ;
+
 int LAGraph_norm2
 (
     float *norm2,
-    GrB_Vector v
+    GrB_Vector v,
+    GrB_Vector t        // temporary vector, type GrB_FP32, same size as v
 )
 {
-    GrB_Vector t = NULL ;
-    GrB_Index len ;
+//  GrB_Vector t = NULL ;
+//  GrB_Index len ;
 
-    GRB_TRY (GrB_Vector_size (&len, v)) ;
-    GRB_TRY (GrB_Vector_new (&t, GrB_FP32, len)) ;
+//  GRB_TRY (GrB_Vector_size (&len, v)) ;
+//  GRB_TRY (GrB_Vector_new (&t, GrB_FP32, len)) ;
+
 #if LG_SUITESPARSE
     // t = v.^2
     GRB_TRY (GrB_apply (t, NULL, NULL, GxB_POW_FP32, v, (float) 2, NULL)) ;
@@ -137,8 +144,26 @@ int LAGraph_norm2
 #endif
     GRB_TRY (GrB_reduce (norm2, NULL, NULL, GrB_PLUS_FP32, t, NULL)) :
     *norm2 = sqrtf (*norm2) ;
-    GrB_free (&t) ;
+//  GrB_free (&t) ;
     return (GrB_SUCCESS) ;
+}
+
+#undef  LG_FREE_WORK
+#define LG_FREE_WORK                \
+{                                   \
+    GrB_free (&T) ;                 \
+    GrB_free (&u) ;                 \
+    GrB_free (&w) ;                 \
+    GrB_free (&y) ;                 \
+    GrB_free (&L) ;                 \
+    GrB_free (&thunk) ;             \
+}
+
+#undef  LG_FREE_ALL
+#define LG_FREE_ALL                 \
+{                                   \
+    LG_FREE_WORK ;                  \
+    GrB_free (centrality) ;         \
 }
 
 int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
@@ -153,9 +178,11 @@ int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
 )
 {
     GrB_Index ncol;
-    GrB_Matrix *sparseM;
-    GrB_Matrix *DMatrix;
-    float *inform;
+    GrB_Matrix sparseM = NULL, DMatrix = NULL ;
+    GrB_Vector t = NULL, k = NULL ;
+    // TODO assert Lap and inform are not null
+    (*Lap) = NULL ;
+
     // TODO: assert G->A is symmetric
 
     // Lap = (float) offdiag (G->A)
@@ -171,26 +198,31 @@ int LAGraph_Laplacian   // compute the Laplacian matrix of G->A
 
 
     //creates a sparse Matrix with same dimensions as *Lap, and assigns -1 with *Lap as a Mask
-    GRB_TRY (GrB_Matrix_new (sparseM, GrB_FP32, ncol, ncol)) ;
+    GRB_TRY (GrB_Matrix_new (&sparseM, GrB_FP32, ncol, ncol)) ;
     //Python code has descriptor = S, but im not sure its purpose
-    GRB_TRY(GrB_assign(*sparseM,*Lap,NULL,-1,NULL,NULL,NULL,NULL,   );
+    GRB_TRY(GrB_assign(sparseM,*Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_S  );
 
     
     //create a mask of 0s in vector t, and use that to replace the 0s with 1s. 
     GRB_TRY (GrB_Vector_new (&k, GrB_FP32, ncol)) ;
+    // TODO: use GrB_select instead
     GRB_TRY(GxB_select(k,NULL,NULL,GxB_EQ_ZERO,t,NULL,NULL);
     //Python code uses descriptor=gb.descriptor.S , unsure of its purpose
-    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL,   );
+    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL, GrB_DESC_S);
 
     //inf norm calc using vector d and MAX_MONOID 
-    GRB_TRY (GrB_reduce (*inform, NULL, GrB_MAX_MONOID, t, NULL));
-    *inform=*inform*2;
+    GRB_TRY (GrB_reduce (inform, NULL, GrB_MAX_MONOID_FP32, t, NULL));
+    *inform=(*inform)*2;
     
     //Using Matrix_diag to create a diagonal matrix from a vector    
-    GRB_TRY (GrB_Matrix_new (DMatrix, GrB_FP32, ncol, ncol)) ;
-    GRB_TRY (GrB_Matrix_diag(*DMatrix,t,NULL,NULL));
+// old:
+//  GRB_TRY (GrB_Matrix_new (DMatrix, GrB_FP32, ncol, ncol)) ;
+//  GRB_TRY (GrB_Matrix_diag(*DMatrix,t,NULL,NULL));
+// new:
+    GRB_TRY (GrB_Matrix_diag(DMatrix,t,NULL,NULL));
     
     //Calculating the Laplacian by adding the Dmatrix with SparseM.    
-    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, *DMatrix, *sparseM, NULL)) :
+    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, DMatrix, sparseM, NULL)) :
+    LG_FREE_WORK ;
     return (GrB_SUCCESS);
 }
