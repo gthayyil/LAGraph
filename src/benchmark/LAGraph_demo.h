@@ -764,8 +764,7 @@ static int readproblem          // returns 0 if successful, -1 if failure
     // read in a matrix from a file
     //--------------------------------------------------------------------------
 
-    double tic [2] ;
-    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+    double t_read = LAGraph_WallClockTime ( ) ;
 
     if (argc > 1)
     {
@@ -937,7 +936,7 @@ static int readproblem          // returns 0 if successful, -1 if failure
     LAGraph_Kind G_kind = A_is_symmetric ?  LAGraph_ADJACENCY_UNDIRECTED :
         LAGraph_ADJACENCY_DIRECTED ;
     LAGRAPH_TRY (LAGraph_New (G, &A, G_kind, msg)) ;
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (*G, 2, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (*G, 2, stdout, msg)) ;
 
     //--------------------------------------------------------------------------
     // remove self-edges, if requested
@@ -945,9 +944,9 @@ static int readproblem          // returns 0 if successful, -1 if failure
 
     if (remove_self_edges)
     {
-        LAGRAPH_TRY (LAGraph_DeleteDiag (*G, msg)) ;
+        LAGRAPH_TRY (LAGraph_DeleteSelfEdges (*G, msg)) ;
     }
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (*G, 2, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (*G, 2, stdout, msg)) ;
 
     //--------------------------------------------------------------------------
     // ensure all entries are > 0, if requested
@@ -999,13 +998,13 @@ static int readproblem          // returns 0 if successful, -1 if failure
     // determine the graph properies
     //--------------------------------------------------------------------------
 
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (*G, 2, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (*G, 2, stdout, msg)) ;
 
     if (!A_is_symmetric)
     {
         // compute G->AT and determine if A has a symmetric structure
-        LAGRAPH_TRY (LAGraph_Property_SymmetricStructure (*G, msg)) ;
-        if ((*G)->structure_is_symmetric && structural)
+        LAGRAPH_TRY (LAGraph_Cached_IsSymmetricStructure (*G, msg)) ;
+        if (((*G)->is_symmetric_structure == LAGraph_TRUE) && structural)
         {
             // if G->A has a symmetric structure, declare the graph undirected
             // and free G->AT since it isn't needed.
@@ -1019,6 +1018,7 @@ static int readproblem          // returns 0 if successful, -1 if failure
             LAGRAPH_TRY (LAGraph_Matrix_IsEqual (&sym, (*G)->A, (*G)->AT, msg));
             if (!sym)
             {
+                printf ("forcing G-> to be symmetric (via A = A+A')\n") ;
                 GrB_BinaryOp op = NULL ;
                 GrB_Type type ;
                 if      (atype == GrB_BOOL  ) op = GrB_LOR ;
@@ -1039,13 +1039,14 @@ static int readproblem          // returns 0 if successful, -1 if failure
                 else CATCH (GrB_NOT_IMPLEMENTED) ;    // unknown type
                 GRB_TRY (GrB_eWiseAdd ((*G)->A, NULL, NULL, op,
                                        (*G)->A, (*G)->AT, NULL)) ;
-                GRB_TRY (GrB_Matrix_free (&((*G)->AT))) ;
             }
+            // G->AT is not required
+            GRB_TRY (GrB_Matrix_free (&((*G)->AT))) ;
             (*G)->kind = LAGraph_ADJACENCY_UNDIRECTED ;
-            (*G)->structure_is_symmetric = true ;
+            (*G)->is_symmetric_structure = LAGraph_TRUE ;
         }
     }
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (*G, 2, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (*G, 2, stdout, msg)) ;
 
     //--------------------------------------------------------------------------
     // generate 64 random source nodes, if requested but not provided on input
@@ -1075,12 +1076,11 @@ static int readproblem          // returns 0 if successful, -1 if failure
     // free workspace, print a summary of the graph, and return result
     //--------------------------------------------------------------------------
 
-    double t_read ;
-    LAGRAPH_TRY (LAGraph_Toc (&t_read, tic, msg)) ;
+    t_read = LAGraph_WallClockTime ( ) - t_read ;
     printf ("read time: %g\n", t_read) ;
 
     LG_FREE_WORK ;
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (*G, LAGraph_SHORT, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (*G, LAGraph_SHORT, stdout, msg)) ;
     return (GrB_SUCCESS) ;
 }
 
@@ -1107,7 +1107,18 @@ static inline int demo_init (bool burble)
     mallopt (M_TOP_PAD, 16*1024*1024) ; // increase padding to speedup malloc
     #endif
 
+#if 1
+    // just use the CPU
     LAGRAPH_TRY (LAGraph_Init (NULL)) ;
+#else
+    // use the GPU
+    // rmm_wrap_initialize (rmm_wrap_managed, INT32_MAX, INT64_MAX) ;
+    rmm_wrap_initialize (rmm_wrap_managed, 256 * 1000000L, 256 * 100000000L) ;
+    LAGRAPH_TRY (LAGr_Init (GxB_NONBLOCKING_GPU, rmm_wrap_malloc,
+        rmm_wrap_calloc, rmm_wrap_realloc, rmm_wrap_free, NULL)) ;
+    GxB_set (GxB_GPU_CONTROL, GxB_GPU_ALWAYS) ;
+#endif
+
     #if LAGRAPH_SUITESPARSE
     printf ("include: %s v%d.%d.%d [%s]\n",
         GxB_IMPLEMENTATION_NAME,

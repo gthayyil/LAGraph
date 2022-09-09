@@ -44,19 +44,19 @@ char *method_name (int method, int sorting)
     char *s ;
     switch (method)
     {
-        case LAGraph_TriangleCount_Default:    s = "default (SandiaDot)             " ; break ;
-        case LAGraph_TriangleCount_Burkhardt:  s = "Burkhardt:  sum ((A^2) .* A) / 6" ; break ;
-        case LAGraph_TriangleCount_Cohen:      s = "Cohen:      sum ((L*U) .* A) / 2" ; break ;
-        case LAGraph_TriangleCount_Sandia:     s = "Sandia:     sum ((L*L) .* L)    " ; break ;
-        case LAGraph_TriangleCount_Sandia2:    s = "Sandia2:    sum ((U*U) .* U)    " ; break ;
-        case LAGraph_TriangleCount_SandiaDot:  s = "SandiaDot:  sum ((L*U') .* L)   " ; break ;
-        case LAGraph_TriangleCount_SandiaDot2: s = "SandiaDot2: sum ((U*L') .* U)   " ; break ;
+        case LAGr_TriangleCount_AutoMethod: s = "default (Sandia_LUT)           " ; break ;
+        case LAGr_TriangleCount_Burkhardt:  s = "Burkhardt: sum ((A^2) .* A) / 6" ; break ;
+        case LAGr_TriangleCount_Cohen:      s = "Cohen:     sum ((L*U) .* A) / 2" ; break ;
+        case LAGr_TriangleCount_Sandia_LL:  s = "Sandia_LL: sum ((L*L) .* L)    " ; break ;
+        case LAGr_TriangleCount_Sandia_UU:  s = "Sandia_UU: sum ((U*U) .* U)    " ; break ;
+        case LAGr_TriangleCount_Sandia_LUT: s = "Sandia_LUT: sum ((L*U') .* L)  " ; break ;
+        case LAGr_TriangleCount_Sandia_ULT: s = "Sandia_ULT: sum ((U*L') .* U)  " ; break ;
         default: abort ( ) ;
     }
 
-    if (sorting == LAGraph_TriangleCount_Descending) sprintf (t, "%s sort: descending degree", s) ;
-    else if (sorting == LAGraph_TriangleCount_Ascending) sprintf (t, "%s ascending degree", s) ;
-    else if (sorting == LAGraph_TriangleCount_AutoSort) sprintf (t, "%s auto-sort", s) ;
+    if (sorting == LAGr_TriangleCount_Descending) sprintf (t, "%s sort: descending degree", s) ;
+    else if (sorting == LAGr_TriangleCount_Ascending) sprintf (t, "%s ascending degree", s) ;
+    else if (sorting == LAGr_TriangleCount_AutoSort) sprintf (t, "%s auto-sort", s) ;
     else sprintf (t, "%s sort: none", s) ;
     return (t) ;
 }
@@ -89,8 +89,9 @@ int main (int argc, char **argv)
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -117,10 +118,10 @@ int main (int argc, char **argv)
     char *matrix_name = (argc > 1) ? argv [1] : "stdin" ;
     LAGRAPH_TRY (readproblem (&G, NULL,
         true, true, true, NULL, false, argc, argv)) ;
-    LAGRAPH_TRY (LAGraph_DisplayGraph (G, LAGraph_SHORT, stdout, msg)) ;
+    LAGRAPH_TRY (LAGraph_Graph_Print (G, LAGraph_SHORT, stdout, msg)) ;
 
-    // determine the row degree property
-    LAGRAPH_TRY (LAGraph_Property_RowDegree (G, msg)) ;
+    // determine the cached out degree property
+    LAGRAPH_TRY (LAGraph_Cached_OutDegree (G, msg)) ;
 
     GrB_Index n, nvals ;
     GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
@@ -131,33 +132,30 @@ int main (int argc, char **argv)
     //--------------------------------------------------------------------------
 
     GrB_Index ntriangles, ntsimple = 0 ;
-    double tic [2] ;
 
 #if 0
     // check # of triangles
-    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+    double tsimple = LAGraph_WallClockTime ( ) ;
     LAGRAPH_TRY (LG_check_tri (&ntsimple, G, NULL)) ;
-    double tsimple ;
-    LAGRAPH_TRY (LAGraph_Toc (&tsimple, tic, NULL)) ;
+    tsimple = LAGraph_WallClockTime ( ) - tsimple ;
     printf ("# of triangles: %" PRId64 " slow time: %g sec\n",
         ntsimple, tsimple) ;
 #endif
 
     // warmup for more accurate timing, and also print # of triangles
-    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+    double ttot = LAGraph_WallClockTime ( ) ;
     printf ("\nwarmup method: ") ;
-    int presort = LAGraph_TriangleCount_AutoSort ; // = 2 (auto selection)
+    int presort = LAGr_TriangleCount_AutoSort ; // = 0 (auto selection)
     print_method (stdout, 6, presort) ;
 
     // warmup method:
-    // LAGraph_TriangleCount_SandiaDot2 = 6,   // sum (sum ((U * L') .* U))
-    LAGRAPH_TRY (LAGr_TriangleCount (&ntriangles, G,
-        LAGraph_TriangleCount_SandiaDot2, &presort, msg) );
+    // LAGr_TriangleCount_Sandia_ULT: sum (sum ((U * L') .* U))
+    LAGr_TriangleCount_Method method = LAGr_TriangleCount_Sandia_ULT ;
+    LAGRAPH_TRY (LAGr_TriangleCount (&ntriangles, G, &method, &presort, msg)) ;
     printf ("# of triangles: %" PRIu64 "\n", ntriangles) ;
     print_method (stdout, 6, presort) ;
-    double ttot ;
-    LAGRAPH_TRY (LAGraph_Toc (&ttot, tic, NULL)) ;
-    printf ("nthreads: %3d time: %12.6f rate: %6.2f (SandiaDot2, one trial)\n",
+    ttot = LAGraph_WallClockTime ( ) - ttot ;
+    printf ("nthreads: %3d time: %12.6f rate: %6.2f (Sandia_ULT, one trial)\n",
             nthreads_max, ttot, 1e-6 * nvals / ttot) ;
 
 #if 0
@@ -185,11 +183,9 @@ int main (int argc, char **argv)
     {
         // for (int sorting = -1 ; sorting <= 2 ; sorting++)
 
-        int sorting = LAGraph_TriangleCount_AutoSort ; // just use auto-sort
+        int sorting = LAGr_TriangleCount_AutoSort ; // just use auto-sort
         {
-            printf ("\nMethod: ") ;
-            int presort ;
-            print_method (stdout, method, sorting) ;
+            printf ("\nMethod: ") ; print_method (stdout, method, sorting) ;
             if (n == 134217726 && method < 5)
             {
                 printf ("kron fails on method %d; skipped\n", method) ;
@@ -206,19 +202,18 @@ int main (int argc, char **argv)
             {
                 int nthreads = Nthreads [t] ;
                 if (nthreads > nthreads_max) continue ;
-                LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+                LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
                 GrB_Index nt2 ;
                 double ttot = 0, ttrial [100] ;
+                LAGr_TriangleCount_Presort p ;
+                LAGr_TriangleCount_Method m ;
                 for (int trial = 0 ; trial < ntrials ; trial++)
                 {
-                    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
-                    presort = sorting ;
-
-                    LAGRAPH_TRY(
-                        LAGr_TriangleCount (&nt2, G, method,
-                                                      &presort, msg) );
-
-                    LAGRAPH_TRY (LAGraph_Toc (&ttrial [trial], tic, NULL)) ;
+                    double tt = LAGraph_WallClockTime ( ) ;
+                    m = method ;
+                    p = sorting ;
+                    LAGRAPH_TRY(LAGr_TriangleCount (&nt2, G, &m, &p, msg));
+                    ttrial [trial] = LAGraph_WallClockTime ( ) - tt ;
                     ttot += ttrial [trial] ;
                     printf ("trial %2d: %12.6f sec rate %6.2f  # triangles: "
                         "%g\n", trial, ttrial [trial],
@@ -228,12 +223,14 @@ int main (int argc, char **argv)
                 printf ("nthreads: %3d time: %12.6f rate: %6.2f", nthreads,
                         ttot, 1e-6 * nvals / ttot) ;
                 printf ("   # of triangles: %" PRId64 " presort: %d\n",
-                        ntriangles, presort) ;
+                        ntriangles, (int) p) ;
                 if (nt2 != ntriangles)
                 {
                     printf ("Test failure!\n") ;
                     abort ( ) ;
                 }
+                fprintf (stderr, "\nMethod used: ") ;
+                print_method (stderr, m, p) ;
                 fprintf (stderr, "Avg: TC method%d.%d %3d: %10.3f sec: %s\n",
                          method, sorting, nthreads, ttot, matrix_name) ;
 

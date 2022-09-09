@@ -300,14 +300,14 @@ int LAGraph_MMWrite
         }
 
         //----------------------------------------------------------------------
-        // check for Hermitian
+        // check for Hermitian (not yet supported)
         //----------------------------------------------------------------------
 
         #if 0
         if (MM_type == MM_complex && MM_storage == MM_general)
         {
-            LG_TRY (LAGraph_isall (&isequal, A, AT,
-                LAGraph_HERMITIAN_ComplexFP64)) ;
+            LG_TRY (LAGraph_Matrix_IsEqualOp (&isequal, A, AT,
+                LAGraph_HERMITIAN_ComplexFP64, msg)) ;
             if (isequal)
             {
                 MM_storage = MM_hermitian ;
@@ -448,10 +448,10 @@ int LAGraph_MMWrite
     if (!is_general)
     {
         // count the entries on the diagonal
-        int64_t ndiag = 0 ;
-        LG_TRY (LG_ndiag (&ndiag, A, msg)) ;
+        int64_t nself_edges = 0 ;
+        LG_TRY (LG_nself_edges (&nself_edges, A, msg)) ;
         // nvals_to_print = # of entries in tril(A), including diagonal
-        nvals_to_print = ndiag + (nvals - ndiag) / 2 ;
+        nvals_to_print = nself_edges + (nvals - nself_edges) / 2 ;
     }
 
     FPRINTF (f, "%" PRIu64 " %" PRIu64 " %" PRIu64 "\n",
@@ -475,8 +475,6 @@ int LAGraph_MMWrite
     {
         K [k] = k ;
     }
-    int nthreads ;
-    LG_TRY (LAGraph_GetNumThreads (&nthreads, msg)) ;
 
     GrB_Index nvals_printed = 0 ;
     bool coord = (MM_fmt == MM_coordinate) ;
@@ -486,8 +484,8 @@ int LAGraph_MMWrite
         ctype *X = NULL ;                                                   \
         LG_TRY (LAGraph_Malloc ((void **) &X, nvals, sizeof (ctype), msg)) ;\
         GRB_TRY (GrB_Matrix_extractTuples (I, J, X, &nvals, A)) ;           \
-        LG_TRY (LAGraph_Sort3 ((int64_t *) J, (int64_t *) I,                \
-            (int64_t *) K, nvals, nthreads, msg)) ;                         \
+        LG_TRY (LG_msort3 ((int64_t *) J, (int64_t *) I,                    \
+            (int64_t *) K, nvals, msg)) ;                                   \
         for (int64_t k = 0 ; k < nvals ; k++)                               \
         {                                                                   \
             /* convert the row and column index to 1-based */               \

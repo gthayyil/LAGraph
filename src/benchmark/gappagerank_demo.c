@@ -48,8 +48,9 @@ int main (int argc, char **argv)
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -69,8 +70,6 @@ int main (int argc, char **argv)
     }
     printf ("\n") ;
 
-    double tic [2] ;
-
     //--------------------------------------------------------------------------
     // read in the graph
     //--------------------------------------------------------------------------
@@ -82,12 +81,12 @@ int main (int argc, char **argv)
     GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
     GRB_TRY (GrB_Matrix_nvals (&nvals, G->A)) ;
 
-    // determine the row degree property
-    LAGRAPH_TRY (LAGraph_Property_RowDegree (G, msg)) ;
+    // determine the cached out degree property
+    LAGRAPH_TRY (LAGraph_Cached_OutDegree (G, msg)) ;
 
     // check # of sinks:
     GrB_Index nsinks ;
-    GRB_TRY (GrB_Vector_nvals (&nvals, G->rowdegree)) ;
+    GRB_TRY (GrB_Vector_nvals (&nvals, G->out_degree)) ;
     nsinks = n - nvals ;
     printf ("nsinks: %" PRIu64 "\n", nsinks) ;
 
@@ -108,7 +107,7 @@ int main (int argc, char **argv)
     {
         int nthreads = Nthreads [kk] ;
         if (nthreads > nthreads_max) continue ;
-        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+        LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
         printf ("\n--------------------------- nthreads: %2d\n", nthreads) ;
 
         double total_time = 0 ;
@@ -116,11 +115,10 @@ int main (int argc, char **argv)
         for (int trial = 0 ; trial < ntrials ; trial++)
         {
             GrB_free (&PR) ;
-            LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+            double t1 = LAGraph_WallClockTime ( ) ;
             LAGRAPH_TRY (LAGr_PageRankGAP (&PR, &iters, G,
                 damping, tol, itermax, msg)) ;
-            double t1 ;
-            LAGRAPH_TRY (LAGraph_Toc (&t1, tic, NULL)) ;
+            t1 = LAGraph_WallClockTime ( ) - t1 ;
             printf ("trial: %2d time: %10.4f sec\n", trial, t1) ;
             total_time += t1 ;
         }
@@ -148,7 +146,7 @@ int main (int argc, char **argv)
     {
         int nthreads = Nthreads [kk] ;
         if (nthreads > nthreads_max) continue ;
-        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+        LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
         printf ("\n--------------------------- nthreads: %2d\n", nthreads) ;
 
         double total_time = 0 ;
@@ -156,11 +154,10 @@ int main (int argc, char **argv)
         for (int trial = 0 ; trial < ntrials ; trial++)
         {
             GrB_free (&PR) ;
-            LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+            double t1 = LAGraph_WallClockTime ( ) ;
             LAGRAPH_TRY (LAGr_PageRank (&PR, &iters, G,
                 damping, tol, itermax, msg)) ;
-            double t1 ;
-            LAGRAPH_TRY (LAGraph_Toc (&t1, tic, NULL)) ;
+            t1 = LAGraph_WallClockTime ( ) - t1 ;
             printf ("trial: %2d time: %10.4f sec\n", trial, t1) ;
             total_time += t1 ;
         }

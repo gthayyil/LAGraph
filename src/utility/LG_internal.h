@@ -11,7 +11,8 @@
 
 //------------------------------------------------------------------------------
 
-// These definitions are not meant for the end-user of LAGraph or GraphBLAS
+// These definitions are not meant for the user application that relies on
+// LAGraph and/or GraphBLAS.  LG_* methods are for internal use in LAGraph.
 
 #ifndef LG_INTERNAL_H
 #define LG_INTERNAL_H
@@ -348,6 +349,16 @@ MM_storage_enum ;
 // LG_PART and LG_PARTITION: definitions for partitioning an index range
 //------------------------------------------------------------------------------
 
+LAGRAPH_PUBLIC
+int LG_nthreads_outer ; // # of threads to use at the higher level of a nested
+                        // parallel region in LAGraph.  Default: 1.
+
+LAGRAPH_PUBLIC
+int LG_nthreads_inner ; // # of threads to use at the lower level of a nested
+                        // parallel region, or to use inside GraphBLAS.
+                        // Default: the value obtained by omp_get_max_threads
+                        // if OpenMP is in use, or 1 otherwise.
+
 // LG_PART and LG_PARTITION:  divide the index range 0:n-1 uniformly
 // for nthreads.  LG_PART(tid,n,nthreads) is the first index for thread tid.
 #define LG_PART(tid,n,nthreads)  \
@@ -382,12 +393,67 @@ static inline void LG_eslice
 //------------------------------------------------------------------------------
 
 // All of the LG_qsort_* functions are single-threaded, by design.  The
-// LAGraph_Sort* functions are parallel.  None of these sorting methods are
+// LG_msort* functions are parallel.  None of these sorting methods are
 // guaranteed to be stable.  These functions are contributed by Tim Davis, and
-// are derived from SuiteSparse:GraphBLAS v4.0.3.  Functions named LG_* are not
+// are derived from SuiteSparse:GraphBLAS.  Functions named LG_* are not
 // meant to be accessible by end users of LAGraph.
 
 #define LG_BASECASE (64 * 1024)
+
+//------------------------------------------------------------------------------
+// LG_msort1: sort array of size n
+//------------------------------------------------------------------------------
+
+// LG_msort1 sorts an int64_t array of size n in ascending order.
+
+int LG_msort1
+(
+    // input/output:
+    int64_t *A_0,       // size n array
+    // input:
+    const int64_t n,
+    char *msg
+) ;
+
+//------------------------------------------------------------------------------
+// LG_msort2: sort two arrays of size n
+//------------------------------------------------------------------------------
+
+// LG_msort2 sorts two int64_t arrays A of size n in ascending order.
+// The arrays are kept in the same order, where the pair (A_0 [k], A_1 [k]) is
+// treated as a single pair.  The pairs are sorted by the first value A_0,
+// with ties broken by A_1.
+
+int LG_msort2
+(
+    // input/output:
+    int64_t *A_0,       // size n array
+    int64_t *A_1,       // size n array
+    // input:
+    const int64_t n,
+    char *msg
+) ;
+
+//------------------------------------------------------------------------------
+// LG_msort3: sort three arrays of size n
+//------------------------------------------------------------------------------
+
+// LG_msort3 sorts three int64_t arrays A of size n in ascending order.
+// The arrays are kept in the same order, where the triplet (A_0 [k], A_1 [k],
+// A_2 [k]) is treated as a single triplet.  The triplets are sorted by the
+// first value A_0, with ties broken by A_1, and then by A_2 if the values of
+// A_0 and A_1 are identical.
+
+int LG_msort3
+(
+    // input/output:
+    int64_t *A_0,       // size n array
+    int64_t *A_1,       // size n array
+    int64_t *A_2,       // size n array
+    // input:
+    const int64_t n,
+    char *msg
+) ;
 
 void LG_qsort_1a    // sort array A of size 1-by-n
 (
@@ -505,10 +571,10 @@ void LG_qsort_3     // sort array A of size 3-by-n, using 3 keys (A [0:2][])
 // count entries on the diagonal of a matrix
 //------------------------------------------------------------------------------
 
-int LG_ndiag
+int LG_nself_edges
 (
     // output
-    int64_t *ndiag,         // # of entries
+    int64_t *nself_edges,   // # of entries
     // input
     GrB_Matrix A,           // matrix to count
     char *msg               // error message
@@ -526,5 +592,27 @@ GrB_Index LG_Random15 (uint64_t *seed) ;
 
 // return a random uint64_t, in range 0 to LG_RANDOM60_MAX
 GrB_Index LG_Random60 (uint64_t *seed) ;
+
+//------------------------------------------------------------------------------
+// LG_KindName: return the name of a kind
+//------------------------------------------------------------------------------
+
+// LG_KindName: return the name of a graph kind.  For example, if given
+// LAGraph_ADJACENCY_UNDIRECTED, the string "undirected" is returned.
+
+int LG_KindName
+(
+    // output:
+    char *name,     // name of the kind (user provided array of size at least
+                    // LAGRAPH_MAX_NAME_LEN)
+    // input:
+    LAGraph_Kind kind,  // graph kind
+    char *msg
+) ;
+
+//------------------------------------------------------------------------------
+
+// # of entries to print for LAGraph_Matrix_Print and LAGraph_Vector_Print
+#define LG_SHORT_LEN 30
 
 #endif

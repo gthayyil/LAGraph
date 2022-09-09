@@ -11,9 +11,12 @@
 
 //------------------------------------------------------------------------------
 
-// This is an Advanced algorithm (G->AT and G->rowdegree are required),
-// but it is not user-callable (see LAGr_BreadthFirstSearch instead).
-
+// This is an Advanced algorithm.  G->AT and G->out_degree are required for
+// this method to use push-pull optimization.  If not provided, this method
+// defaults to a push-only algorithm, which can be slower.  This is not
+// user-callable (see LAGr_BreadthFirstSearch instead).  G->AT and
+// G->out_degree are not computed if not present.
+ 
 // References:
 //
 // Carl Yang, Aydin Buluc, and John D. Owens. 2018. Implementing Push-Pull
@@ -41,14 +44,13 @@
 
 #include "LG_internal.h"
 
-//****************************************************************************
 int LG_BreadthFirstSearch_SSGrB
 (
-    GrB_Vector    *level,
-    GrB_Vector    *parent,
+    GrB_Vector *level,
+    GrB_Vector *parent,
     const LAGraph_Graph G,
-    GrB_Index      src,
-    char          *msg
+    GrB_Index src,
+    char *msg
 )
 {
 
@@ -70,17 +72,13 @@ int LG_BreadthFirstSearch_SSGrB
     bool compute_parent = (parent != NULL) ;
     if (compute_level ) (*level ) = NULL ;
     if (compute_parent) (*parent) = NULL ;
+    LG_ASSERT_MSG (compute_level || compute_parent, GrB_NULL_POINTER,
+        "either level or parent must be non-NULL") ;
 
     LG_TRY (LAGraph_CheckGraph (G, msg)) ;
 
-    if (!(compute_level || compute_parent))
-    {
-        // nothing to do
-        return (GrB_SUCCESS) ;
-    }
-
     //--------------------------------------------------------------------------
-    // get the problem size and properties
+    // get the problem size and cached properties
     //--------------------------------------------------------------------------
 
     GrB_Matrix A = G->A ;
@@ -91,30 +89,25 @@ int LG_BreadthFirstSearch_SSGrB
 
     GRB_TRY (GrB_Matrix_nvals (&nvals, A)) ;
 
-    GrB_Matrix AT ;
-    GrB_Vector Degree = G->rowdegree ;
+    GrB_Matrix AT = NULL ;
+    GrB_Vector Degree = G->out_degree ;
     if (G->kind == LAGraph_ADJACENCY_UNDIRECTED ||
        (G->kind == LAGraph_ADJACENCY_DIRECTED &&
-        G->structure_is_symmetric == LAGraph_TRUE))
+        G->is_symmetric_structure == LAGraph_TRUE))
     {
         // AT and A have the same structure and can be used in both directions
         AT = G->A ;
     }
     else
     {
-        // AT = A' is different from A
+        // AT = A' is different from A.  If G->AT is NULL, then a push-only
+        // method is used.
         AT = G->AT ;
-        LG_ASSERT_MSG (AT != NULL,
-            LAGRAPH_PROPERTY_MISSING, "G->AT is required") ;
     }
 
-    // FIXME: if AT is not present, do push-only?
-
-    // direction-optimization requires G->AT and G->rowdegree
-    LG_ASSERT_MSG (Degree != NULL,
-        LAGRAPH_PROPERTY_MISSING, "G->rowdegree is required") ;
-
-    bool push_pull = true ;
+    // direction-optimization requires G->AT (if G is directed) and
+    // G->out_degree (for both undirected and directed cases)
+    bool push_pull = (Degree != NULL && AT != NULL) ;
 
     // determine the semiring type
     GrB_Type int_type = (n > INT32_MAX) ? GrB_INT64 : GrB_INT32 ;
@@ -139,8 +132,8 @@ int LG_BreadthFirstSearch_SSGrB
     }
     else
     {
-        // only the level is needed, use the LAGraph_structural_bool semiring
-        semiring = LAGraph_structural_bool ;
+        // only the level is needed, use the LAGraph_any_one_bool semiring
+        semiring = LAGraph_any_one_bool ;
 
         // create a sparse boolean vector q, and set q(src) = true
         GRB_TRY (GrB_Vector_new (&q, GrB_BOOL, n)) ;
@@ -252,12 +245,12 @@ int LG_BreadthFirstSearch_SSGrB
         // mask is pi if computing parent, v if computing just level
         if (do_push)
         {
-            // q'{!mask} = q'*A
+            // push (saxpy-based vxm):  q'{!mask} = q'*A
             GRB_TRY (GrB_vxm (q, mask, NULL, semiring, q, A, GrB_DESC_RSC)) ;
         }
         else
         {
-            // q{!mask} = AT*q
+            // pull (dot-product-based mxv):  q{!mask} = AT*q
             GRB_TRY (GrB_mxv (q, mask, NULL, semiring, AT, q, GrB_DESC_RSC)) ;
         }
 

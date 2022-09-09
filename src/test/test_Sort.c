@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// LAGraph/src/test/test_Sort.c: test LAGraph_Sort* methods
+// LAGraph/src/test/test_Sort.c: test LG_msort* methods
 //-----------------------------------------------------------------------------
 
 // LAGraph, (c) 2021 by The LAGraph Contributors, All Rights Reserved.
@@ -23,6 +23,7 @@ char msg [LAGRAPH_MSG_LEN] ;
 void test_sort1 (void)
 {
     OK (LAGraph_Init (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
 
     for (int trial = 0 ; trial <= 1 ; trial++)
     {
@@ -37,7 +38,7 @@ void test_sort1 (void)
             A0 [k] = (int64_t) LG_Random15 (&seed) ;
         }
 
-        OK (LAGraph_Sort1 (A0, n, 4, msg)) ;
+        OK (LG_msort1 (A0, n, msg)) ;
 
         for (int k = 1 ; k < n ; k++)
         {
@@ -49,7 +50,7 @@ void test_sort1 (void)
             A0 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
         }
 
-        OK (LAGraph_Sort1 (A0, n, 4, msg)) ;
+        OK (LG_msort1 (A0, n, msg)) ;
 
         for (int k = 1 ; k < n ; k++)
         {
@@ -69,6 +70,7 @@ void test_sort1 (void)
 void test_sort2 (void)
 {
     OK (LAGraph_Init (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
 
     int64_t n = 256 * 1024 ;
 
@@ -83,7 +85,7 @@ void test_sort2 (void)
         A1 [k] = (int64_t) LG_Random60 (&seed) ;
     }
 
-    OK (LAGraph_Sort2 (A0, A1, n, 4, msg)) ;
+    OK (LG_msort2 (A0, A1, n, msg)) ;
 
     for (int k = 1 ; k < n ; k++)
     {
@@ -97,7 +99,7 @@ void test_sort2 (void)
         A1 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
     }
 
-    OK (LAGraph_Sort2 (A0, A1, n, 4, msg)) ;
+    OK (LG_msort2 (A0, A1, n, msg)) ;
 
     for (int k = 1 ; k < n ; k++)
     {
@@ -112,6 +114,65 @@ void test_sort2 (void)
 }
 
 //-----------------------------------------------------------------------------
+// test_sort3
+//-----------------------------------------------------------------------------
+
+void test_sort3 (void)
+{
+    OK (LAGraph_Init (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
+
+    int64_t n = 256 * 1024 ;
+    printf ("test sort3\n") ;
+
+    int64_t *A0, *A1, *A2 ;
+    OK (LAGraph_Malloc ((void **) &A0, n, sizeof (int64_t), msg)) ;
+    OK (LAGraph_Malloc ((void **) &A1, n, sizeof (int64_t), msg)) ;
+    OK (LAGraph_Malloc ((void **) &A2, n, sizeof (int64_t), msg)) ;
+
+    uint64_t seed = 1 ;
+    for (int k = 0 ; k < n ; k++)
+    {
+        A0 [k] = (int64_t) LG_Random15 (&seed) ;
+        A1 [k] = (int64_t) LG_Random60 (&seed) ;
+        A2 [k] = (int64_t) LG_Random60 (&seed) ;
+    }
+
+    OK (LG_msort3 (A0, A1, A2, n, msg)) ;
+
+    for (int k = 1 ; k < n ; k++)
+    {
+        TEST_CHECK (LG_lt_3 (A0, A1, A2, k-1, A0, A1, A2, k)
+            || (A0 [k-1] == A0 [k] &&
+                A1 [k-1] == A1 [k] &&
+                A2 [k-1] == A2 [k])) ;
+    }
+
+    for (int k = 0 ; k < n ; k++)
+    {
+        A0 [k] = 0 ;
+        A1 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
+        A2 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
+    }
+
+    OK (LG_msort3 (A0, A1, A2, n, msg)) ;
+
+    for (int k = 1 ; k < n ; k++)
+    {
+        TEST_CHECK (LG_lt_3 (A0, A1, A2, k-1, A0, A1, A2, k)
+            || (A0 [k-1] == A0 [k] &&
+                A1 [k-1] == A1 [k] &&
+                A2 [k-1] == A2 [k])) ;
+    }
+
+    LAGraph_Free ((void **) &A0, NULL) ;
+    LAGraph_Free ((void **) &A1, NULL) ;
+    LAGraph_Free ((void **) &A2, NULL) ;
+
+    OK (LAGraph_Finalize (msg)) ;
+}
+
+//-----------------------------------------------------------------------------
 // test_sort1_brutal
 //-----------------------------------------------------------------------------
 
@@ -119,6 +180,7 @@ void test_sort2 (void)
 void test_sort1_brutal (void)
 {
     OK (LG_brutal_setup (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
 
     for (int trial = 0 ; trial <= 1 ; trial++)
     {
@@ -133,7 +195,7 @@ void test_sort1_brutal (void)
             A0 [k] = (int64_t) LG_Random15 (&seed) ;
         }
 
-        LG_BRUTAL (LAGraph_Sort1 (A0, n, 4, msg)) ;
+        LG_BRUTAL (LG_msort1 (A0, n, msg)) ;
 
         for (int k = 1 ; k < n ; k++)
         {
@@ -145,7 +207,7 @@ void test_sort1_brutal (void)
             A0 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
         }
 
-        LG_BRUTAL (LAGraph_Sort1 (A0, n, 4, msg)) ;
+        LG_BRUTAL (LG_msort1 (A0, n, msg)) ;
 
         for (int k = 1 ; k < n ; k++)
         {
@@ -167,6 +229,7 @@ void test_sort1_brutal (void)
 void test_sort2_brutal (void)
 {
     OK (LG_brutal_setup (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
 
     int64_t n = 256 * 1024 ;
 
@@ -181,7 +244,7 @@ void test_sort2_brutal (void)
         A1 [k] = (int64_t) LG_Random60 (&seed) ;
     }
 
-    LG_BRUTAL (LAGraph_Sort2 (A0, A1, n, 4, msg)) ;
+    LG_BRUTAL (LG_msort2 (A0, A1, n, msg)) ;
 
     for (int k = 1 ; k < n ; k++)
     {
@@ -195,7 +258,7 @@ void test_sort2_brutal (void)
         A1 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
     }
 
-    LG_BRUTAL (LAGraph_Sort2 (A0, A1, n, 4, msg)) ;
+    LG_BRUTAL (LG_msort2 (A0, A1, n, msg)) ;
 
     for (int k = 1 ; k < n ; k++)
     {
@@ -211,15 +274,77 @@ void test_sort2_brutal (void)
 #endif
 
 //-----------------------------------------------------------------------------
+// test_sort3_brutal
+//-----------------------------------------------------------------------------
+
+void test_sort3_brutal (void)
+{
+    OK (LG_brutal_setup (msg)) ;
+    OK (LAGraph_SetNumThreads (1, 4, msg)) ;
+
+    int64_t n = 256 * 1024 ;
+    printf ("test sort3\n") ;
+
+    int64_t *A0, *A1, *A2 ;
+    OK (LAGraph_Malloc ((void **) &A0, n, sizeof (int64_t), msg)) ;
+    OK (LAGraph_Malloc ((void **) &A1, n, sizeof (int64_t), msg)) ;
+    OK (LAGraph_Malloc ((void **) &A2, n, sizeof (int64_t), msg)) ;
+
+    uint64_t seed = 1 ;
+    for (int k = 0 ; k < n ; k++)
+    {
+        A0 [k] = (int64_t) LG_Random15 (&seed) ;
+        A1 [k] = (int64_t) LG_Random60 (&seed) ;
+        A2 [k] = (int64_t) LG_Random60 (&seed) ;
+    }
+
+    LG_BRUTAL (LG_msort3 (A0, A1, A2, n, msg)) ;
+
+    for (int k = 1 ; k < n ; k++)
+    {
+        TEST_CHECK (LG_lt_3 (A0, A1, A2, k-1, A0, A1, A2, k)
+            || (A0 [k-1] == A0 [k] &&
+                A1 [k-1] == A1 [k] &&
+                A2 [k-1] == A2 [k])) ;
+    }
+
+    for (int k = 0 ; k < n ; k++)
+    {
+        A0 [k] = 0 ;
+        A1 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
+        A2 [k] = (int64_t) (LG_Random15 (&seed) % 4) ;
+    }
+
+    LG_BRUTAL (LG_msort3 (A0, A1, A2, n, msg)) ;
+
+    for (int k = 1 ; k < n ; k++)
+    {
+        TEST_CHECK (LG_lt_3 (A0, A1, A2, k-1, A0, A1, A2, k)
+            || (A0 [k-1] == A0 [k] &&
+                A1 [k-1] == A1 [k] &&
+                A2 [k-1] == A2 [k])) ;
+    }
+
+    LAGraph_Free ((void **) &A0, NULL) ;
+    LAGraph_Free ((void **) &A1, NULL) ;
+    LAGraph_Free ((void **) &A2, NULL) ;
+
+    OK (LG_brutal_teardown (msg)) ;
+}
+
+
+//-----------------------------------------------------------------------------
 // TEST_LIST: the list of tasks for this entire test
 //-----------------------------------------------------------------------------
 
 TEST_LIST = {
     {"test_sort1", test_sort1},
     {"test_sort2", test_sort2},
+    {"test_sort3", test_sort3},
     #if LAGRAPH_SUITESPARSE
     {"test_sort1_brutal", test_sort1_brutal},
     {"test_sort2_brutal", test_sort2_brutal},
+    {"test_sort3_brutal", test_sort3_brutal},
     #endif
     {NULL, NULL}
 };

@@ -182,7 +182,6 @@ int LAGraph_cdlp
     // ensure input is binary and has no self-edges
     //--------------------------------------------------------------------------
 
-    double tic [2];
     t [0] = 0;         // sanitize time
     t [1] = 0;         // CDLP time
 
@@ -204,7 +203,7 @@ int LAGraph_cdlp
 
     if (sanitize)
     {
-        LAGraph_Tic (tic, NULL) ;
+        t [0] = LAGraph_WallClockTime ( ) ;
 
         LAGRAPH_TRY (LAGraph_Malloc ((void **) &AI, nz, sizeof(GrB_Index),msg));
         LAGRAPH_TRY (LAGraph_Malloc ((void **) &AJ, nz, sizeof(GrB_Index),msg));
@@ -214,7 +213,7 @@ int LAGraph_cdlp
         GRB_TRY (GrB_Matrix_new(&S, GrB_UINT64, n, n));
         GRB_TRY (GrB_Matrix_build(S, AI, AJ, AX, nz, GrB_PLUS_UINT64));
 
-        LAGraph_Toc (&t[0], tic, NULL) ;
+        t [0] = LAGraph_WallClockTime ( ) - t [0] ;
     }
     else
     {
@@ -223,7 +222,7 @@ int LAGraph_cdlp
         S = A;
     }
 
-    LAGraph_Tic (tic, NULL) ;
+    t [1] = LAGraph_WallClockTime ( ) ;
 
 #ifdef LAGRAPH_SUITESPARSE
     GxB_Format_Value A_format = -1, global_format = -1 ;
@@ -258,8 +257,6 @@ int LAGraph_cdlp
         GRB_TRY (GrB_transpose (AT, NULL, NULL, A, NULL)) ;
     }
 
-    int nthreads;
-    LAGraph_GetNumThreads(&nthreads, NULL);
     for (int iteration = 0; iteration < itermax; iteration++)
     {
         // Initialize data structures for extraction from 'AL_in' and (for directed graphs) 'AL_out'
@@ -282,7 +279,7 @@ int LAGraph_cdlp
                                                        GrB_NULL, &X[nz], &nz, AT));
         }
 
-        LAGraph_Sort2((int64_t *) I, (int64_t *) X, nnz, nthreads, NULL);
+        LG_msort2((int64_t *) I, (int64_t *) X, nnz, NULL);
 
         // save current labels for comparison by swapping L and L_prev
         GrB_Matrix L_swap = L;
@@ -351,7 +348,7 @@ int LAGraph_cdlp
     CDLP = NULL;            // set to NULL so LG_FREE_ALL doesn't free it
     LG_FREE_ALL;
 
-    t[1] = LAGraph_Toc (&t[1], tic, NULL) ;
+    t [1] = LAGraph_WallClockTime ( ) - t [1] ;
 
     return (GrB_SUCCESS);
 }

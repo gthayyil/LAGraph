@@ -12,23 +12,19 @@
 //------------------------------------------------------------------------------
 
 // LAGraph_Vector_IsEqual: checks if two vectors are identically equal (same
-// size, type, pattern, size, and values).
+// size, type, structure, size, and values).
 
 // See also LAGraph_Matrix_IsEqual.
 
 // If the two vectors are GrB_FP32, GrB_FP64, or related, and have NaNs, then
 // this function will return false, since NaN == NaN is false.  To check for
 // NaN equality (like isequalwithequalnans in MATLAB), use
-// LAGraph_Vector_IsEqual_op with a user-defined operator f(x,y) that returns
+// LAGraph_Vector_IsEqualOp with a user-defined operator f(x,y) that returns
 // true if x and y are both NaN.
 
 #define LG_FREE_WORK GrB_free (&C) ;
 
 #include "LG_internal.h"
-
-//------------------------------------------------------------------------------
-// LAGraph_Vector_IsEqual:  compare two vectors
-//------------------------------------------------------------------------------
 
 int LAGraph_Vector_IsEqual
 (
@@ -48,8 +44,6 @@ int LAGraph_Vector_IsEqual
     LG_CLEAR_MSG ;
     GrB_Vector C = NULL ;
     LG_ASSERT (result != NULL, GrB_NULL_POINTER) ;
-
-    GrB_Info info ;
 
     //--------------------------------------------------------------------------
     // check for NULL and aliased vectors
@@ -129,8 +123,10 @@ int LAGraph_Vector_IsEqual
     else if (type == GxB_FC64  ) op = GxB_EQ_FC64   ;
     #endif
 
+    LG_ASSERT_MSG (op != NULL, GrB_NOT_IMPLEMENTED, "type not supported") ;
+
     //--------------------------------------------------------------------------
-    // C = A .* B, where the pattern of C is the intersection of A and B
+    // C = A .* B, where the structure of C is the intersection of A and B
     //--------------------------------------------------------------------------
 
     GRB_TRY (GrB_Vector_new (&C, GrB_BOOL, nrows1)) ;
@@ -144,7 +140,7 @@ int LAGraph_Vector_IsEqual
     GRB_TRY (GrB_Vector_nvals (&nvals, C)) ;
     if (nvals != nvals1)
     {
-        // pattern of A and B are different
+        // structure of A and B are different
         LG_FREE_WORK ;
         (*result) = false ;
         return (GrB_SUCCESS) ;

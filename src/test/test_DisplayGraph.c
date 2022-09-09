@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// LAGraph/src/test/test_DisplayGraph.c:  test LAGraph_DisplayGraph
+// LAGraph/src/test/test_Graph_Print.c:  test LAGraph_Graph_Print
 //------------------------------------------------------------------------------
 
 // LAGraph, (c) 2021 by The LAGraph Contributors, All Rights Reserved.
@@ -63,13 +63,13 @@ const char *prwhat (int pr)
 }
 
 //------------------------------------------------------------------------------
-// test_DisplayGraph:  test LAGraph_DisplayGraph
+// test_Graph_Print:  test LAGraph_Graph_Print
 //------------------------------------------------------------------------------
 
 typedef struct
 {
     LAGraph_Kind kind ;
-    int ndiag ;
+    int nself_edges ;
     const char *name ;
 }
 matrix_info ;
@@ -83,7 +83,7 @@ const matrix_info files [ ] =
     LAGRAPH_UNKNOWN,              0, ""
 } ;
 
-void test_DisplayGraph (void)
+void test_Graph_Print (void)
 {
     setup ( ) ;
 
@@ -120,13 +120,16 @@ void test_DisplayGraph (void)
             {
                 printf ("\n########### %s: pr: %d (%s)\n",
                     aname, pr, prwhat (pr)) ;
-                LAGraph_Print_Level prl = pr ;
-                OK (LAGraph_DisplayGraph (G, prl, stdout, msg)) ;
+                LAGraph_PrintLevel prl = pr ;
+                OK (LAGraph_Graph_Print (G, prl, stdout, msg)) ;
             }
-            OK (LAGraph_Property_AT (G, msg)) ;
-            OK (LAGraph_Property_SymmetricStructure (G, msg)) ;
-            OK (LAGraph_Property_NDiag (G, msg)) ;
-            TEST_CHECK (G->ndiag == files [k].ndiag) ;
+            int ok_result = (kind == LAGraph_ADJACENCY_UNDIRECTED) ?
+                LAGRAPH_CACHE_NOT_NEEDED : GrB_SUCCESS ;
+            int result = LAGraph_Cached_AT (G, msg) ;
+            TEST_CHECK (result == ok_result) ;
+            OK (LAGraph_Cached_IsSymmetricStructure (G, msg)) ;
+            OK (LAGraph_Cached_NSelfEdges (G, msg)) ;
+            TEST_CHECK (G->nself_edges == files [k].nself_edges) ;
         }
 
         // free the graph
@@ -139,10 +142,10 @@ void test_DisplayGraph (void)
 }
 
 //------------------------------------------------------------------------------
-// test_DisplayGraph_failures:  test error handling of LAGraph_DisplayGraph
+// test_Graph_Print_failures:  test error handling of LAGraph_Graph_Print
 //------------------------------------------------------------------------------
 
-void test_DisplayGraph_failures (void)
+void test_Graph_Print_failures (void)
 {
     setup ( ) ;
 
@@ -158,8 +161,8 @@ void test_DisplayGraph_failures (void)
     OK (LAGraph_New (&G, NULL, LAGraph_ADJACENCY_UNDIRECTED, msg)) ;
 
     // G->A is NULL
-    LAGraph_Print_Level pr = LAGraph_COMPLETE_VERBOSE ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    LAGraph_PrintLevel pr = LAGraph_COMPLETE_VERBOSE ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == LAGRAPH_INVALID_GRAPH) ;
 
@@ -169,20 +172,20 @@ void test_DisplayGraph_failures (void)
     // valid graph
     OK (GrB_Matrix_new (&A, GrB_FP32, 5, 5)) ;
     OK (LAGraph_New (&G, &A, LAGraph_ADJACENCY_UNDIRECTED, msg)) ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == GrB_SUCCESS) ;
 
     // mangled G->kind
     G->kind = -1 ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == LAGRAPH_INVALID_GRAPH) ;
     G->kind = LAGraph_ADJACENCY_UNDIRECTED ;
 
     // G->AT has the wrong size
     OK (GrB_Matrix_new (&(G->AT), GrB_FP32, 6, 5)) ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == LAGRAPH_INVALID_GRAPH) ;
 
@@ -192,7 +195,7 @@ void test_DisplayGraph_failures (void)
     #if LAGRAPH_SUITESPARSE
     // G->AT must be held by row, not by column
     OK (GxB_set (G->AT, GxB_FORMAT, GxB_BY_COL)) ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == LAGRAPH_INVALID_GRAPH) ;
     #endif
@@ -200,7 +203,7 @@ void test_DisplayGraph_failures (void)
     // G->A and G->AT must have the same types
     OK (GrB_free (&G->AT)) ;
     OK (GrB_Matrix_new (&(G->AT), GrB_FP64, 5, 5)) ;
-    result = LAGraph_DisplayGraph (G, pr, stdout, msg) ;
+    result = LAGraph_Graph_Print (G, pr, stdout, msg) ;
     printf ("result: %d, msg: %s\n", result, msg) ;
     TEST_CHECK (result == LAGRAPH_INVALID_GRAPH) ;
 
@@ -212,11 +215,11 @@ void test_DisplayGraph_failures (void)
 }
 
 //-----------------------------------------------------------------------------
-// test_DisplayGraph_brutal
+// test_Graph_Print_brutal
 //-----------------------------------------------------------------------------
 
 #if LAGRAPH_SUITESPARSE
-void test_DisplayGraph_brutal (void)
+void test_Graph_Print_brutal (void)
 {
     OK (LG_brutal_setup (msg)) ;
 
@@ -254,19 +257,22 @@ void test_DisplayGraph_brutal (void)
             {
                 printf ("\n########### %s: pr: %d (%s)\n",
                     aname, pr, prwhat (pr)) ;
-                LAGraph_Print_Level prl = pr ;
+                LAGraph_PrintLevel prl = pr ;
                 if (pr == 3 || pr == 5)
                 {
                     printf ("skipped for brutal tests\n") ;
                 }
                 else
                 {
-                    LG_BRUTAL (LAGraph_DisplayGraph (G, prl, stdout, msg)) ;
+                    LG_BRUTAL (LAGraph_Graph_Print (G, prl, stdout, msg)) ;
                 }
             }
-            OK (LAGraph_Property_AT (G, msg)) ;
-            OK (LAGraph_Property_SymmetricStructure (G, msg)) ;
-            OK (LAGraph_Property_NDiag (G, msg)) ;
+            int ok_result = (kind == LAGraph_ADJACENCY_UNDIRECTED) ?
+                LAGRAPH_CACHE_NOT_NEEDED : GrB_SUCCESS ;
+            int result = LAGraph_Cached_AT (G, msg) ;
+            TEST_CHECK (result == ok_result) ;
+            OK (LAGraph_Cached_IsSymmetricStructure (G, msg)) ;
+            OK (LAGraph_Cached_NSelfEdges (G, msg)) ;
         }
 
         // free the graph
@@ -283,9 +289,9 @@ void test_DisplayGraph_brutal (void)
 
 TEST_LIST =
 {
-    { "DisplayGraph", test_DisplayGraph },
-    { "DisplayGraph_brutal", test_DisplayGraph_brutal },
-    { "DisplayGraph_failures", test_DisplayGraph_failures },
+    { "Graph_Print", test_Graph_Print },
+    { "Graph_Print_brutal", test_Graph_Print_brutal },
+    { "Graph_Print_failures", test_Graph_Print_failures },
     { NULL, NULL }
 } ;
 

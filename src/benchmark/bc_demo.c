@@ -70,8 +70,9 @@ int main (int argc, char **argv)
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -152,20 +153,17 @@ int main (int argc, char **argv)
         //----------------------------------------------------------------------
 
         // back to default
-        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads_max, msg)) ;
+        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads_outer, nthreads_inner, msg)) ;
 
         for (int t = 1 ; t <= nt ; t++)
         {
             if (Nthreads [t] > nthreads_max) continue ;
-            LAGRAPH_TRY (LAGraph_SetNumThreads (Nthreads [t], msg)) ;
-
+            LAGRAPH_TRY (LAGraph_SetNumThreads (1, Nthreads [t], msg)) ;
             GrB_free (&centrality) ;
-            double tic [2] ;
-            LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+            double t2 = LAGraph_WallClockTime ( ) ;
             LAGRAPH_TRY (LAGr_Betweenness (&centrality, G, vertex_list,
                 batch_size, msg)) ;
-            double t2 ;
-            LAGRAPH_TRY (LAGraph_Toc (&t2, tic, msg)) ;
+            t2 = LAGraph_WallClockTime ( ) - t2 ;
             printf ("BC time %2d: %12.4f (sec)\n", Nthreads [t], t2) ;
             fflush (stdout) ;
             tt [t] += t2 ;

@@ -187,7 +187,7 @@ void test_MMRead (void)
         for (int pr = 0 ; pr <= 2 ; pr++)
         {
             printf ("\nPretty-print %s: pr=%d:\n", aname, pr) ;
-            LAGraph_Print_Level prl = pr ;
+            LAGraph_PrintLevel prl = pr ;
             OK (LAGraph_Matrix_Print (A, prl, stdout, msg)) ;
         }
 
@@ -669,6 +669,8 @@ void test_MMReadWrite_brutal (void)
         TEST_CHECK (MATCHNAME (atype_name, btype_name)) ;
 
         bool ok ;
+        OK (GrB_Matrix_wait (A, GrB_MATERIALIZE)) ;
+        OK (GrB_Matrix_wait (B, GrB_MATERIALIZE)) ;
         LG_BRUTAL (LAGraph_Matrix_IsEqual (&ok, A, B, msg)) ;
         TEST_CHECK (ok) ;
         TEST_MSG ("Failed test for equality, file: %s\n", aname) ;

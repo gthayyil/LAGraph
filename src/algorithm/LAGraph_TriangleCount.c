@@ -11,8 +11,8 @@
 
 //------------------------------------------------------------------------------
 
-// This is a Basic algorithm (G->ndiag, G->rowdegree, G->structure_is_symmetric
-// are computed, if not present).
+// This is a Basic algorithm (G->nself_edges, G->out_degree,
+// G->is_symmetric_structure are computed, if not present).
 
 #define LG_FREE_ALL ;
 
@@ -20,29 +20,24 @@
 #include "LG_internal.h"
 #include "LG_alg_internal.h"
 
-//****************************************************************************
-// Pick the default method with auto presort
-// Compute G->ndiag, and G->rowdegree if needed.  Determine if G->A is
-// symmetric, if not known.
+// Pick the default method with auto presort.  Compute G->nself_edges, and
+// G->out_degree if needed.  Determine if G->A is symmetric, if not known.
 
 int LAGraph_TriangleCount
 (
     // output:
-    uint64_t      *ntriangles,   // # of triangles
+    uint64_t *ntriangles,   // number of triangles in G.
     // input/output:
-    LAGraph_Graph  G,       // G->ndiag, G->rowdegree, G->structure_is_symmetric
-                            // are computed, if not already present
-    char          *msg
+    LAGraph_Graph G,        // graph to examine; cached properties computed.
+    char *msg
 )
 {
-    // find out if graph is symmetric, compute G->rowdegree, and G->ndiag
-    LG_TRY (LAGraph_Property_SymmetricStructure (G, msg)) ;
-    LG_TRY (LAGraph_Property_RowDegree (G, msg)) ;
-    LG_TRY (LAGraph_Property_NDiag (G, msg)) ;
+    // find out if graph is symmetric, compute G->out_degree, and G->nself_edges
+    LG_TRY (LAGraph_Cached_IsSymmetricStructure (G, msg)) ;
+    LG_TRY (LAGraph_Cached_OutDegree (G, msg)) ;
+    LG_TRY (LAGraph_Cached_NSelfEdges (G, msg)) ;
 
-    // default method and auto selection of sort
-    int method  = LAGraph_TriangleCount_Default ;
-    int presort = LAGraph_TriangleCount_AutoSort ;
-    return (LAGr_TriangleCount (ntriangles, G, method, &presort, msg)) ;
+    // auto method and auto sort
+    return (LAGr_TriangleCount (ntriangles, G, NULL, NULL, msg)) ;
 }
 

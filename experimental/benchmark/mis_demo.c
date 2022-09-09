@@ -61,8 +61,11 @@ int main (int argc, char **argv)
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
+
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -93,18 +96,17 @@ int main (int argc, char **argv)
     GrB_Index n, nvals ;
     GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
     GRB_TRY (GrB_Matrix_nvals (&nvals, G->A)) ;
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (G, LAGraph_SHORT, stdout, msg)) ;
-    LAGRAPH_TRY (LAGraph_Property_RowDegree (G, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (G, LAGraph_SHORT, stdout, msg)) ;
+    LAGRAPH_TRY (LAGraph_Cached_OutDegree (G, msg)) ;
 
     //--------------------------------------------------------------------------
     // maximal independent set
     //--------------------------------------------------------------------------
 
     // warmup for more accurate timing
-    double tic [2], tt ;
-    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+    double tt = LAGraph_WallClockTime ( ) ;
     LAGRAPH_TRY (LAGraph_MaximalIndependentSet (&mis, G, 1, NULL, msg)) ;
-    LAGRAPH_TRY (LAGraph_Toc (&tt, tic, NULL)) ;
+    tt = LAGraph_WallClockTime ( ) - tt ;
     LAGRAPH_TRY (LG_check_mis (G->A, mis, NULL, msg)) ;
     GRB_TRY (GrB_free (&mis)) ;
     printf ("warmup time %g sec\n", tt) ;
@@ -113,17 +115,17 @@ int main (int argc, char **argv)
     {
         int nthreads = Nthreads [t] ;
         if (nthreads > nthreads_max) continue ;
-        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+        LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
         double ttot = 0, ttrial [100] ;
         for (int trial = 0 ; trial < ntrials ; trial++)
         {
             int64_t seed = trial * n + 1 ;
-            LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+            double tt = LAGraph_WallClockTime ( ) ;
             LAGRAPH_TRY (LAGraph_MaximalIndependentSet (&mis, G, seed, NULL,
                 msg)) ;
             LAGRAPH_TRY (LG_check_mis (G->A, mis, NULL, msg)) ;
             GRB_TRY (GrB_free (&mis)) ;
-            LAGRAPH_TRY (LAGraph_Toc (&ttrial [trial], tic, NULL)) ;
+            ttrial [trial] = LAGraph_WallClockTime ( ) - tt ;
             ttot += ttrial [trial] ;
             printf ("seed %g threads %2d trial %2d: %12.6f sec\n",
                 (double) seed, nthreads, trial, ttrial [trial]) ;

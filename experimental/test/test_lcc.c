@@ -143,8 +143,8 @@ void test_lcc (void)
         TEST_CHECK (A == NULL) ;
 
         // check for self-edges
-        OK (LAGraph_Property_NDiag (G, msg)) ;
-        bool sanitize = (G->ndiag != 0) ;
+        OK (LAGraph_Cached_NSelfEdges (G, msg)) ;
+        bool sanitize = (G->nself_edges != 0) ;
 
         GrB_Vector c = NULL ;
         double t [2] ;
@@ -154,7 +154,7 @@ void test_lcc (void)
 
         GrB_Index n ;
         OK (GrB_Vector_size (&n, c)) ;
-        LAGraph_Print_Level pr = (n <= 100) ? LAGraph_COMPLETE : LAGraph_SHORT ;
+        LAGraph_PrintLevel pr = (n <= 100) ? LAGraph_COMPLETE : LAGraph_SHORT ;
 
         // check result c for west0067
         if (strcmp (aname, "west0067.mtx") == 0)
@@ -207,7 +207,7 @@ void test_errors (void)
     OK (LAGraph_New (&G, &A, LAGraph_ADJACENCY_UNDIRECTED, msg)) ;
     TEST_CHECK (A == NULL) ;
 
-    OK (LAGraph_Property_NDiag (G, msg)) ;
+    OK (LAGraph_Cached_NSelfEdges (G, msg)) ;
 
     GrB_Vector c = NULL ;
     double t [2] ;

@@ -120,14 +120,14 @@ int LAGr_Betweenness
 
     GrB_Index n = 0 ;                   // # nodes in the graph
 
-    LG_ASSERT (centrality != NULL, GrB_NULL_POINTER) ;
+    LG_ASSERT (centrality != NULL && sources != NULL, GrB_NULL_POINTER) ;
     (*centrality) = NULL ;
     LG_TRY (LAGraph_CheckGraph (G, msg)) ;
 
     GrB_Matrix A = G->A ;
     GrB_Matrix AT ;
     if (G->kind == LAGraph_ADJACENCY_UNDIRECTED ||
-        G->structure_is_symmetric == LAGraph_TRUE)
+        G->is_symmetric_structure == LAGraph_TRUE)
     {
         // A and A' have the same structure
         AT = A ;
@@ -136,8 +136,7 @@ int LAGr_Betweenness
     {
         // A and A' differ
         AT = G->AT ;
-        LG_ASSERT_MSG (AT != NULL,
-            LAGRAPH_PROPERTY_MISSING, "G->AT is required") ;
+        LG_ASSERT_MSG (AT != NULL, LAGRAPH_NOT_CACHED, "G->AT is required") ;
     }
 
     // =========================================================================

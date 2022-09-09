@@ -58,8 +58,7 @@ int LG_check_cc
     // check inputs
     //--------------------------------------------------------------------------
 
-    double tic [2], tt ;
-    LAGraph_Tic (tic, msg) ;
+    double tt = LAGraph_WallClockTime ( ) ;
     GrB_Vector Row = NULL ;
     GrB_Index *Ap = NULL, *Aj = NULL, *neighbors = NULL ;
     void *Ax = NULL ;
@@ -73,7 +72,7 @@ int LG_check_cc
 
     LG_ASSERT_MSG ((G->kind == LAGraph_ADJACENCY_UNDIRECTED ||
        (G->kind == LAGraph_ADJACENCY_DIRECTED &&
-        G->structure_is_symmetric == LAGraph_TRUE)),
+        G->is_symmetric_structure == LAGraph_TRUE)),
         LAGRAPH_SYMMETRIC_STRUCTURE_REQUIRED,
         "G->A must be known to be symmetric") ;
 
@@ -135,9 +134,9 @@ int LG_check_cc
     // find the connected components via repeated BFS
     //--------------------------------------------------------------------------
 
-    LAGraph_Toc (&tt, tic, msg) ;
+    tt = LAGraph_WallClockTime ( ) - tt ;
     printf ("LG_check_cc init  time: %g sec\n", tt) ;
-    LAGraph_Tic (tic, msg) ;
+    tt = LAGraph_WallClockTime ( ) ;
 
     LG_TRY (LAGraph_Calloc ((void **) &visited, n, sizeof (bool), msg)) ;
 
@@ -203,9 +202,9 @@ int LG_check_cc
 
     LG_ASSERT_MSG (ncomp == ncomp_in, -2001, "wrong # of components") ;
 
-    LAGraph_Toc (&tt, tic, msg) ;
+    tt = LAGraph_WallClockTime ( ) - tt ;
     printf ("LG_check_cc component time: %g sec\n", tt) ;
-    LAGraph_Tic (tic, msg) ;
+    tt = LAGraph_WallClockTime ( ) ;
 
     //--------------------------------------------------------------------------
     // repack the matrix in CSR form for SuiteSparse:GraphBLAS
@@ -218,7 +217,7 @@ int LG_check_cc
 
     LG_FREE_WORK ;
 
-    LAGraph_Toc (&tt, tic, msg) ;
+    tt = LAGraph_WallClockTime ( ) - tt ;
     printf ("LG_check_cc check time: %g sec\n", tt) ;
 
     return (GrB_SUCCESS) ;

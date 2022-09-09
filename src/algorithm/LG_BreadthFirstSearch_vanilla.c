@@ -12,7 +12,7 @@
 
 //------------------------------------------------------------------------------
 
-// This is a Basic algorithm (no extra G-> properties are required),
+// This is a Basic algorithm (no extra cached properties are required),
 // but it is not user-callable (see LAGr_BreadthFirstSearch instead).
 
 #define LG_FREE_WORK        \
@@ -29,7 +29,6 @@
 
 #include "LG_internal.h"
 
-//****************************************************************************
 int LG_BreadthFirstSearch_vanilla
 (
     GrB_Vector    *level,
@@ -39,6 +38,7 @@ int LG_BreadthFirstSearch_vanilla
     char          *msg
 )
 {
+
     //--------------------------------------------------------------------------
     // check inputs
     //--------------------------------------------------------------------------
@@ -52,17 +52,13 @@ int LG_BreadthFirstSearch_vanilla
     bool compute_parent = (parent != NULL);
     if (compute_level ) (*level ) = NULL;
     if (compute_parent) (*parent) = NULL;
+    LG_ASSERT_MSG (compute_level || compute_parent, GrB_NULL_POINTER,
+        "either level or parent must be non-NULL") ;
 
     LG_TRY (LAGraph_CheckGraph (G, msg)) ;
 
-    if (!(compute_level || compute_parent))
-    {
-        // nothing to do
-        return (GrB_SUCCESS) ;
-    }
-
     //--------------------------------------------------------------------------
-    // get the problem size and properties
+    // get the problem size
     //--------------------------------------------------------------------------
 
     GrB_Matrix A = G->A ;
@@ -96,7 +92,7 @@ int LG_BreadthFirstSearch_vanilla
     else
     {
         // only the level is needed
-        semiring = LAGraph_structural_bool ;
+        semiring = LAGraph_any_one_bool ;
 
         // create a sparse boolean vector frontier, and set frontier(src) = true
         GRB_TRY (GrB_Vector_new(&frontier, GrB_BOOL, n)) ;

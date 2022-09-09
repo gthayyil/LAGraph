@@ -48,16 +48,15 @@ int main (int argc, char **argv)
     demo_init (burble) ;
     LAGraph_Random_Init (msg) ;
 
-    double tic [2] ;
-
     //--------------------------------------------------------------------------
     // determine # of threads to use
     //--------------------------------------------------------------------------
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -111,7 +110,7 @@ int main (int argc, char **argv)
 
     GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
     GRB_TRY (GrB_Matrix_nvals (&nvals, G->A)) ;
-    LAGRAPH_TRY (LAGraph_Property_EMin (G, msg)) ;
+    LAGRAPH_TRY (LAGraph_Cached_EMin (G, msg)) ;
 
     //--------------------------------------------------------------------------
     // get delta
@@ -152,7 +151,7 @@ int main (int argc, char **argv)
     {
         int nthreads = Nthreads [tt] ;
         if (nthreads > nthreads_max) continue ;
-        LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+        LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
         double total_time = 0 ;
 
         for (int trial = 0 ; trial < ntrials ; trial++)
@@ -166,18 +165,16 @@ int main (int argc, char **argv)
             src = -1 ;
             GRB_TRY (GrB_Vector_extractElement (&src, SourceNodes, trial)) ;
             src = src % n ;
-            double ttrial ;
 
             //------------------------------------------------------------------
             // sssp
             //------------------------------------------------------------------
 
             GrB_free (&pathlen) ;
-            LAGRAPH_TRY (LAGraph_Tic (tic, msg)) ;
+            double ttrial = LAGraph_WallClockTime ( ) ;
             LAGRAPH_TRY (LAGr_SingleSourceShortestPath (&pathlen, G, src,
                 Delta, msg)) ;
-            LAGRAPH_TRY (LAGraph_Toc (&ttrial, tic, msg)) ;
-
+            ttrial = LAGraph_WallClockTime ( ) - ttrial ;
             printf ("sssp15:  threads: %2d trial: %2d source %8" PRIu64
                 "time: %10.4f sec\n", nthreads, trial, src, ttrial) ;
             total_time += ttrial ;
@@ -190,14 +187,13 @@ int main (int argc, char **argv)
             {
                 // all trials can be checked, but this is slow so do just
                 // for the first trial
-                double tcheck ;
-                LAGraph_Tic (tic, msg) ;
+                double tcheck = LAGraph_WallClockTime ( ) ;
                 int result = LG_check_sssp (pathlen, G, src, msg) ;
                 if (result != GrB_SUCCESS)
                 {
                     fprintf (stderr, "ERROR: %d %s\n", result, msg) ;
                 }
-                LAGraph_Toc (&tcheck, tic, msg) ;
+                tcheck = LAGraph_WallClockTime ( ) - tcheck ;
                 printf ("total check time: %g sec\n", tcheck) ;
             }
 #endif

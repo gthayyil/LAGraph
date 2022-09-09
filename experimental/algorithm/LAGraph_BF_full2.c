@@ -228,9 +228,11 @@ GrB_Info LAGraph_BF_full2
     //--------------------------------------------------------------------------
     // create matrix Atmp based on A, while its entries become BF_Tuple3 type
     //--------------------------------------------------------------------------
+
     GRB_TRY (GrB_Matrix_extractTuples_FP64(I, J, w, &nz, A));
-    int nthreads;
-    LG_TRY( LAGraph_GetNumThreads (&nthreads, NULL)) ;
+    int nthreads, nthreads_outer, nthreads_inner ;
+    LG_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads = nthreads_outer * nthreads_inner ;
     printf ("nthreads %d\n", nthreads) ;
     #pragma omp parallel for num_threads(nthreads) schedule(static)
     for (GrB_Index k = 0; k < nz; k++)
@@ -279,7 +281,7 @@ GrB_Info LAGraph_BF_full2
         GrB_Vector_eWiseAdd_BinaryOp(dtmp, GrB_NULL, GrB_NULL, BF_lMIN_Tuple3,
             d, dfrontier, GrB_NULL);
 
-        LG_TRY (LAGraph_Vector_IsEqual_op(&same, dtmp, d, BF_EQ_Tuple3, NULL));
+        LG_TRY (LAGraph_Vector_IsEqualOp (&same, dtmp, d, BF_EQ_Tuple3, NULL));
         if (!same)
         {
             GrB_Vector ttmp = dtmp;
@@ -302,7 +304,7 @@ GrB_Info LAGraph_BF_full2
             d, dfrontier, GrB_NULL);
 
         // if d != dtmp, then there is a negative-weight cycle in the graph
-        LG_TRY (LAGraph_Vector_IsEqual_op(&same, dtmp, d, BF_EQ_Tuple3, NULL));
+        LG_TRY (LAGraph_Vector_IsEqualOp (&same, dtmp, d, BF_EQ_Tuple3, NULL));
         if (!same)
         {
             // printf("A negative-weight cycle found. \n");

@@ -238,9 +238,11 @@ GrB_Info LAGraph_BF_full1
     //--------------------------------------------------------------------------
     // create matrix Atmp based on A, while its entries become BF_Tuple3 type
     //--------------------------------------------------------------------------
+
     GRB_TRY (GrB_Matrix_extractTuples_FP64(I, J, w, &nz, A));
-    int nthreads;
-    LG_TRY (LAGraph_GetNumThreads (&nthreads, NULL)) ;
+    int nthreads, nthreads_outer, nthreads_inner ;
+    LG_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads = nthreads_outer * nthreads_inner ;
     printf ("nthreads %d\n", nthreads) ;
     #pragma omp parallel for num_threads(nthreads) schedule(static)
     for (GrB_Index k = 0; k < nz; k++)

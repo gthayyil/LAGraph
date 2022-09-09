@@ -42,6 +42,9 @@ cmake-build-debug*
 CMakeFiles*
 *~
 
+*/build/*
+**/.venv/*
+
 # Do not ignore this file
 !.gitignore
 

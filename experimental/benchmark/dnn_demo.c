@@ -280,8 +280,9 @@ int main (int argc, char **argv)
     if (type == GrB_FP64) printf ("double\n") ; else printf ("float\n") ;
 
     // get the max # of threads that can be used
-    int nthreads_max;
-    LG_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LG_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
     printf ("max # of nthreads: %d\n", nthreads_max) ;
 
     #define NNTHREADS 12
@@ -318,8 +319,7 @@ int main (int argc, char **argv)
         // get the number of nneurons and neural bias
         //----------------------------------------------------------------------
 
-        double tic [2] ;
-        LAGraph_Tic (tic, NULL) ;
+        double t = LAGraph_WallClockTime ( ) ;
 
         int nneurons = Nneurons [kn] ;
         double b = neuralNetBias [kn] ;
@@ -334,8 +334,8 @@ int main (int argc, char **argv)
         if (!f) { printf ("cannot open %s\n", filename) ; abort ( ) ; }
         LG_TRY (LAGraph_tsvread (&Y0, f, type, nfeatures, nneurons, msg)) ;
         fclose (f) ;
-        double t;
-        LAGraph_Toc (&t, tic, NULL) ;
+        t = LAGraph_WallClockTime ( ) - t ;
+
         printf ("# features: %g read time: %g sec\n", (double) nfeatures, t) ;
         GrB_Index nvals ;
         GRB_TRY (GrB_Matrix_nvals (&nvals, Y0)) ;
@@ -368,7 +368,7 @@ int main (int argc, char **argv)
             // read in the layers in parallel
             //------------------------------------------------------------------
 
-            LAGraph_Tic (tic, NULL) ;
+            double t = LAGraph_WallClockTime ( ) ;
             int first_layer = (kl == 0) ? 0 : maxLayers [kl-1] ;
             bool ok = true ;
 
@@ -420,7 +420,7 @@ int main (int argc, char **argv)
                 abort ( ) ;
             }
 
-            LAGraph_Toc (&t, tic, NULL) ;
+            t = LAGraph_WallClockTime ( ) - t ;
             printf ("read net time %g sec\n", t) ;
 
             double nedges = 0 ;
@@ -474,7 +474,7 @@ int main (int argc, char **argv)
 
                 int nthreads = nthreads_list [kth] ;
                 if (nthreads > nthreads_max) break ;
-                LAGraph_SetNumThreads (nthreads, NULL) ;
+                LAGraph_SetNumThreads (1, nthreads, NULL) ;
                 printf ("nthreads %3d: ", nthreads) ;
                 fflush (stdout) ;
 
@@ -482,9 +482,9 @@ int main (int argc, char **argv)
                 // solve the problem
                 //--------------------------------------------------------------
 
-                LAGraph_Tic (tic, NULL) ;
+                double t = LAGraph_WallClockTime ( ) ;
                 LG_TRY (LAGraph_dnn (&Y, W, Bias, nlayers, Y0)) ;
-                LAGraph_Toc (&t, tic, NULL) ;
+                t = LAGraph_WallClockTime ( ) - t ;
 
                 printf ("soln time %12.2f sec", t) ;
 
@@ -506,7 +506,7 @@ int main (int argc, char **argv)
                 //--------------------------------------------------------------
 
                 // this is so fast, it's hardly worth timing ...
-                LAGraph_Tic (tic, NULL) ;
+                tcheck = LAGraph_WallClockTime ( ) ;
                 GRB_TRY (GrB_Matrix_nvals (&final_ynvals, Y)) ;
 
                 // C = sum (Y)
@@ -547,13 +547,13 @@ int main (int argc, char **argv)
                 GrB_free (&Categories) ; Categories = NULL;
                 GrB_free (&C) ; C = NULL;
                 GrB_free (&Y) ; Y = NULL;
-                LAGraph_Toc (&tcheck, tic, NULL) ;
+                tcheck = LAGraph_WallClockTime ( ) - tcheck ;
             }
 
             printf ("\n# entries in final Y: %g million\n",
                 (double) final_ynvals / 1e6) ;
             printf ("check time: %g sec\n", tcheck) ;
-            LAGraph_SetNumThreads (nthreads_max, NULL) ;
+            LAGraph_SetNumThreads (nthreads_outer, nthreads_inner, NULL) ;
         }
 
         //----------------------------------------------------------------------

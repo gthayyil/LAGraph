@@ -59,8 +59,11 @@ int main (int argc, char **argv)
 
     int nt = NTHREAD_LIST ;
     int Nthreads [20] = { 0, THREAD_LIST } ;
-    int nthreads_max ;
-    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_max, NULL)) ;
+
+    int nthreads_max, nthreads_outer, nthreads_inner ;
+    LAGRAPH_TRY (LAGraph_GetNumThreads (&nthreads_outer, &nthreads_inner, msg)) ;
+    nthreads_max = nthreads_outer * nthreads_inner ;
+
     if (Nthreads [1] == 0)
     {
         // create thread list automatically
@@ -91,7 +94,7 @@ int main (int argc, char **argv)
     GrB_Index n, nvals ;
     GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
     GRB_TRY (GrB_Matrix_nvals (&nvals, G->A)) ;
-    // LAGRAPH_TRY (LAGraph_DisplayGraph (G, LAGraph_SHORT, stdout, msg)) ;
+    // LAGRAPH_TRY (LAGraph_Graph_Print (G, LAGraph_SHORT, stdout, msg)) ;
     // ensure G->A is FP64 and all 1
     GRB_TRY (GrB_Matrix_new (&A, GrB_FP64, n, n)) ;
     GRB_TRY (GrB_assign (A, G->A, NULL, (double) 1,
@@ -104,11 +107,10 @@ int main (int argc, char **argv)
     //--------------------------------------------------------------------------
 
     // warmup for more accurate timing
-    double tic [2], tt ;
     uint64_t ntri ;
-    LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+    double tt = LAGraph_WallClockTime ( ) ;
     LAGRAPH_TRY (LAGraph_VertexCentrality_Triangle (&c, &ntri, 3, G, msg)) ;
-    LAGRAPH_TRY (LAGraph_Toc (&tt, tic, NULL)) ;
+    tt = LAGraph_WallClockTime ( ) - tt ;
     GRB_TRY (GrB_free (&c)) ;
     printf ("warmup time %g sec, # triangles: %g\n", tt, (double) ntri) ;
 
@@ -118,15 +120,15 @@ int main (int argc, char **argv)
         {
             int nthreads = Nthreads [t] ;
             if (nthreads > nthreads_max) continue ;
-            LAGRAPH_TRY (LAGraph_SetNumThreads (nthreads, msg)) ;
+            LAGRAPH_TRY (LAGraph_SetNumThreads (1, nthreads, msg)) ;
             double ttot = 0, ttrial [100] ;
             for (int trial = 0 ; trial < ntrials ; trial++)
             {
-                LAGRAPH_TRY (LAGraph_Tic (tic, NULL)) ;
+                double tt = LAGraph_WallClockTime ( ) ;
                 LAGRAPH_TRY (LAGraph_VertexCentrality_Triangle (&c, &ntri,
                     method, G, msg)) ;
                 GRB_TRY (GrB_free (&c)) ;
-                LAGRAPH_TRY (LAGraph_Toc (&ttrial [trial], tic, NULL)) ;
+                ttrial [trial] = LAGraph_WallClockTime ( ) - tt ;
                 ttot += ttrial [trial] ;
                 printf ("threads %2d trial %2d: %12.6f sec\n",
                     nthreads, trial, ttrial [trial]) ;

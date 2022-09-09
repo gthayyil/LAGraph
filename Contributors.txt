@@ -2,9 +2,11 @@ File: Contributors.txt
 
 Contributors:
 
+FIXME: make this alphabetical
+
     Tim Davis, Texas A&M University
     Scott McMillan, SEI, Carnegie Mellon University
-    Gabor Szarnyas
+    Gabor Szarnyas, CWI, Amsterdam
     Jinhao Chen, Texas A&M University
     Michel Pelletier, Graphegon
     Scott Kolodziej, Texas A&M University
@@ -21,3 +23,6 @@ Contributors:
     Carl Yang
     Tze Meng Low,
     Florentin Dorre
+    Pranav Konduri, Texas A&M University
+    Tanner Hoke, Texas A&M University
+
