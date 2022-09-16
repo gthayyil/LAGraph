@@ -299,10 +299,10 @@ int LAGraph_mypcg2
     GrB_Vector steper,
     float k
     // inputs:
-    LAGraph_Matrix *L,    // input matrix, symmetric, result from Laplacian
+    GrB_Matrix *L,    // input matrix, symmetric, result from Laplacian
     GrB_Vector u, //vector u will be passed into another function to create Householder reflection
     float malpha,  //This float 
-    LAGraph_Matrix *invdiag,
+    GrB_Matrix *invdiag,
     GrB_Vector b,
     float tol,
     float maxit, 
