@@ -847,6 +847,18 @@ int LAGraph_SquareClustering
 ) ;
 
 //------------------------------------------------------------------------------
+// HDIP_Fiedler
+//------------------------------------------------------------------------------
+int LAGraph_Happly //happly
+(
+    //outputs:
+    GrB_Vector y, // y output of Householder reflection on x.
+    //inputs:
+    GrB_Vector u, // u, the vector used for application of householder
+    GrB_Vector x, // x, the vector on which householder reflection is applied
+    float alpha // the scalar alpha used for application of householder
+);
+//------------------------------------------------------------------------------
 // a simple example of an algorithm
 //------------------------------------------------------------------------------
 
@@ -858,5 +870,7 @@ GrB_Info LAGraph_HelloWorld // a simple algorithm, just for illustration
     LAGraph_Graph G,
     char *msg
 ) ;
+
+
 
 #endif
