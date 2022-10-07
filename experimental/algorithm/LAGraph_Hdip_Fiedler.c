@@ -174,7 +174,7 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     GrB_Matrix *Lap,    // the output Laplacian matrix 
     float inform,      // infinity norm of Lap
     // inputs:
-    GrB_Matrix *G,    // input matrix, symmetric
+    GrB_Matrix G,    // input matrix, symmetric
 //  GrB_Type type,      // the type of Lap, typically GrB_FP32, ...
     char *msg
 )
@@ -182,12 +182,12 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     GrB_Index ncol;
     GrB_Vector k = NULL;
     GrB_Vector t = NULL;
-    GrB_Matrix *sparseM;
-    GrB_Matrix *DMatrix;
+    GrB_Matrix sparseM;
+    GrB_Matrix DMatrix;
     
     // Assert G->A is symmetric
     // Lap = (float) offdiag (G->A)
-    GRB_TRY (GrB_Matrix_ncols(&ncol, *G));
+    GRB_TRY (GrB_Matrix_ncols(&ncol, G));
     GRB_TRY (GrB_Matrix_new (Lap, GrB_FP32, ncol, ncol));
     GRB_TRY (GrB_select (*Lap,NULL,NULL,GrB_OFFDIAG,G->A,0,NULL,NULL));
 
@@ -203,7 +203,7 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     //creates a sparse Matrix with same dimensions as &Lap, and assigns -1 with &Lap as a Mask
     GRB_TRY (GrB_Matrix_new (sparseM, GrB_FP32, ncol, ncol));
     //Python code has descriptor = S indicating structural mask
-    GRB_TRY(GrB_assign(*sparseM,*Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_SC);
+    GRB_TRY(GrB_assign(sparseM,Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_SC);
 
     
     //create a mask of 0s in vector t, and use that to replace the 0s with 1s. 
@@ -217,18 +217,18 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     inform=inform*2;
     
     //Using Matrix_diag to create a diagonal matrix from a vector    
-    GRB_TRY (GrB_Matrix_new (DMatrix, GrB_FP32, ncol, ncol));
-    GRB_TRY (GrB_Matrix_diag(*DMatrix,t,NULL,NULL));
+    GRB_TRY (GrB_Matrix_new (&DMatrix, GrB_FP32, ncol, ncol));
+    GRB_TRY (GrB_Matrix_diag(DMatrix,t,NULL,NULL));
     
     //Calculating the Laplacian by adding the Dmatrix with SparseM.    
-    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, *DMatrix, *sparseM, NULL));
+    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, DMatrix, sparseM, NULL));
     
     //FREE everything
     GrB_free (&ncol);
     GrB_free (&k);
     GrB_free (&t);
-    GrB_free (sparseM);
-    GrB_free (DMatrix);
+    GrB_free (&sparseM);
+    GrB_free (&DMatrix);
     
     return (GrB_SUCCESS);
 
@@ -299,10 +299,10 @@ int LAGraph_mypcg2
     GrB_Vector steper,
     float k
     // inputs:
-    GrB_Matrix *L,    // input matrix, symmetric, result from Laplacian
+    GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
     GrB_Vector u, //vector u will be passed into another function to create Householder reflection
     float malpha,  //This float 
-    GrB_Matrix *invdiag,
+    GrB_Matrix invdiag,
     GrB_Vector b,
     float tol,
     float maxit, 
@@ -311,12 +311,12 @@ int LAGraph_mypcg2
 )
 {
   
-    GrB_Vector r, // This vector will be a copy of vector b to make sure vector b remains unchanged.
-    GrB_Vector z, //used to apply preconditioner 
-    GrB_Vector rho_helper, // used to help calculate rho
-    GrB_Vector p, //search direction
-    GrB_Vector q, //used for hmhx after finding next step in direction p
-    GrB_Vector gamma_helper,
+    GrB_Vector r; // This vector will be a copy of vector b to make sure vector b remains unchanged.
+    GrB_Vector z; //used to apply preconditioner 
+    GrB_Vector rho_helper; // used to help calculate rho
+    GrB_Vector p; //search direction
+    GrB_Vector q; //used for hmhx after finding next step in direction p
+    GrB_Vector gamma_helper;
     float n;
     float bsize;
     float rho;
@@ -326,7 +326,7 @@ int LAGraph_mypcg2
     float rnorm;
 
     //Set n to be number of rows in Laplacian matrix
-    GRB_TRY (GrB_Matrix_nrows(&n, *L));
+    GRB_TRY (GrB_Matrix_nrows(&n, L));
     
     //Set bsize to number of entries in vector b    
     GRB_TRY (GrB_Vector_size(&bsize, b));
@@ -366,7 +366,7 @@ int LAGraph_mypcg2
     for (k=1;k<=maxit;k++)
     {
         //Apply the preconditioner, using hmhx
-        LG_TRY (LAGraph_hmhx(z,*invdiag,u,r,malpha,msg)); 
+        LG_TRY (LAGraph_hmhx(z,invdiag,u,r,malpha,msg)); 
         GRB_TRY (GrB_Vector_setElement_FP32(z, 0, 0));
      
         //save the prior rho
@@ -389,7 +389,7 @@ int LAGraph_mypcg2
             GRB_TRY (GrB_apply (p, NULL, NULL, GrB_PLUS_FP32, p, z, NULL)) ;
         }
         //hmhx is used on q
-        LG_TRY (LAGraph_hmhx(q,*L,u,p,malpha,msg)); 
+        LG_TRY (LAGraph_hmhx(q,L,u,p,malpha,msg)); 
         GRB_TRY (GrB_Vector_setElement_FP32(q, 0, 0));
 
         //gamma=p.emult(q).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
@@ -484,7 +484,7 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     float lamb,    // Lambda of hdip_fiedler
     GrB_Vector x; // the hdip fielder result vector
     // inputs:
-    GrB_Matrix *L,    // input matrix, symmetric, result from Laplacian
+    GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
     float InfNorm,
     GrB_Vector kmax,
     float emax,
@@ -500,7 +500,6 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     GrB_Vector u = NULL;
     GrB_Vector y = NULL;
     GrB_Vector lambhelper = NULL;
-    GrB_Matrix *c; // used to store diagonal of L
     float alpha;
     float k_inner;
     float k_outer;
@@ -511,9 +510,10 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     int i; // This is the integer used in for loop
     int kmaxZero; // kmax[0]
     int kmaxOne; // kmax[1]
+    GrB_Matrix indiag;
     
     //Set u(0) = 1+sqrt(n). u(1:n) = 1 and alpha = n+sqrt(n)
-    GRB_TRY (GrB_Matrix_nrows(&n, *L));
+    GRB_TRY (GrB_Matrix_nrows(&n, L));
     GRB_TRY (GrB_Vector_new (&u, GrB_FP32, n));
     GRB_TRY (GrB_apply (u, NULL, NULL, GxB_ONE_FP32, u, NULL));
     GRB_TRY (GrB_Vector_setElement_FP32(u, 1+sqrtf(n), 0));
@@ -525,9 +525,9 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
 
     //indiag = diagonal matrix with indiag = 1/L[0], as a preconditioner
-    GRB_TRY (GrB_Matrix_new(indiag, GrB_FP32, n, n));
-    GRB_TRY (GrB_select (*indiag,NULL,NULL,GrB_DIAG,NULL,NULL,NULL,NULL));
-    GRB_TRY (GrB_apply (*indiag, NULL, NULL, GrB_RDIV_FP32, *indiag,1, NULL));
+    GRB_TRY (GrB_Matrix_new(&indiag, GrB_FP32, n, n));
+    GRB_TRY (GrB_select (indiag,NULL,NULL,GrB_DIAG,NULL,NULL,NULL,NULL));
+    GRB_TRY (GrB_apply (indiag, NULL, NULL, GrB_RDIV_FP32, indiag,1, NULL));
     last_err = FLT_MAX;    
 
     //for i from 1 to kmax[0]+1
