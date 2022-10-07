@@ -1,0 +1,11509 @@
+
+% create a list of symmetric matrices with one component in them
+
+clear all
+diary georgy_list.txt
+type georgy_list.m
+index = ssget
+list = find (index.pattern_symmetry == 1 & index.ncc == 1) ;
+[ignore, i] = sort (index.nnz (list)) ;
+list = list (i)'
+nmatrices = length (list)
+for k = 1:nmatrices
+    id = list (k) ;
+    fprintf ('%4d %d %s/%s\n', id, index.nnz (id), index.Group{id}, ...
+        index.Name{id}) ;
+end
+
+
+diary off
+
+index = 
+
+  struct with fields:
+
+      LastRevisionDate: '08-Oct-2020 17:09:58'
+                 Group: {2893x1 cell}
+                  Name: {2893x1 cell}
+                 nrows: [1x2893 double]
+                 ncols: [1x2893 double]
+                   nnz: [1x2893 double]
+                 nzero: [1x2893 double]
+      pattern_symmetry: [1x2893 double]
+    numerical_symmetry: [1x2893 double]
+              isBinary: [1x2893 double]
+                isReal: [1x2893 double]
+               nnzdiag: [1x2893 double]
+                posdef: [1x2893 double]
+               amd_lnz: [1x2893 double]
+             amd_flops: [1x2893 double]
+               amd_vnz: [1x2893 double]
+               amd_rnz: [1x2893 double]
+               nblocks: [1x2893 double]
+                sprank: [1x2893 double]
+                RBtype: [2893x3 char]
+              cholcand: [1x2893 double]
+                   ncc: [1x2893 double]
+                  isND: [1x2893 double]
+               isGraph: [1x2893 double]
+        lowerbandwidth: [1x2893 double]
+        upperbandwidth: [1x2893 double]
+    rcm_lowerbandwidth: [1x2893 double]
+    rcm_upperbandwidth: [1x2893 double]
+                  xmin: [1x2893 double]
+                  xmax: [1x2893 double]
+     DownloadTimeStamp: 7.3807e+05
+              nentries: [1x2893 double]
+
+
+list =
+
+        2758
+        2759
+         904
+        2760
+         905
+        1438
+        1524
+          13
+        2761
+        2203
+        2399
+        2204
+          97
+          14
+        1177
+         103
+         133
+         906
+        1519
+        1490
+        1498
+         129
+         436
+         872
+         873
+         874
+        2396
+         132
+        1492
+        1497
+        2457
+         106
+        1484
+         337
+          23
+         883
+        2762
+          15
+        2400
+          11
+         136
+         102
+         220
+         108
+         907
+         298
+        2417
+        2389
+        2403
+        2416
+         323
+        1630
+        1631
+         239
+         113
+        2397
+          93
+          94
+         877
+         878
+         119
+        1198
+          95
+        2763
+          16
+          17
+         117
+        2361
+        2369
+           2
+         116
+         202
+         231
+          96
+        2748
+         884
+         875
+         876
+        2205
+           8
+         251
+        2421
+         926
+          27
+         207
+         122
+         206
+           3
+         121
+         100
+        1634
+        1635
+        2749
+         203
+         929
+        2206
+        2362
+        2370
+        2207
+          98
+         124
+          99
+         908
+         471
+         472
+         473
+           4
+         222
+        2691
+         114
+         125
+        2429
+          26
+        2431
+         101
+         204
+        2750
+         338
+           1
+        2407
+         278
+         279
+         281
+         167
+        1529
+         406
+          24
+         325
+        2751
+        2754
+         223
+        1636
+        2208
+         300
+         301
+         302
+         303
+         304
+         305
+        2752
+        2764
+        2755
+        2753
+         130
+        2436
+        2420
+         221
+         205
+          18
+        2363
+        2371
+        2665
+        2406
+         333
+         229
+          19
+         226
+         134
+         127
+          20
+        2465
+         176
+          21
+         105
+          41
+         225
+         177
+         194
+        2730
+        2423
+         104
+          62
+         135
+        1628
+        1629
+         178
+        1106
+        1107
+         138
+         137
+         182
+         183
+         159
+         180
+          28
+          29
+         299
+         494
+         495
+         496
+        2428
+        2209
+        2689
+         111
+         110
+         195
+        1188
+        2195
+        2196
+        1442
+         181
+        1239
+        1790
+        2690
+         184
+         475
+         479
+         477
+         482
+         476
+         481
+         474
+         478
+         179
+         230
+         107
+        2364
+        2372
+         112
+        1619
+         196
+        1430
+        2408
+         909
+         515
+         517
+         516
+         518
+         511
+         512
+         514
+         331
+        1632
+        1506
+          91
+        2419
+        2466
+          92
+        2210
+        1196
+        2418
+         197
+         539
+        1530
+        2404
+        2531
+         227
+        2765
+         324
+        2692
+        1537
+         198
+        2666
+        2422
+         219
+         139
+        1360
+         199
+          31
+        1633
+         418
+         830
+         831
+         540
+         506
+         507
+         508
+         509
+         510
+         521
+        1539
+         200
+         828
+         829
+         339
+        1538
+          22
+         241
+         419
+         498
+         503
+         497
+         501
+         500
+         505
+         499
+         504
+        2412
+         201
+        2731
+         344
+         422
+        2467
+        2411
+         120
+         358
+        2706
+        2410
+         327
+         416
+        2409
+         527
+        2732
+         332
+        2522
+          48
+        1547
+        1546
+        1542
+         871
+         434
+         530
+        2667
+         228
+        1187
+         357
+        1545
+        1444
+        1543
+         531
+        2668
+        2670
+        2669
+        1206
+        1448
+        1449
+         424
+        2671
+        2672
+         469
+         470
+         480
+         491
+         502
+         513
+         524
+         533
+         534
+         535
+         363
+         757
+        2733
+         483
+         484
+         485
+         486
+         487
+         488
+         489
+         490
+         492
+         493
+         532
+         866
+         910
+        2211
+         420
+        1548
+        2766
+         359
+          45
+         865
+        1190
+         421
+        2405
+         437
+        2468
+        1250
+        1544
+        1425
+        2104
+         427
+        1551
+        1552
+          49
+          77
+        2663
+        2425
+        2424
+         522
+         523
+        2415
+        2414
+        1245
+        1554
+        2850
+        1191
+        1553
+        2523
+        1549
+         412
+        1555
+         377
+        1432
+        1433
+         417
+        1234
+        1217
+         442
+        2430
+        2197
+        2198
+         758
+        1214
+        1242
+        1556
+         411
+        1215
+         425
+        1557
+        1550
+         410
+         443
+        1216
+        2707
+        1559
+         528
+         529
+        1192
+          35
+        2433
+         444
+        1563
+         887
+         888
+         889
+        1916
+        1917
+        2520
+        1249
+        2413
+         441
+        2693
+        2432
+        1380
+        1303
+        2521
+        2390
+        1183
+        2469
+        2440
+        2527
+         440
+        1437
+        1441
+        1262
+         763
+         881
+         365
+         760
+        1193
+         867
+        2643
+        1561
+        2638
+        2569
+        1426
+        2589
+        1558
+         868
+        2636
+         791
+         792
+         869
+        1194
+        1565
+         969
+         870
+        2767
+        1443
+        2437
+        1247
+        1248
+        2537
+         378
+        2434
+        2438
+        2694
+        1272
+        1295
+         911
+        2533
+        2695
+        2627
+          46
+        2708
+        1567
+        1365
+         364
+         759
+        1564
+        1204
+        1205
+        1447
+         832
+         833
+        2530
+        2634
+        2470
+        2435
+        2709
+        1366
+        1312
+        1854
+        2632
+        1611
+        2710
+        1907
+        1255
+        1566
+        2711
+        2712
+        1608
+        1610
+        1609
+        2269
+        2270
+        2271
+        2272
+          50
+        2713
+        2714
+        2715
+        2716
+        2717
+        1309
+        2611
+         970
+         808
+        2829
+        2515
+        1348
+        2532
+        1847
+         886
+        1293
+        1605
+        1607
+        1606
+        2538
+        1428
+        1429
+        2644
+        1908
+         814
+         815
+        2199
+        2200
+        1261
+        1302
+         379
+         933
+        1358
+        1577
+         350
+        2332
+        2261
+        2262
+        2602
+        2588
+        1330
+        1292
+         927
+        1291
+         343
+         445
+         541
+         842
+        2645
+        2641
+        2471
+         766
+         767
+         768
+         769
+         770
+         771
+         772
+         773
+         774
+        1220
+        1873
+        2768
+         775
+        2622
+        2614
+         879
+        1306
+        2536
+        2631
+        1237
+        1851
+        1224
+        1300
+        2811
+        1316
+         776
+         435
+         885
+         326
+        1288
+         777
+        1222
+         778
+        1381
+        1305
+        1210
+        1451
+        1311
+         779
+        1422
+        1263
+        1445
+        2212
+        2213
+        1246
+         912
+        1289
+        2625
+        1307
+         780
+          55
+         752
+         753
+        2635
+        2609
+         781
+        2607
+        1294
+        1227
+        2630
+        1912
+        1379
+         891
+         892
+         782
+        2601
+        1587
+         950
+        2257
+        2258
+        1913
+        1184
+         765
+        1394
+        1412
+        2594
+        2426
+        1363
+        1244
+        1230
+        1256
+         924
+        1347
+        2600
+        2472
+         848
+         783
+        2525
+        2612
+        2613
+        2606
+        2646
+        1359
+        2621
+        1914
+        1915
+        2584
+        2528
+        2610
+        1415
+        2628
+        1259
+         351
+         366
+         784
+        2587
+         847
+        2618
+        2599
+        1301
+        2575
+        2576
+         813
+        1202
+        1435
+        2593
+        1848
+         409
+        2639
+        2597
+         342
+         362
+         341
+        1892
+         785
+        2623
+        2585
+        2629
+        1296
+        2604
+        2769
+         361
+        2583
+        2617
+         953
+        1590
+        2596
+         817
+        1368
+        2526
+         786
+         890
+        2626
+        2608
+        2591
+        1900
+         340
+        1452
+        2518
+         816
+        1297
+         788
+         787
+         789
+         790
+        1308
+        2473
+        2603
+         855
+        2461
+        1231
+        1383
+        1919
+        2605
+         844
+         845
+        1251
+        1434
+         821
+         822
+         820
+        1878
+         352
+         367
+        1213
+        2616
+         804
+        2778
+         811
+        2788
+        1271
+        1417
+        1284
+        2462
+        1643
+          54
+         913
+          52
+        2619
+         846
+        2779
+        2427
+         964
+         965
+         966
+         967
+        2517
+         536
+        2595
+         851
+        1357
+        1235
+        2460
+        1287
+         928
+         853
+        2642
+        1286
+        2570
+         852
+         356
+         761
+         368
+        1431
+        1236
+        1382
+        2260
+        1274
+         973
+        1282
+         805
+        2510
+         849
+        2474
+         803
+         854
+         936
+        2529
+        1354
+        1852
+        2830
+        1849
+        1853
+        1276
+        2770
+        1909
+        1906
+        1278
+        1277
+        2439
+         850
+        2283
+         537
+         856
+        2373
+        1208
+        1209
+        1450
+        1275
+        1283
+        2624
+        1898
+        1910
+        1423
+        2516
+        1883
+        1882
+        1899
+        1361
+        1893
+        1861
+        1454
+        1352
+        2783
+        1350
+        2580
+        2475
+        2812
+         859
+        2519
+         971
+         937
+         914
+         858
+        1421
+        1349
+        2813
+        1355
+        1356
+        1290
+        2265
+        2266
+        1351
+        2571
+         538
+        1393
+        1269
+        2267
+        2268
+        1385
+        1257
+        1254
+        1364
+        2771
+        1367
+        1219
+        1260
+         369
+        1264
+        1285
+        2831
+        1265
+        2476
+        1857
+        2572
+        2483
+        2514
+        1258
+         938
+         860
+        1362
+        2498
+        2513
+        2486
+        1580
+        1581
+        1582
+        1583
+        1584
+        1585
+         940
+         941
+         942
+         943
+         944
+         945
+         946
+         947
+         948
+        1353
+        2487
+        1398
+        2579
+        2488
+        2329
+        2577
+        2578
+        2512
+        2581
+        2477
+        2385
+        2509
+        2573
+        1411
+         915
+        2495
+        1901
+         939
+        1856
+        2464
+        2463
+        2387
+        2772
+        2458
+        2484
+        1267
+        1455
+        2485
+        2386
+        2478
+        1586
+        2480
+        2459
+        2854
+        2481
+        2482
+        2781
+        1252
+        2496
+        2388
+        1902
+         916
+        2773
+        2479
+        2511
+        2544
+        1903
+        2782
+        2774
+        1904
+        1905
+        2775
+        2776
+        2780
+        2856
+
+
+nmatrices =
+
+   956
+
+2758 2 Mycielski/mycielskian2
+2759 10 Mycielski/mycielskian3
+ 904 19 vanHeukelum/cage3
+2760 40 Mycielski/mycielskian4
+ 905 49 vanHeukelum/cage4
+1438 82 Oberwolfach/LF10
+1524 90 Pajek/Stranke94
+  13 131 HB/bcspwr01
+2761 142 Mycielski/mycielskian5
+2203 147 JGD_Trefethen/Trefethen_20b
+2399 156 Newman/karate
+2204 158 JGD_Trefethen/Trefethen_20
+  97 160 HB/can_24
+  14 167 HB/bcspwr02
+1177 169 HB/lap_25
+ 103 218 HB/can_62
+ 133 222 HB/dwt_72
+ 906 233 vanHeukelum/cage5
+1519 248 Pajek/Sandi_authors
+1490 250 Pajek/GD96_c
+1498 252 Pajek/GD99_b
+ 129 267 HB/dwt_59
+ 436 279 FIDAP/ex5
+ 872 306 Pothen/mesh1e1
+ 873 306 Pothen/mesh1em1
+ 874 306 Pothen/mesh1em6
+2396 318 Newman/dolphins
+ 132 320 HB/dwt_66
+1492 332 Pajek/GD97_a
+1497 336 Pajek/GD98_c
+2457 340 DIMACS10/chesapeake
+ 106 377 HB/can_73
+1484 380 Pajek/GD06_theory
+ 337 396 Bai/tub100
+  23 400 HB/bcsstk01
+ 883 450 Pothen/sphere2
+2762 472 Mycielski/mycielskian6
+  15 476 HB/bcspwr03
+2400 508 Newman/lesmis
+  11 523 HB/ash85
+ 136 541 HB/dwt_87
+ 102 557 HB/can_61
+ 220 594 HB/nos4
+ 108 768 HB/can_96
+ 907 785 vanHeukelum/cage6
+ 298 796 Bai/bwm200
+2417 840 AG-Monien/grid1_dual
+2389 850 Newman/adjnoun
+2403 882 Newman/polbooks
+2416 952 AG-Monien/grid1
+ 323 1065 Bai/pde225
+1630 1120 Bai/rdb200
+1631 1120 Bai/rdb200l
+ 239 1128 HB/saylr1
+ 113 1182 HB/dwt_162
+2397 1226 Newman/football
+  93 1296 HB/can_144
+  94 1377 HB/can_161
+ 877 1377 Pothen/mesh3e1
+ 878 1377 Pothen/mesh3em5
+ 119 1461 HB/dwt_245
+1198 1475 Rajat/rajat14
+  95 1491 HB/can_187
+2763 1510 Mycielski/mycielskian7
+  16 1612 HB/bcspwr04
+  17 1623 HB/bcspwr05
+ 117 1629 HB/dwt_221
+2361 1633 Rommes/M10PI_n
+2369 1633 Rommes/S10PI_n
+   2 1666 HB/494_bus
+ 116 1743 HB/dwt_209
+ 202 1753 HB/lshp_265
+ 231 1760 HB/plskz362
+  96 1777 HB/can_229
+2748 1783 VDOL/tumorAntiAngiogenesis_1
+ 884 1794 Pothen/sphere3
+ 875 2018 Pothen/mesh2e1
+ 876 2018 Pothen/mesh2em5
+2205 2040 JGD_Trefethen/Trefethen_150
+   8 2208 HB/ash292
+ 251 2248 HB/steam1
+2421 2342 AG-Monien/netz4504_dual
+ 926 2417 FEMLAB/poisson2D
+  27 2423 HB/bcsstk05
+ 207 2441 HB/lund_b
+ 122 2448 HB/dwt_310
+ 206 2449 HB/lund_a
+   3 2474 HB/662_bus
+ 121 2523 HB/dwt_307
+ 100 2540 HB/can_292
+1634 2580 Bai/rdb450
+1635 2580 Bai/rdb450l
+2749 2699 VDOL/tumorAntiAngiogenesis_2
+ 203 2716 HB/lshp_406
+ 929 2779 FEMLAB/problem1
+2206 2873 JGD_Trefethen/Trefethen_200b
+2362 2881 Rommes/M20PI_n
+2370 2881 Rommes/S20PI_n
+2207 2890 JGD_Trefethen/Trefethen_200
+  98 2916 HB/can_256
+ 124 2953 HB/dwt_361
+  99 3082 HB/can_268
+ 908 3084 vanHeukelum/cage7
+ 471 3200 Gset/G11
+ 472 3200 Gset/G12
+ 473 3200 Gset/G13
+   4 3249 HB/685_bus
+ 222 3255 HB/nos6
+2691 3477 VDOL/hangGlider_1
+ 114 3493 HB/dwt_193
+ 125 3563 HB/dwt_419
+2429 3640 AG-Monien/L
+  26 3648 HB/bcsstk04
+2431 3736 AG-Monien/stufe
+ 101 3809 HB/can_445
+ 204 3889 HB/lshp_577
+2750 3952 VDOL/tumorAntiAngiogenesis_3
+ 338 3996 Bai/tub1000
+   1 4054 HB/1138_bus
+2407 4065 Arenas/celegans_metabolic
+ 278 4089 HB/young1c
+ 279 4089 HB/young2c
+ 281 4089 HB/young4c
+ 167 4182 HB/hor_131
+1529 4252 Pajek/USAir97
+ 406 4317 FIDAP/ex1
+  24 4356 HB/bcsstk02
+ 325 4380 Bai/pde900
+2751 4593 VDOL/tumorAntiAngiogenesis_4
+2754 4597 VDOL/tumorAntiAngiogenesis_7
+ 223 4617 HB/nos7
+1636 4640 Bai/rdb800l
+2208 4678 JGD_Trefethen/Trefethen_300
+ 300 4681 Bai/cdde1
+ 301 4681 Bai/cdde2
+ 302 4681 Bai/cdde3
+ 303 4681 Bai/cdde4
+ 304 4681 Bai/cdde5
+ 305 4681 Bai/cdde6
+2752 4690 VDOL/tumorAntiAngiogenesis_5
+2764 4720 Mycielski/mycielskian8
+2755 4776 VDOL/tumorAntiAngiogenesis_8
+2753 4795 VDOL/tumorAntiAngiogenesis_6
+ 130 5104 HB/dwt_592
+2436 5124 AG-Monien/cage
+2420 5156 AG-Monien/netz4504
+ 221 5172 HB/nos5
+ 205 5272 HB/lshp_778
+  18 5300 HB/bcspwr06
+2363 5341 Rommes/M40PI_n
+2371 5341 Rommes/S40PI_n
+2665 5367 VDOL/dynamicSoaringProblem_1
+2406 5484 Arenas/jazz
+ 333 5632 Bai/rdb968
+ 229 5786 HB/plat362
+  19 5824 HB/bcspwr07
+ 226 5970 HB/orsirr_2
+ 134 5994 HB/dwt_758
+ 127 6027 HB/dwt_503
+  20 6050 HB/bcspwr08
+2465 6112 DIMACS10/delaunay_n10
+ 176 6264 HB/jagmesh1
+  21 6511 HB/bcspwr09
+ 105 6665 HB/can_715
+  41 6853 HB/bcsstk19
+ 225 6858 HB/orsirr_1
+ 177 6865 HB/jagmesh2
+ 194 6865 HB/lshp1009
+2730 6891 VDOL/spaceShuttleEntry_1
+2423 7076 AG-Monien/ukerbe1_dual
+ 104 7228 HB/can_634
+  62 7252 HB/bcsstm07
+ 135 7285 HB/dwt_869
+1628 7300 Bai/rdb1250
+1629 7300 Bai/rdb1250l
+ 178 7361 HB/jagmesh3
+1106 7382 Sandia/fpga_trans_01
+1107 7382 Sandia/fpga_trans_02
+ 138 7384 HB/dwt_918
+ 137 7448 HB/dwt_878
+ 182 7450 HB/jagmesh7
+ 183 7465 HB/jagmesh8
+ 159 7744 HB/gr_30_30
+ 180 7750 HB/jagmesh5
+  28 7860 HB/bcsstk06
+  29 7860 HB/bcsstk07
+ 299 7996 Bai/bwm2000
+ 494 8000 Gset/G32
+ 495 8000 Gset/G33
+ 496 8000 Gset/G34
+2428 8184 AG-Monien/diag
+2209 8478 JGD_Trefethen/Trefethen_500
+2689 8498 VDOL/goddardRocketProblem_1
+ 111 8575 HB/dwt_1007
+ 110 8621 HB/dwt_1005
+ 195 8668 HB/lshp1270
+1188 8725 Rajat/rajat04
+2195 8736 JGD_SPG/EX1
+2196 8736 JGD_SPG/EX2
+1442 8985 Oberwolfach/rail_1357
+ 181 8993 HB/jagmesh6
+1239 9000 GHS_indef/laser
+1790 9000 Meszaros/iprob
+2690 9058 VDOL/goddardRocketProblem_2
+ 184 9101 HB/jagmesh9
+ 475 9322 Gset/G15
+ 479 9322 Gset/G19
+ 477 9334 Gset/G17
+ 482 9334 Gset/G21
+ 476 9344 Gset/G16
+ 481 9344 Gset/G20
+ 474 9388 Gset/G14
+ 478 9388 Gset/G18
+ 179 9504 HB/jagmesh4
+ 230 9662 HB/plsk1919
+ 107 10010 HB/can_838
+2364 10261 Rommes/M80PI_n
+2372 10261 Rommes/S80PI_n
+ 112 10426 HB/dwt_1242
+1619 10591 Bai/dwg961b
+ 196 10681 HB/lshp1561
+1430 10750 Oberwolfach/filter2D
+2408 10902 Arenas/email
+ 909 11003 vanHeukelum/cage8
+ 515 11818 Gset/G51
+ 517 11828 Gset/G53
+ 516 11832 Gset/G52
+ 518 11832 Gset/G54
+ 511 12000 Gset/G48
+ 512 12000 Gset/G49
+ 514 12000 Gset/G50
+ 331 12032 Bai/rdb2048
+1632 12032 Bai/rdb2048_noL
+1506 12068 Pajek/Journals
+  91 12196 HB/can_1054
+2419 12224 AG-Monien/grid2_dual
+2466 12254 DIMACS10/delaunay_n11
+  92 12444 HB/can_1072
+2210 12654 JGD_Trefethen/Trefethen_700
+1196 12818 Rajat/rajat12
+2418 12864 AG-Monien/grid2
+ 197 12904 HB/lshp1882
+ 539 13151 Hamm/add20
+1530 13188 Pajek/USpowerGrid
+2404 13188 Newman/power
+2531 13674 DIMACS10/uk
+ 227 14133 HB/orsreg_1
+2765 14542 Mycielski/mycielskian9
+ 324 14585 Bai/pde2961
+2692 14754 VDOL/hangGlider_2
+1537 15145 Schenk_IBMNA/c-18
+ 198 15337 HB/lshp2233
+2666 15588 VDOL/dynamicSoaringProblem_2
+2422 15704 AG-Monien/ukerbe1
+ 219 15844 HB/nos3
+ 139 16744 HB/dwt_992
+1360 17801 PARSEC/Si2
+ 199 17980 HB/lshp2614
+  31 18437 HB/bcsstk09
+1633 18880 Bai/rdb3200l
+ 418 18964 FIDAP/ex21
+ 830 19093 Wang/wang1
+ 831 19093 Wang/wang2
+ 540 19848 Hamm/add32
+ 506 19980 Gset/G43
+ 507 19980 Gset/G44
+ 508 19980 Gset/G45
+ 509 19980 Gset/G46
+ 510 19980 Gset/G47
+ 521 20000 Gset/G57
+1539 20445 Schenk_IBMNA/c-20
+ 200 20833 HB/lshp3025
+ 828 20841 Wang/swang1
+ 829 20841 Wang/swang2
+ 339 21418 Boeing/bcsstk34
+1538 21817 Schenk_IBMNA/c-19
+  22 21842 HB/bcspwr10
+ 241 22316 HB/saylr4
+ 419 22460 FIDAP/ex22
+ 498 23532 Gset/G36
+ 503 23532 Gset/G40
+ 497 23556 Gset/G35
+ 501 23556 Gset/G39
+ 500 23558 Gset/G38
+ 505 23558 Gset/G42
+ 499 23570 Gset/G37
+ 504 23570 Gset/G41
+2412 23626 AG-Monien/airfoil1_dual
+ 201 23896 HB/lshp3466
+2731 24073 VDOL/spaceShuttleEntry_2
+ 344 24270 Boeing/bcsstm34
+ 422 24369 FIDAP/ex25
+2467 24528 DIMACS10/delaunay_n12
+2411 24578 AG-Monien/airfoil1
+ 120 25026 HB/dwt_2680
+ 358 26198 Boeing/msc01050
+2706 26261 VDOL/lowThrust_2
+2410 26556 AG-Monien/3elt_dual
+ 327 26730 Bai/qc324
+ 416 26839 FIDAP/ex2
+2409 27444 AG-Monien/3elt
+ 527 28000 Gset/G62
+2732 28757 VDOL/spaceShuttleEntry_3
+ 332 29600 Bai/rdb5000
+2522 30186 DIMACS10/data
+  48 30336 HB/bcsstk26
+1547 30590 Schenk_IBMNA/c-28
+1546 30927 Schenk_IBMNA/c-27
+1542 31079 Schenk_IBMNA/c-23
+ 871 31680 Pothen/commanche_dual
+ 434 31849 FIDAP/ex4
+ 530 32000 Gset/G65
+2667 32022 VDOL/dynamicSoaringProblem_3
+ 228 32399 HB/plat1919
+1187 32653 Rajat/rajat03
+ 357 34518 Boeing/msc00726
+1545 34537 Schenk_IBMNA/c-26
+1444 35185 Oberwolfach/rail_5177
+1543 35699 Schenk_IBMNA/c-24
+ 531 36000 Gset/G66
+2668 36516 VDOL/dynamicSoaringProblem_4
+2670 36741 VDOL/dynamicSoaringProblem_6
+2669 36789 VDOL/dynamicSoaringProblem_5
+1206 37465 Oberwolfach/t2dal_a
+1448 37465 Oberwolfach/t2dal_bci
+1449 37465 Oberwolfach/t2dal
+ 424 37652 FIDAP/ex27
+2671 37680 VDOL/dynamicSoaringProblem_7
+2672 38136 VDOL/dynamicSoaringProblem_8
+ 469 38352 Gset/G1
+ 470 38352 Gset/G10
+ 480 38352 Gset/G2
+ 491 38352 Gset/G3
+ 502 38352 Gset/G4
+ 513 38352 Gset/G5
+ 524 38352 Gset/G6
+ 533 38352 Gset/G7
+ 534 38352 Gset/G8
+ 535 38352 Gset/G9
+ 363 39208 Boeing/nasa1824
+ 757 39208 Nasa/nasa1824
+2733 39669 VDOL/spaceShuttleEntry_4
+ 483 39980 Gset/G22
+ 484 39980 Gset/G23
+ 485 39980 Gset/G24
+ 486 39980 Gset/G25
+ 487 39980 Gset/G26
+ 488 39980 Gset/G27
+ 489 39980 Gset/G28
+ 490 39980 Gset/G29
+ 492 39980 Gset/G30
+ 493 39980 Gset/G31
+ 532 40000 Gset/G67
+ 866 40965 Pothen/barth4
+ 910 41594 vanHeukelum/cage9
+2211 41906 JGD_Trefethen/Trefethen_2000
+ 420 42760 FIDAP/ex23
+1548 43731 Schenk_IBMNA/c-29
+2766 44392 Mycielski/mycielskian10
+ 359 44998 Boeing/msc01440
+  45 45178 HB/bcsstk23
+ 865 46187 Pothen/barth
+1190 46983 Rajat/rajat06
+ 421 47901 FIDAP/ex24
+2405 48632 Arenas/PGPgiantcompo
+ 437 49062 FIDAP/ex6
+2468 49094 DIMACS10/delaunay_n13
+1250 49365 GHS_indef/tuma2
+1544 49635 Schenk_IBMNA/c-25
+1425 49999 GHS_indef/bloweybq
+2104 51480 JGD_Homology/n3c6-b7
+ 427 52685 FIDAP/ex3
+1551 54471 Schenk_IBMNA/c-32
+1552 56123 Schenk_IBMNA/c-33
+  49 56126 HB/bcsstk27
+  77 56126 HB/bcsstm27
+2663 57022 Moqri/MISKnowledgeMap
+2425 57162 AG-Monien/whitaker3_dual
+2424 57978 AG-Monien/whitaker3
+ 522 59140 Gset/G58
+ 523 59140 Gset/G59
+2415 60086 AG-Monien/crack_dual
+2414 60760 AG-Monien/crack
+1245 61046 GHS_indef/sit100
+1554 62891 Schenk_IBMNA/c-35
+2850 63024 Negre/dendrimer
+1191 63913 Rajat/rajat07
+1553 64333 Schenk_IBMNA/c-34
+2523 65636 DIMACS10/fe_4elt2
+1549 65693 Schenk_IBMNA/c-30
+ 412 65875 FIDAP/ex14
+1555 65941 Schenk_IBMNA/c-36
+ 377 66528 Brunetiere/thermal
+1432 67391 Oberwolfach/flowmeter0
+1433 67391 Oberwolfach/flowmeter5
+ 417 67830 FIDAP/ex20
+1234 69972 GHS_indef/dtoc
+1217 69984 GHS_indef/aug3d
+ 442 70842 Gaertner/nopoly
+2430 71192 AG-Monien/L-9
+2197 71760 JGD_SPG/EX3
+2198 71760 JGD_SPG/EX4
+ 758 72250 Nasa/nasa2146
+1214 72356 Cannizzo/sts4098
+1242 73963 GHS_indef/ncvxqp1
+1556 74676 Schenk_IBMNA/c-37
+ 411 75628 FIDAP/ex13
+1215 76832 GHS_indef/aug2d
+ 425 77031 FIDAP/ex28
+1557 77689 Schenk_IBMNA/c-38
+1550 78571 Schenk_IBMNA/c-31
+ 410 79077 FIDAP/ex12
+ 443 79566 Gaertner/pesa
+1216 80000 GHS_indef/aug2dc
+2707 80645 VDOL/lowThrust_3
+1559 81501 Schenk_IBMNA/c-40
+ 528 82918 Gset/G63
+ 529 82918 Gset/G64
+1192 83443 Rajat/rajat08
+  35 83883 HB/bcsstk13
+2433 84076 AG-Monien/biplane-9
+ 444 84723 Garon/garon1
+1563 85000 Schenk_IBMNA/c-44
+ 887 85264 Norris/fv1
+ 888 87025 Norris/fv2
+ 889 87025 Norris/fv3
+1916 87025 TKK/t2d_q4
+1917 87025 TKK/t2d_q9
+2520 87716 DIMACS10/cs4
+1249 87760 GHS_indef/tuma1
+2413 89858 AG-Monien/big_dual
+ 441 91465 Gaertner/big
+2693 92703 VDOL/hangGlider_3
+2432 92828 AG-Monien/stufe-10
+1380 94026 Andrianov/fxm3_6
+1303 95977 GHS_indef/linverse
+2521 96464 DIMACS10/cti
+2390 96872 Newman/as-22july06
+1183 97193 IBM_Austin/coupled
+2469 98244 DIMACS10/delaunay_n14
+2440 98300 AG-Monien/se
+2527 98304 DIMACS10/fe_sphere
+ 440 99471 FIDAP/ex9
+1437 99982 Oberwolfach/LF10000
+1441 100015 Oberwolfach/piston
+1262 101576 GHS_psdef/ford1
+ 763 103599 Nasa/shuttle_eddy
+ 881 103599 Pothen/shuttle_eddy
+ 365 104756 Boeing/nasa4704
+ 760 104756 Nasa/nasa4704
+1193 105573 Rajat/rajat09
+ 867 107362 Pothen/barth5
+2643 107736 DIMACS10/vsp_p0291_seymourl_iiasa
+1561 110285 Schenk_IBMNA/c-42
+2638 111732 DIMACS10/vsp_data_and_seymourl
+2569 113343 Bodendiek/CurlCurl_0
+1426 114962 GHS_indef/cvxqp3
+2589 116056 DIMACS10/de2010
+1558 116587 Schenk_IBMNA/c-39
+ 868 121550 Pothen/bodyy4
+2636 124368 DIMACS10/vsp_c-30_data_data
+ 791 125567 Okunbor/aft01
+ 792 127762 Okunbor/aft02
+ 869 128853 Pothen/bodyy5
+1194 130303 Rajat/rajat10
+1565 130397 Schenk_IBMNA/c-46
+ 969 130500 Schenk_ISEI/igbt3
+ 870 134208 Pothen/bodyy6
+2767 134710 Mycielski/mycielskian11
+1443 139233 Oberwolfach/rail_20209
+2437 139264 AG-Monien/cca
+1247 140034 GHS_indef/stokes64
+1248 140034 GHS_indef/stokes64s
+2537 141478 IPSO/OPF_3754
+ 378 142190 Cote/mplate
+2434 142580 AG-Monien/shock-9
+2438 147456 AG-Monien/ccc
+2694 149532 VDOL/hangGlider_4
+1272 149658 GHS_psdef/pds10
+1295 150009 GHS_indef/bloweya
+ 911 150645 vanHeukelum/cage10
+2533 150976 DIMACS10/wing_nodal
+2695 155246 VDOL/hangGlider_5
+2627 155598 DIMACS10/vt2010
+  46 159910 HB/bcsstk24
+2708 160947 VDOL/lowThrust_4
+1567 166080 Schenk_IBMNA/c-48
+1365 171903 PARSEC/SiH4
+ 364 174296 Boeing/nasa2910
+ 759 174296 Nasa/nasa2910
+1564 174452 Schenk_IBMNA/c-45
+1204 176117 Oberwolfach/t2dah_a
+1205 176117 Oberwolfach/t2dah_e
+1447 176117 Oberwolfach/t2dah
+ 832 177168 Wang/wang3
+ 833 177196 Wang/wang4
+2530 178880 DIMACS10/t60k
+2634 196448 DIMACS10/vsp_befref_fxm_2_4_air02
+2470 196548 DIMACS10/delaunay_n15
+2435 196608 AG-Monien/bfly
+2709 198369 VDOL/lowThrust_5
+1366 198787 PARSEC/SiNa
+1312 199200 GHS_psdef/jnlbrng1
+1854 201201 Watson/chem_master1
+2632 203610 DIMACS10/vsp_barth5_1Ksep_50in_5Kout
+1611 207123 Cylshell/s3rmt3m3
+2710 207349 VDOL/lowThrust_6
+1907 207695 TKK/g3rmt3m3
+1255 211064 GHS_psdef/copter1
+1566 211401 Schenk_IBMNA/c-47
+2711 211561 VDOL/lowThrust_7
+2712 216445 VDOL/lowThrust_8
+1608 217651 Cylshell/s1rmt3m1
+1610 217669 Cylshell/s3rmt3m1
+1609 217681 Cylshell/s2rmt3m1
+2269 218484 Puri/ABACUS_shell_ud
+2270 218484 Puri/ABACUS_shell_ld
+2271 218484 Puri/ABACUS_shell_md
+2272 218484 Puri/ABACUS_shell_hd
+  50 219024 HB/bcsstk28
+2713 219589 VDOL/lowThrust_9
+2714 222005 VDOL/lowThrust_10
+2715 223801 VDOL/lowThrust_11
+2716 224593 VDOL/lowThrust_12
+2717 224897 VDOL/lowThrust_13
+1309 229947 GHS_indef/spmsrtls
+2611 234550 DIMACS10/nh2010
+ 970 237130 Schenk_ISEI/nmos3
+ 808 237798 Rothberg/struct4
+2829 238627 TAMU_SmartGridCenter/ACTIVSg70K
+2515 239332 DIMACS10/luxembourg_osm
+1348 242669 PARSEC/benzene
+2532 243088 DIMACS10/wing
+1847 253009 UTEP/Dubcova1
+ 886 253350 Pothen/tandem_vtx
+1293 255004 GHS_indef/a5esindl
+1605 262411 Cylshell/s1rmq4m1
+1607 262943 Cylshell/s3rmq4m1
+1606 263351 Cylshell/s2rmq4m1
+2538 274697 IPSO/OPF_6000
+1428 281150 Oberwolfach/chipcool0
+1429 281150 Oberwolfach/chipcool1
+2644 281662 DIMACS10/vsp_sctap1-2b_and_seymourl
+1908 286341 TKK/t520
+ 814 293409 Simon/raefsky1
+ 815 293551 Simon/raefsky2
+2199 295680 JGD_SPG/EX5
+2200 295680 JGD_SPG/EX6
+1261 298496 GHS_psdef/finance256
+1302 299998 GHS_indef/dixmaanl
+ 379 301700 Cote/vibrobox
+ 933 303468 FEMLAB/waveguide3D
+1358 305630 PARSEC/Na5
+1577 310016 Schenk_IBMNA/c-61
+ 350 315891 Boeing/crystk01
+2332 323900 Gleich/usroads-48
+2261 327680 MaxPlanck/shallow_water1
+2262 327680 MaxPlanck/shallow_water2
+2602 335476 DIMACS10/me2010
+2588 336352 DIMACS10/ct2010
+1330 340200 MathWorks/Kuu
+1292 347222 GHS_indef/a2nnsnsl
+ 927 352762 FEMLAB/poisson3Da
+1291 355034 GHS_indef/a0nsdsil
+ 343 355460 Boeing/bcsstk38
+ 445 373235 Garon/garon2
+ 541 375558 Hamm/bcircuit
+ 842 378927 Cunningham/k3plates
+2645 379828 DIMACS10/vsp_south31_slptsk
+2641 379952 DIMACS10/vsp_model1_crew1_cr42_south31
+2471 393150 DIMACS10/delaunay_n16
+ 766 394808 Nemeth/nemeth02
+ 767 394808 Nemeth/nemeth03
+ 768 394808 Nemeth/nemeth04
+ 769 394808 Nemeth/nemeth05
+ 770 394808 Nemeth/nemeth06
+ 771 394812 Nemeth/nemeth07
+ 772 394816 Nemeth/nemeth08
+ 773 395506 Nemeth/nemeth09
+ 774 401448 Nemeth/nemeth10
+1220 403450 GHS_indef/c-55
+1873 406084 Dehghani/light_in_tissue
+2768 407200 Mycielski/mycielskian12
+ 775 408264 Nemeth/nemeth11
+2622 410722 DIMACS10/sd2010
+2614 416998 DIMACS10/nv2010
+ 879 419201 Pothen/onera_dual
+1306 424966 GHS_indef/ncvxqp5
+2536 426898 IPSO/OPF_10000
+2631 427586 DIMACS10/wy2010
+1237 428444 GHS_indef/helm3d01
+1851 430740 Botonakis/FEM_3D_thermal1
+1224 434704 GHS_indef/c-63
+1300 438795 GHS_indef/cont-201
+2811 439469 Guettel/TEM27623
+1316 443573 Rajat/rajat15
+ 776 446818 Nemeth/nemeth12
+ 435 456188 FIDAP/ex40
+ 885 460493 Pothen/tandem_dual
+ 326 463360 Bai/qc2534
+1288 471601 GHS_psdef/wathen100
+ 777 474472 Nemeth/nemeth13
+1222 480536 GHS_indef/c-59
+ 778 496144 Nemeth/nemeth14
+1381 497844 Andrianov/fxm4_6
+1305 499964 GHS_indef/ncvxqp3
+1210 509866 Oberwolfach/t3dl_a
+1451 509866 Oberwolfach/t3dl
+1311 512084 GHS_psdef/gridgena
+ 779 539802 Nemeth/nemeth15
+1422 542184 GHS_psdef/apache1
+1263 544688 GHS_psdef/ford2
+1445 553921 Oberwolfach/rail_79841
+2212 554435 JGD_Trefethen/Trefethen_20000b
+2213 554466 JGD_Trefethen/Trefethen_20000
+1246 558594 GHS_indef/stokes128
+ 912 559722 vanHeukelum/cage11
+1289 565761 GHS_psdef/wathen120
+2625 572066 DIMACS10/ut2010
+1307 574962 GHS_indef/ncvxqp7
+ 780 587012 Nemeth/nemeth16
+  55 591904 HB/bcsstk33
+ 752 596992 Mulvey/finan512
+ 753 596992 Mulvey/pfinan512
+2635 601602 DIMACS10/vsp_bump2_e18_aa01_model1_crew1
+2609 625946 DIMACS10/nd2010
+ 781 629620 Nemeth/nemeth17
+2607 638668 DIMACS10/mt2010
+1294 640033 GHS_indef/blockqp1
+1227 658986 GHS_indef/c-70
+2630 662922 DIMACS10/wv2010
+1912 676515 TKK/cbuckle
+1379 678998 Andrianov/ex3sta1
+ 891 680341 Norris/heart2
+ 892 680341 Norris/heart3
+ 782 695234 Nemeth/nemeth18
+2601 700378 DIMACS10/md2010
+1587 707601 Schenk_IBMNA/c-64b
+ 950 707985 Schenk_IBMNA/c-64
+2257 711558 Botonakis/thermomech_TC
+2258 711558 Botonakis/thermomech_TK
+1913 714241 TKK/cyl6
+1184 715804 ACUSIM/Pres_Poisson
+ 765 725054 Nemeth/nemeth01
+1394 725144 Andrianov/pf2177
+1412 726674 AMD/G2_circuit
+2594 728264 DIMACS10/id2010
+2426 733118 AG-Monien/brack2
+1363 738598 PARSEC/Si5H12
+1244 744216 GHS_indef/olesnik0
+1230 759952 GHS_indef/copter2
+1256 759952 GHS_psdef/copter2
+ 924 760154 Andrews/Andrews
+1347 770811 Lourakis/bundle1
+2600 776610 DIMACS10/ma2010
+2472 786352 DIMACS10/delaunay_n17
+ 848 810000 Chen/pkustk02
+ 783 818302 Nemeth/nemeth19
+2525 819186 DIMACS10/fe_ocean
+2612 829912 DIMACS10/nj2010
+2613 830970 DIMACS10/nm2010
+2606 839980 DIMACS10/ms2010
+2646 871172 DIMACS10/vsp_vibrobox_scagr7-2c_rlfddd
+1359 875923 PARSEC/Si10H16
+2621 893160 DIMACS10/sc2010
+1914 897056 TKK/tube1
+1915 897056 TKK/tube2
+2584 904310 DIMACS10/ar2010
+2528 905182 DIMACS10/fe_tooth
+2610 913854 DIMACS10/ne2010
+1415 940621 Sandia/ASIC_100k
+2628 947432 DIMACS10/wa2010
+1259 960946 DNVS/crplat2
+ 351 968583 Boeing/crystk02
+ 366 968583 Boeing/pcrystk02
+ 784 971870 Nemeth/nemeth20
+2587 974574 DIMACS10/co2010
+ 847 979380 Chen/pkustk01
+2618 979512 DIMACS10/or2010
+2599 980634 DIMACS10/la2010
+1301 988195 GHS_indef/cont-300
+2575 999970 DIMACS10/preferentialAttachment
+2576 999996 DIMACS10/smallworld
+ 813 1015156 Simon/olafu
+1202 1021159 Oberwolfach/gyro_k
+1435 1021159 Oberwolfach/gyro
+2593 1021170 DIMACS10/ia2010
+1848 1030225 UTEP/Dubcova2
+ 409 1096948 FIDAP/ex11
+2639 1104040 DIMACS10/vsp_finan512_scagr7-2c_rlfddd
+2597 1121798 DIMACS10/ks2010
+ 342 1140977 Boeing/bcsstk37
+ 362 1142686 Boeing/msc23052
+ 341 1143140 Boeing/bcsstk36
+1892 1156224 Castrillon/denormal
+ 785 1173746 Nemeth/nemeth21
+2623 1193966 DIMACS10/tn2010
+2585 1196094 DIMACS10/az2010
+2629 1209404 DIMACS10/wi2010
+1296 1211231 GHS_indef/boyd1
+2604 1227102 DIMACS10/mn2010
+2769 1227742 Mycielski/mycielskian13
+ 361 1229776 Boeing/msc10848
+2583 1230482 DIMACS10/al2010
+2617 1274148 DIMACS10/ok2010
+ 953 1279274 Schenk_IBMNA/c-73
+1590 1279274 Schenk_IBMNA/c-73b
+2596 1281716 DIMACS10/in2010
+ 817 1316789 Simon/raefsky4
+1368 1317655 PARSEC/SiO
+2526 1324862 DIMACS10/fe_rotor
+ 786 1358832 Nemeth/nemeth22
+ 890 1385317 Norris/heart1
+2626 1402128 DIMACS10/va2010
+2608 1416620 DIMACS10/nc2010
+2591 1418056 DIMACS10/ga2010
+1900 1434636 CEMW/vfem
+ 340 1450163 Boeing/bcsstk35
+1452 1482390 Oberwolfach/windscreen
+2518 1483868 DIMACS10/598a
+ 816 1488768 Simon/raefsky3
+1297 1500397 GHS_indef/boyd2
+ 788 1506550 Nemeth/nemeth24
+ 787 1506810 Nemeth/nemeth23
+ 789 1511758 Nemeth/nemeth25
+ 790 1511760 Nemeth/nemeth26
+1308 1548988 GHS_indef/sparsine
+2473 1572792 DIMACS10/delaunay_n18
+2603 1578090 DIMACS10/mi2010
+ 855 1583640 Chen/pkustk09
+2461 1628268 DIMACS10/coAuthorsCiteseer
+1231 1641672 GHS_indef/d_pretok
+1383 1643420 Andrianov/lp1
+1919 1647264 Um/2cubes_sphere
+2605 1656568 DIMACS10/mo2010
+ 844 1660579 Cunningham/qa8fk
+ 845 1660579 Cunningham/qa8fm
+1251 1690876 GHS_indef/turon_m
+1434 1703365 Oberwolfach/gas_sensor
+ 821 1717763 Simon/venkat25
+ 822 1717777 Simon/venkat50
+ 820 1717792 Simon/venkat01
+1878 1731206 Lee/fem_filter
+ 352 1751178 Boeing/crystk03
+ 367 1751178 Boeing/pcrystk03
+1213 1766400 Lin/Lin
+2616 1768240 DIMACS10/oh2010
+ 804 1825580 Rothberg/cfd1
+2778 1851744 SNAP/com-Amazon
+ 811 1853104 Simon/appu
+2788 1900654 SNAP/loc-Gowalla
+1271 1930655 GHS_psdef/opt1
+1417 1931828 Sandia/ASIC_320k
+1284 1935324 DNVS/trdheim
+2462 1955352 DIMACS10/coAuthorsDBLP
+1643 1990919 POLYFLOW/mixtank_new
+  54 2014701 HB/bcsstk32
+ 913 2032536 vanHeukelum/cage12
+  52 2043492 HB/bcsstk30
+2619 2058462 DIMACS10/pa2010
+ 846 2060662 Boeing/bcsstk39
+2779 2099732 SNAP/com-DBLP
+2427 2118662 AG-Monien/wave
+ 964 2129496 Schenk_ISEI/barrier2-1
+ 965 2129496 Schenk_ISEI/barrier2-2
+ 966 2129496 Schenk_ISEI/barrier2-3
+ 967 2129496 Schenk_ISEI/barrier2-4
+2517 2148786 DIMACS10/144
+ 536 2164210 Gupta/gupta1
+2595 2164464 DIMACS10/il2010
+ 851 2205144 Chen/pkustk05
+1357 2216736 PARSEC/H2O
+1235 2269500 GHS_indef/exdata_1
+2460 2313294 DIMACS10/citationCiteseer
+1287 2329056 GHS_psdef/vanbody
+ 928 2374949 FEMLAB/poisson3Db
+ 853 2418804 Chen/pkustk07
+2642 2442056 DIMACS10/vsp_msc10848_300sep_100in_1Kout
+1286 2454957 DNVS/tsyl201
+2570 2472071 Bodendiek/CurlCurl_1
+ 852 2571768 Chen/pkustk06
+ 356 2600295 Boeing/ct20stif
+ 761 2677324 Nasa/nasasrb
+ 368 2698463 Boeing/pct20stif
+1431 2707179 Oberwolfach/filter3D
+1236 2741935 GHS_indef/helm2d03
+1382 2751484 Andrianov/ins2
+2260 2846228 Botonakis/thermomech_dK
+1274 2866352 GHS_psdef/ramage02
+ 973 2930882 Schenk_ISEI/para-4
+1282 2962152 GHS_psdef/srb1
+ 805 3085406 Rothberg/cfd2
+2510 3099940 DIMACS10/belgium_osm
+ 849 3130416 Chen/pkustk03
+2474 3145646 DIMACS10/delaunay_n19
+ 803 3213618 Rothberg/3dtube
+ 854 3226671 Chen/pkustk08
+ 936 3279690 ND/nd3k
+2529 3358036 DIMACS10/m14b
+1354 3381809 PARSEC/GaAsH6
+1852 3489300 Botonakis/FEM_3D_thermal2
+2830 3599932 Embree/ifiss_mat
+1849 3636643 UTEP/Dubcova3
+1853 3674625 Wissgott/parabolic_fem
+1276 3686223 GHS_psdef/s3dkt3m2
+2770 3695512 Mycielski/mycielskian14
+1909 3749582 TKK/smt
+1906 3753461 TKK/s4dkt3m2
+1278 3777036 DNVS/ship_003
+1277 3896496 DNVS/ship_001
+2439 4194298 AG-Monien/debr
+ 850 4218660 Chen/pkustk04
+2283 4242673 Um/offshore
+ 537 4248286 Gupta/gupta2
+ 856 4308984 Chen/pkustk10
+2373 4344765 Williams/pdb1HYS
+1208 4352105 Oberwolfach/t3dh_a
+1209 4352105 Oberwolfach/t3dh_e
+1450 4352105 Oberwolfach/t3dh
+1275 4427725 GHS_psdef/s3dkq4m2
+1283 4444880 DNVS/thread
+2624 4456272 DIMACS10/tx2010
+1898 4584801 CEMW/tmt_unsym
+1910 4706073 TKK/engine
+1423 4817870 GHS_psdef/apache2
+2516 4882476 DIMACS10/netherlands_osm
+1883 4995991 McRae/ecology2
+1882 4996000 McRae/ecology1
+1899 5080961 CEMW/tmt_sym
+1361 5156379 PARSEC/Si34H36
+1893 5240084 QLi/largebasis
+1861 5294285 Koutsovasilis/F2
+1454 5516602 Oberwolfach/boneS01
+1352 5970947 PARSEC/Ga3As3H12
+2783 5975248 SNAP/com-Youtube
+1350 6115633 PARSEC/Ga10As10H30
+2580 6229636 DIMACS10/NACA0015
+2475 6291372 DIMACS10/delaunay_n20
+2812 6459326 Guettel/TEM152078
+ 859 6616827 Chen/pkustk13
+2519 6629222 DIMACS10/auto
+ 971 6869939 Schenk_ISEI/ohne2
+ 937 6897316 ND/nd6k
+ 914 7479343 vanHeukelum/cage13
+ 858 7512317 Chen/pkustk12
+1421 7660826 AMD/G3_circuit
+1349 7666057 PARSEC/CO
+2813 7839010 Guettel/TEM181302
+1355 7892195 PARSEC/Ge87H76
+1356 8451395 PARSEC/Ge99H100
+1290 8713602 DNVS/x104
+2265 8814880 Bourchtein/atmosmodd
+2266 8814880 Bourchtein/atmosmodj
+1351 8884839 PARSEC/Ga19As19H42
+2571 8921789 Bodendiek/CurlCurl_2
+ 538 9323427 Gupta/gupta3
+1393 9323432 Andrianov/pattern1
+1269 9753570 DNVS/m_t1
+2267 10319760 Bourchtein/atmosmodl
+2268 10319760 Bourchtein/atmosmodm
+1385 10352819 Andrianov/mip1
+1257 10614210 GHS_psdef/crankseg_1
+1254 10641602 GHS_psdef/bmwcra_1
+1364 10661631 PARSEC/Si87H76
+2771 11111110 Mycielski/mycielskian15
+1367 11283503 PARSEC/SiO2
+1219 11288630 GHS_indef/bmw3_2
+1260 11294316 DNVS/fcondp2
+ 369 11524432 Boeing/pwtk
+1264 11708077 DNVS/fullb
+1285 11985111 DNVS/troll
+2831 12143314 Hardesty/Hardesty1
+1265 12387821 DNVS/halfb
+2476 12582816 DIMACS10/delaunay_n21
+1857 12935272 Sinclair/3Dspectralwave2
+2572 13544618 Bodendiek/CurlCurl_3
+2483 13758266 DIMACS10/hugetrace-00000
+2514 14027956 DIMACS10/italy_osm
+1258 14148858 GHS_psdef/crankseg_2
+ 938 14220946 ND/nd12k
+ 860 14836504 Chen/pkustk14
+1362 15011265 PARSEC/Si41Ge41H72
+2498 16108474 DIMACS10/venturiLevel3
+2513 16313034 DIMACS10/great-britain_osm
+2486 17467046 DIMACS10/hugetric-00000
+1580 17550675 Schenk_AFE/af_0_k101
+1581 17550675 Schenk_AFE/af_1_k101
+1582 17550675 Schenk_AFE/af_2_k101
+1583 17550675 Schenk_AFE/af_3_k101
+1584 17550675 Schenk_AFE/af_4_k101
+1585 17550675 Schenk_AFE/af_5_k101
+ 940 17562051 Schenk_AFE/af_shell1
+ 941 17562051 Schenk_AFE/af_shell2
+ 942 17562051 Schenk_AFE/af_shell3
+ 943 17562051 Schenk_AFE/af_shell4
+ 944 17579155 Schenk_AFE/af_shell5
+ 945 17579155 Schenk_AFE/af_shell6
+ 946 17579155 Schenk_AFE/af_shell7
+ 947 17579155 Schenk_AFE/af_shell8
+ 948 17588845 Schenk_AFE/af_shell9
+1353 18488476 PARSEC/Ga41As41H72
+2487 19771708 DIMACS10/hugetric-00010
+1398 20316253 Rajat/rajat31
+2579 21003872 DIMACS10/M6
+2488 21361554 DIMACS10/hugetric-00020
+2329 21758924 Dziekonski/gsm_106857
+2577 22217266 DIMACS10/333SP
+2578 22736152 DIMACS10/AS365
+2512 24738362 DIMACS10/germany_osm
+2581 24975952 DIMACS10/NLR
+2477 25165738 DIMACS10/delaunay_n22
+2385 25309272 Dziekonski/dielFilterV2clx
+2509 25423206 DIMACS10/asia_osm
+2573 26515867 Bodendiek/CurlCurl_4
+1411 26837113 Koutsovasilis/F1
+ 915 27130349 vanHeukelum/cage14
+2495 27248640 DIMACS10/adaptive
+1901 28192672 Schenk/nlpkkt80
+ 939 28715634 ND/nd24k
+1856 30290827 Sinclair/3Dspectralwave
+2464 30491458 DIMACS10/coPapersDBLP
+2463 32073440 DIMACS10/coPapersCiteseer
+2387 32886208 Dziekonski/dielFilterV3clx
+2772 33382480 Mycielski/mycielskian16
+2458 33866826 DIMACS10/road_central
+2484 36164358 DIMACS10/hugetrace-00010
+1267 36816170 GHS_psdef/inline_1
+1455 40878708 Oberwolfach/boneS10
+2485 47997626 DIMACS10/hugetrace-00020
+2386 48538952 Dziekonski/dielFilterV2real
+2478 50331568 DIMACS10/delaunay_n23
+1586 52259885 Schenk_AFE/af_shell10
+2480 54940162 DIMACS10/hugebubbles-00000
+2459 57708624 DIMACS10/road_usa
+2854 57708624 GAP/GAP-road
+2481 58359528 DIMACS10/hugebubbles-00010
+2482 63580358 DIMACS10/hugebubbles-00020
+2781 69362378 SNAP/com-LiveJournal
+1252 77651847 GHS_psdef/audikw_1
+2496 85362744 DIMACS10/channel-500x100x100-b050
+2388 89306020 Dziekonski/dielFilterV3real
+1902 95117792 Schenk/nlpkkt120
+ 916 99199551 vanHeukelum/cage15
+2773 100245742 Mycielski/mycielskian17
+2479 100663202 DIMACS10/delaunay_n24
+2511 108109320 DIMACS10/europe_osm
+2544 114165372 Janna/Flan_1565
+1903 225422112 Schenk/nlpkkt160
+2782 234370166 SNAP/com-Orkut
+2774 300933832 Mycielski/mycielskian18
+1904 440225632 Schenk/nlpkkt200
+1905 760648352 Schenk/nlpkkt240
+2775 903194710 Mycielski/mycielskian19
+2776 2710370560 Mycielski/mycielskian20
+2780 3612134270 SNAP/com-Friendster
+2856 4294966740 GAP/GAP-urand
+domats
+
+nmatrices =
+
+   956
+
+2758 2 Mycielski/mycielskian2
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M2'
+         A: [2x2 double]
+      name: 'Mycielski/mycielskian2'
+        id: 2758
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+{Check for missing argument or incorrect argument data type in call to function 'printf'.
+
+Error in domats (line 23)
+    printf ('nvals(A): %d\n', nnz (A)) ;
+} 
+domats
+
+nmatrices =
+
+   956
+
+2758 2 Mycielski/mycielskian2
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M2'
+         A: [2x2 double]
+      name: 'Mycielski/mycielskian2'
+        id: 2758
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 2
+Elapsed time is 0.009788 seconds.
+lambda: 2 iters: 1 0
+
+x =
+
+   -0.7071
+    0.7071
+
+2759 10 Mycielski/mycielskian3
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M3'
+         A: [5x5 double]
+      name: 'Mycielski/mycielskian3'
+        id: 2759
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 10
+Elapsed time is 0.051370 seconds.
+lambda: 1.38197 iters: 15 28
+
+x =
+
+   -0.6325
+   -0.1954
+    0.5117
+   -0.1954
+    0.5117
+
+ 904 19 vanHeukelum/cage3
+
+Prob = 
+
+  struct with fields:
+
+     title: 'DNA electrophoresis, 3 monomers in polymer. A. van Heukelum, Utrecht U.'
+         A: [5x5 double]
+      name: 'vanHeukelum/cage3'
+        id: 904
+      date: '2003'
+    author: 'A. van Heukelum'
+        ed: 'T. Davis'
+      kind: 'directed weighted graph'
+
+nvals(A): 14
+Elapsed time is 0.004301 seconds.
+lambda: 5 iters: 1 0
+
+x =
+
+   -0.8944
+    0.2236
+    0.2236
+    0.2236
+    0.2236
+
+2760 40 Mycielski/mycielskian4
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M4'
+         A: [11x11 double]
+      name: 'Mycielski/mycielskian4'
+        id: 2760
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 40
+Elapsed time is 0.007310 seconds.
+lambda: 2.22805 iters: 30 160
+
+x =
+
+   -0.1266
+    0.0975
+   -0.0343
+    0.0975
+   -0.0343
+    0.2502
+   -0.2090
+    0.0839
+   -0.2090
+    0.0839
+    0.0000
+
+ 905 49 vanHeukelum/cage4
+
+Prob = 
+
+  struct with fields:
+
+     title: 'DNA electrophoresis, 4 monomers in polymer. A. van Heukelum, Utrecht U.'
+         A: [9x9 double]
+      name: 'vanHeukelum/cage4'
+        id: 905
+      date: '2003'
+    author: 'A. van Heukelum'
+        ed: 'T. Davis'
+      kind: 'directed weighted graph'
+
+nvals(A): 40
+Elapsed time is 0.009353 seconds.
+lambda: 3.00062 iters: 30 133
+
+x =
+
+   -0.1182
+   -0.1110
+   -0.1038
+   -0.1110
+    0.0535
+    0.0575
+    0.0575
+    0.0535
+    0.2221
+
+1438 82 Oberwolfach/LF10
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Oberwolfach/LF10'
+     title: 'Oberwolfach: linear 1D beam'
+         A: [18x18 double]
+        id: 1438
+     notes: 'Primary matrix in this model reduction problem is the Oberwolfach K matrix'
+       aux: [1x1 struct]
+      date: '2004'
+    author: 'J. Lienemann, A. Greiner, J. Korvink'
+        ed: 'E. Rudnyi'
+      kind: 'model reduction problem'
+
+nvals(A): 64
+Elapsed time is 0.009093 seconds.
+lambda: 0.237876 iters: 9 72
+
+x =
+
+   -0.3505
+   -0.3088
+   -0.3088
+   -0.2513
+   -0.2513
+   -0.1638
+   -0.1638
+   -0.0568
+   -0.0568
+    0.0569
+    0.0569
+    0.1638
+    0.1638
+    0.2513
+    0.2513
+    0.3088
+    0.3088
+    0.3505
+
+1524 90 Pajek/Stranke94
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/Stranke94'
+     title: 'Pajek network: Slovene Parliamentary Parties 1994'
+         A: [10x10 double]
+        id: 1524
+      kind: 'undirected weighted graph'
+     notes: [22x78 char]
+       aux: [1x1 struct]
+      date: '1994'
+    author: 'V. Batagelj'
+        ed: 'V. Batagelj'
+
+nvals(A): 90
+Elapsed time is 0.002407 seconds.
+lambda: 10 iters: 1 0
+
+x =
+
+   -0.9487
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+    0.1054
+
+  13 131 HB/bcspwr01
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC STRUCTURE (STANDARD TEST POWER SYSTEM - NEW ENGLAND)'
+         A: [39x39 double]
+      name: 'HB/bcspwr01'
+        id: 13
+      date: '1981'
+    author: 'B. Dembart, J. Lewis'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'power network problem'
+
+nvals(A): 92
+Elapsed time is 0.010163 seconds.
+lambda: 0.0645766 iters: 18 510
+
+x =
+
+   -0.1032
+   -0.0415
+   -0.0064
+   -0.0001
+   -0.2429
+   -0.2354
+   -0.2429
+   -0.2346
+   -0.2029
+   -0.1628
+   -0.1892
+   -0.1570
+   -0.1147
+   -0.0169
+    0.0652
+    0.1431
+    0.0737
+    0.0229
+    0.2010
+    0.2320
+    0.1832
+    0.2115
+    0.2115
+    0.1832
+   -0.0095
+    0.0239
+    0.0504
+    0.0262
+    0.0268
+   -0.0444
+   -0.2517
+   -0.1740
+    0.2149
+    0.2480
+    0.2261
+    0.2261
+   -0.0101
+    0.0287
+   -0.1582
+
+2761 142 Mycielski/mycielskian5
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M5'
+         A: [23x23 double]
+      name: 'Mycielski/mycielskian5'
+        id: 2761
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 142
+Elapsed time is 0.028396 seconds.
+lambda: 3.42229 iters: 30 242
+
+x =
+
+   -0.0592
+    0.0467
+   -0.0176
+    0.0467
+   -0.0176
+    0.0016
+    0.0059
+    0.0039
+    0.0059
+    0.0039
+   -0.0030
+    0.0649
+   -0.0466
+    0.0234
+   -0.0466
+    0.0234
+    0.1518
+   -0.1414
+    0.0450
+   -0.1414
+    0.0450
+    0.0073
+   -0.0020
+
+2203 147 JGD_Trefethen/Trefethen_20b
+
+Prob = 
+
+  struct with fields:
+
+      name: 'JGD_Trefethen/Trefethen_20b'
+     title: 'Diagonal matrices with primes, Nick Trefethen, Oxford Univ.'
+         A: [19x19 double]
+        id: 2203
+      date: '2008'
+    author: 'N. Trefethen'
+        ed: 'J.-G. Dumas'
+      kind: 'combinatorial problem'
+     notes: [15x69 char]
+
+nvals(A): 128
+Elapsed time is 0.017958 seconds.
+lambda: 2.95 iters: 30 301
+
+x =
+
+   -0.1066
+   -0.0921
+   -0.0807
+   -0.1124
+   -0.0986
+   -0.0739
+   -0.0453
+   -0.0277
+   -0.0254
+    0.0007
+    0.0249
+    0.0298
+    0.0453
+    0.0756
+    0.0980
+    0.1138
+    0.0791
+    0.0920
+    0.1036
+
+2399 156 Newman/karate
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/karate'
+     title: 'Karate club, from Wayne Zachary, 1977'
+         A: [34x34 double]
+        id: 2399
+      date: '1977'
+    author: 'W. Zachary'
+      kind: 'undirected graph'
+     notes: [8x75 char]
+        ed: 'M. Newman'
+
+nvals(A): 156
+Elapsed time is 0.002460 seconds.
+lambda: 0.468525 iters: 15 208
+
+x =
+
+   -0.1121
+   -0.0413
+    0.0232
+   -0.0555
+   -0.2846
+   -0.3237
+   -0.3237
+   -0.0526
+    0.0516
+    0.0928
+   -0.2846
+   -0.2110
+   -0.1095
+   -0.0147
+    0.1628
+    0.1628
+   -0.4227
+   -0.1002
+    0.1628
+   -0.0136
+    0.1628
+   -0.1002
+    0.1628
+    0.1557
+    0.1530
+    0.1610
+    0.1871
+    0.1277
+    0.0952
+    0.1677
+    0.0735
+    0.0988
+    0.1303
+    0.1189
+
+2204 158 JGD_Trefethen/Trefethen_20
+
+Prob = 
+
+  struct with fields:
+
+      name: 'JGD_Trefethen/Trefethen_20'
+     title: 'Diagonal matrices with primes, Nick Trefethen, Oxford Univ.'
+         A: [20x20 double]
+        id: 2204
+      date: '2008'
+    author: 'N. Trefethen'
+        ed: 'J.-G. Dumas'
+      kind: 'combinatorial problem'
+     notes: [15x69 char]
+
+nvals(A): 138
+Elapsed time is 0.003693 seconds.
+lambda: 2.96465 iters: 30 292
+
+x =
+
+   -0.1426
+   -0.0769
+   -0.0866
+   -0.0349
+   -0.1063
+   -0.0568
+   -0.0647
+   -0.0122
+   -0.0554
+    0.0009
+   -0.0009
+    0.0554
+    0.0122
+    0.0648
+    0.0568
+    0.1063
+    0.0349
+    0.0866
+    0.0769
+    0.1426
+
+  97 160 HB/can_24
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [24x24 double]
+      name: 'HB/can_24'
+        id: 97
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 136
+Elapsed time is 0.001701 seconds.
+lambda: 0.665442 iters: 14 140
+
+x =
+
+   -0.0727
+    0.2089
+   -0.2685
+    0.0764
+    0.2685
+   -0.0764
+   -0.1984
+    0.1984
+    0.2895
+    0.1984
+   -0.0764
+   -0.2685
+   -0.2089
+    0.0764
+    0.2685
+    0.2089
+    0.2895
+    0.0727
+    0.0727
+   -0.0727
+   -0.2089
+   -0.1984
+   -0.2895
+   -0.2895
+
+  14 167 HB/bcspwr02
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC STRUCTURE OF A SMALL TEST POWER SYSTEM'
+         A: [49x49 double]
+      name: 'HB/bcspwr02'
+        id: 14
+      date: '1981'
+    author: 'B. Dembart, J. Lewis'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'power network problem'
+
+nvals(A): 118
+Elapsed time is 0.010026 seconds.
+lambda: 0.079753 iters: 23 697
+
+x =
+
+   -0.1196
+   -0.1100
+   -0.0822
+   -0.1196
+    0.0815
+    0.1277
+    0.0596
+   -0.0081
+    0.2104
+    0.2104
+    0.2104
+    0.1268
+    0.0098
+    0.1936
+    0.1167
+    0.0090
+    0.0268
+   -0.0859
+   -0.1209
+    0.0820
+   -0.1463
+   -0.1002
+   -0.1437
+   -0.1561
+   -0.1561
+   -0.1561
+    0.1088
+    0.0907
+    0.1182
+   -0.0875
+    0.0891
+    0.0658
+    0.1285
+    0.0653
+    0.1082
+    0.1172
+   -0.0423
+   -0.0980
+   -0.2208
+   -0.2399
+    0.2047
+    0.1817
+    0.2224
+    0.1974
+   -0.1601
+   -0.1970
+   -0.2141
+   -0.2141
+   -0.1841
+
+1177 169 HB/lap_25
+
+Prob = 
+
+  struct with fields:
+
+     title: 'FINITE ELEMENT PROBLEM. LAPLACIAN ON A  5 BY 5 GRID.'
+         A: [25x25 double]
+      name: 'HB/lap_25'
+        id: 1177
+      date: '1980'
+    author: 'I. Duff'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 144
+Elapsed time is 0.002390 seconds.
+lambda: 0.980138 iters: 22 172
+
+x =
+
+   -0.4147
+   -0.3056
+   -0.1733
+   -0.0561
+    0.0000
+   -0.3056
+   -0.2264
+   -0.1085
+    0.0000
+    0.0561
+   -0.1733
+   -0.1085
+    0.0000
+    0.1085
+    0.1733
+   -0.0561
+    0.0000
+    0.1085
+    0.2264
+    0.3056
+    0.0000
+    0.0561
+    0.1733
+    0.3056
+    0.4147
+
+ 103 218 HB/can_62
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [62x62 double]
+      name: 'HB/can_62'
+        id: 103
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 156
+Elapsed time is 0.005036 seconds.
+lambda: 0.0455264 iters: 10 396
+
+x =
+
+   -0.1829
+   -0.1712
+   -0.1745
+   -0.1616
+   -0.1601
+   -0.1428
+   -0.1244
+   -0.1359
+   -0.1344
+   -0.1658
+   -0.1732
+   -0.1549
+   -0.1565
+   -0.1280
+   -0.1418
+   -0.0814
+   -0.0272
+   -0.0534
+   -0.0936
+   -0.0889
+   -0.0369
+   -0.0188
+    0.0117
+    0.0500
+    0.0815
+    0.1093
+    0.1388
+    0.1692
+    0.1392
+    0.1026
+    0.0545
+    0.0086
+    0.0253
+    0.0409
+    0.1377
+    0.1354
+    0.0546
+   -0.0103
+   -0.0201
+   -0.0290
+   -0.0366
+    0.1205
+    0.1419
+    0.1814
+    0.2000
+    0.2096
+    0.1545
+    0.1716
+    0.1798
+    0.1798
+    0.1798
+    0.1615
+   -0.0285
+   -0.0425
+   -0.0445
+    0.1692
+   -0.0001
+   -0.0445
+   -0.1910
+   -0.2001
+    0.1321
+   -0.0852
+
+ 133 222 HB/dwt_72
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [72x72 double]
+      name: 'HB/dwt_72'
+        id: 133
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 150
+Elapsed time is 0.012195 seconds.
+lambda: 0.0214666 iters: 10 448
+
+x =
+
+   -0.2193
+   -0.2146
+   -0.2053
+   -0.1915
+   -0.1737
+   -0.1521
+   -0.1521
+   -0.1488
+   -0.1423
+   -0.1328
+   -0.1204
+   -0.1055
+   -0.1272
+   -0.0883
+   -0.1436
+   -0.1405
+   -0.1344
+   -0.1254
+   -0.1138
+   -0.0997
+   -0.0997
+   -0.0975
+   -0.0933
+   -0.0870
+   -0.0789
+   -0.0691
+   -0.0558
+   -0.0387
+   -0.0155
+   -0.0152
+   -0.0145
+   -0.0136
+   -0.0123
+   -0.0108
+   -0.0108
+   -0.0106
+   -0.0101
+   -0.0094
+   -0.0086
+   -0.0075
+    0.0359
+    0.0249
+    0.1181
+    0.1155
+    0.1105
+    0.1031
+    0.0935
+    0.0819
+    0.0819
+    0.0802
+    0.0767
+    0.0716
+    0.0649
+    0.0569
+    0.1145
+    0.0795
+    0.2084
+    0.2040
+    0.1951
+    0.1821
+    0.1652
+    0.1447
+    0.1447
+    0.1416
+    0.1354
+    0.1264
+    0.1146
+    0.1004
+    0.1512
+    0.1050
+    0.1546
+    0.1073
+
+ 906 233 vanHeukelum/cage5
+
+Prob = 
+
+  struct with fields:
+
+     title: 'DNA electrophoresis, 5 monomers in polymer. A. van Heukelum, Utrecht U.'
+         A: [37x37 double]
+      name: 'vanHeukelum/cage5'
+        id: 906
+      date: '2003'
+    author: 'A. van Heukelum'
+        ed: 'T. Davis'
+      kind: 'directed weighted graph'
+
+nvals(A): 196
+Elapsed time is 0.004134 seconds.
+lambda: 0.777141 iters: 30 350
+
+x =
+
+   -0.1135
+   -0.1138
+    0.3777
+    0.4442
+    0.3777
+    0.4435
+   -0.1140
+   -0.1138
+    0.4435
+    0.4442
+   -0.0570
+    0.1653
+    0.1644
+   -0.0579
+   -0.0579
+    0.1644
+    0.1653
+   -0.0570
+   -0.1758
+   -0.1854
+   -0.1758
+   -0.2024
+   -0.2024
+   -0.1854
+   -0.1159
+   -0.1198
+   -0.1198
+   -0.1159
+   -0.1810
+   -0.1849
+   -0.1849
+   -0.1810
+    0.0513
+   -0.0499
+    0.0513
+   -0.1138
+   -0.1138
+
+1519 248 Pajek/Sandi_authors
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/Sandi_authors'
+     title: 'Pajek network: Klavzar bibliography'
+         A: [86x86 double]
+        id: 1519
+      kind: 'undirected weighted graph'
+     notes: [7x78 char]
+       aux: [1x1 struct]
+      date: '1999'
+    author: 'I. Klavzar'
+        ed: 'V. Batagelj'
+
+nvals(A): 248
+Elapsed time is 0.042597 seconds.
+lambda: 0.0559656 iters: 30 1443
+
+x =
+
+   -1.6886
+   -1.5207
+    0.3159
+   -2.3596
+    5.0935
+   -0.3715
+   -0.4655
+   -0.5433
+   -1.7804
+    0.3346
+   -2.3596
+   -1.0639
+    0.2605
+    3.0236
+   -0.3715
+    1.0210
+   -1.9316
+   -1.6813
+    2.3062
+   -0.5023
+   -0.3715
+   -0.4388
+   -1.6806
+   -0.8287
+   -2.0462
+   -1.2429
+    1.7680
+    1.4453
+    5.5062
+    1.6691
+   -1.8927
+   -1.6813
+   -1.0044
+   -1.0639
+   -1.5940
+   -1.2208
+   -1.6886
+    1.8547
+    1.8547
+   -0.3510
+    1.7680
+   -1.2933
+   -1.9465
+   -0.6066
+   -0.0585
+   -2.3596
+    4.9827
+    1.7680
+    4.7039
+   -1.2890
+    3.2028
+    0.3346
+   -2.2273
+   -0.6068
+    0.8349
+   -0.5317
+    0.3346
+   -0.0674
+    0.2458
+    5.1982
+    3.2782
+    1.7680
+   -0.6000
+   -0.5544
+    2.6752
+   -1.7478
+    0.3346
+   -1.2933
+   -2.1471
+   -1.2890
+   -1.6886
+   -2.1471
+   -0.9400
+    1.7509
+    0.3346
+   -1.6813
+   -1.2168
+   -0.5868
+   -2.1471
+   -0.1496
+   -0.5668
+    1.8546
+    1.9364
+    2.1772
+   -1.2933
+   -1.1560
+
+1490 250 Pajek/GD96_c
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/GD96_c'
+     title: 'Pajek network: Graph Drawing contest 1996'
+         A: [65x65 double]
+        id: 1490
+      kind: 'undirected graph'
+     notes: [7x78 char]
+       aux: [1x1 struct]
+      date: '1996'
+    author: 'Graph Drawing Contest'
+        ed: 'V. Batagelj'
+
+nvals(A): 250
+Elapsed time is 0.002002 seconds.
+lambda: 0.0545295 iters: 6 133
+
+x =
+
+   -0.1249
+   -0.1385
+    0.1345
+   -0.1175
+    0.1080
+    0.1280
+    0.1362
+    0.1131
+    0.0897
+   -0.1408
+   -0.1347
+   -0.1188
+    0.1292
+   -0.1211
+    0.1144
+    0.1241
+    0.1322
+    0.1184
+   -0.1346
+    0.1312
+    0.1340
+   -0.1266
+    0.1238
+    0.1391
+   -0.1376
+   -0.1216
+    0.0861
+   -0.1056
+    0.1390
+   -0.1312
+    0.1375
+   -0.0578
+   -0.0806
+    0.1188
+    0.0945
+   -0.1102
+    0.0977
+   -0.1347
+   -0.1331
+    0.1347
+    0.1360
+   -0.1284
+   -0.1261
+   -0.1118
+    0.1363
+   -0.1403
+    0.1385
+    0.0457
+   -0.1349
+   -0.1282
+    0.1382
+   -0.1309
+    0.0323
+    0.1395
+   -0.1387
+   -0.1370
+   -0.1239
+    0.1365
+    0.1304
+   -0.1243
+    0.1370
+   -0.1192
+   -0.1396
+   -0.1147
+    0.1331
+
+1498 252 Pajek/GD99_b
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/GD99_b'
+     title: 'Pajek network: Graph Drawing contest 1999'
+         A: [64x64 double]
+        id: 1498
+      kind: 'undirected multigraph'
+     notes: [5x78 char]
+       aux: [1x1 struct]
+      date: '1999'
+    author: 'Graph Drawing Contest'
+        ed: 'V. Batagelj'
+
+nvals(A): 250
+Elapsed time is 0.007650 seconds.
+lambda: 0.396125 iters: 29 447
+
+x =
+
+   -0.2348
+   -0.1768
+   -0.1883
+   -0.1303
+   -0.0723
+   -0.1303
+   -0.1625
+   -0.1045
+   -0.0465
+   -0.0838
+    0.0000
+    0.0580
+   -0.0258
+   -0.1045
+   -0.1625
+   -0.1045
+   -0.0465
+   -0.0579
+    0.0000
+    0.0580
+    0.0000
+   -0.0579
+    0.0258
+    0.0838
+    0.0465
+    0.1303
+    0.1882
+    0.1045
+    0.0000
+   -0.1045
+   -0.1883
+   -0.1303
+   -0.0723
+   -0.0580
+   -0.0258
+    0.0322
+    0.0000
+   -0.0322
+    0.0000
+    0.0580
+    0.0465
+    0.1045
+    0.1625
+    0.1045
+    0.0258
+   -0.0580
+   -0.0000
+    0.0580
+    0.0723
+    0.1045
+    0.1625
+    0.1303
+    0.0723
+    0.1303
+    0.1882
+    0.1768
+    0.2347
+    0.2927
+    0.2347
+    0.1303
+   -0.0000
+   -0.1303
+   -0.2348
+   -0.2928
+
+ 129 267 HB/dwt_59
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [59x59 double]
+      name: 'HB/dwt_59'
+        id: 129
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 208
+Elapsed time is 0.004877 seconds.
+lambda: 0.0666503 iters: 10 315
+
+x =
+
+   -0.2003
+   -0.1989
+   -0.1908
+    0.1935
+    0.2015
+    0.2028
+   -0.1988
+    0.2013
+   -0.1899
+   -0.1926
+   -0.1699
+    0.1725
+    0.1951
+    0.1922
+   -0.1150
+   -0.0629
+   -0.0266
+    0.0292
+    0.0654
+    0.1175
+   -0.0449
+    0.0474
+   -0.0263
+    0.0288
+    0.0631
+    0.1067
+   -0.1554
+   -0.1313
+    0.1324
+    0.1567
+   -0.1438
+    0.1447
+   -0.1125
+   -0.1047
+   -0.0607
+    0.0284
+    0.0649
+    0.1127
+   -0.1462
+   -0.1328
+    0.1333
+    0.1469
+   -0.1531
+   -0.1429
+   -0.1199
+   -0.1285
+   -0.0676
+   -0.0493
+   -0.0306
+    0.0285
+    0.0478
+    0.0664
+    0.1198
+    0.1284
+    0.1433
+    0.1535
+   -0.0328
+   -0.0659
+   -0.0298
+
+ 436 279 FIDAP/ex5
+
+Prob = 
+
+  struct with fields:
+
+     title: ' TEST MATRIX FROM FIDAP: EX5.MAT'
+         A: [27x27 double]
+      name: 'FIDAP/ex5'
+        id: 436
+      date: '1994'
+    author: 'A. Baggag, Y. Saad'
+        ed: 'A. Baggag, Y. Saad'
+      kind: 'computational fluid dynamics problem'
+
+nvals(A): 252
+Elapsed time is 0.001803 seconds.
+lambda: 0.953371 iters: 11 75
+
+x =
+
+   -0.2998
+   -0.2045
+   -0.1690
+   -0.0798
+    0.0000
+    0.0798
+    0.1690
+    0.2045
+    0.2998
+   -0.2998
+   -0.2045
+   -0.1690
+   -0.0798
+    0.0000
+    0.0798
+    0.1690
+    0.2045
+    0.2998
+   -0.2998
+   -0.2045
+   -0.1690
+   -0.0798
+    0.0000
+    0.0798
+    0.1690
+    0.2045
+    0.2998
+
+ 872 306 Pothen/mesh1e1
+
+Prob = 
+
+  struct with fields:
+
+         A: [48x48 double]
+     title: 'mesh1e1, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/mesh1e1'
+        id: 872
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 258
+Elapsed time is 0.006685 seconds.
+lambda: 0.613571 iters: 30 574
+
+x =
+
+   -0.0548
+   -0.1106
+    0.0158
+    0.1725
+    0.3480
+    0.3595
+    0.3232
+    0.1331
+   -0.2686
+   -0.0300
+    0.1702
+    0.1415
+   -0.1180
+   -0.3286
+   -0.4048
+   -0.3955
+   -0.3156
+   -0.3783
+   -0.2078
+   -0.3078
+    0.0777
+   -0.1447
+   -0.0808
+    0.1942
+    0.2696
+    0.2469
+    0.2637
+    0.0876
+    0.3075
+   -0.2249
+   -0.3277
+   -0.2324
+   -0.0768
+   -0.0050
+    0.1106
+    0.1830
+    0.1189
+    0.2679
+    0.2793
+   -0.3332
+    0.3287
+   -0.2153
+   -0.1830
+    0.2983
+   -0.0736
+   -0.0243
+    0.2788
+   -0.1342
+
+ 873 306 Pothen/mesh1em1
+
+Prob = 
+
+  struct with fields:
+
+         A: [48x48 double]
+     title: 'mesh1em1, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/mesh1em1'
+        id: 873
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 258
+Elapsed time is 0.006810 seconds.
+lambda: 0.613571 iters: 30 574
+
+x =
+
+   -0.0548
+   -0.1106
+    0.0158
+    0.1725
+    0.3480
+    0.3595
+    0.3232
+    0.1331
+   -0.2686
+   -0.0300
+    0.1702
+    0.1415
+   -0.1180
+   -0.3286
+   -0.4048
+   -0.3955
+   -0.3156
+   -0.3783
+   -0.2078
+   -0.3078
+    0.0777
+   -0.1447
+   -0.0808
+    0.1942
+    0.2696
+    0.2469
+    0.2637
+    0.0876
+    0.3075
+   -0.2249
+   -0.3277
+   -0.2324
+   -0.0768
+   -0.0050
+    0.1106
+    0.1830
+    0.1189
+    0.2679
+    0.2793
+   -0.3332
+    0.3287
+   -0.2153
+   -0.1830
+    0.2983
+   -0.0736
+   -0.0243
+    0.2788
+   -0.1342
+
+ 874 306 Pothen/mesh1em6
+
+Prob = 
+
+  struct with fields:
+
+         A: [48x48 double]
+     title: 'mesh1em6, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/mesh1em6'
+        id: 874
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 258
+Elapsed time is 0.007637 seconds.
+lambda: 0.613571 iters: 30 574
+
+x =
+
+   -0.0548
+   -0.1106
+    0.0158
+    0.1725
+    0.3480
+    0.3595
+    0.3232
+    0.1331
+   -0.2686
+   -0.0300
+    0.1702
+    0.1415
+   -0.1180
+   -0.3286
+   -0.4048
+   -0.3955
+   -0.3156
+   -0.3783
+   -0.2078
+   -0.3078
+    0.0777
+   -0.1447
+   -0.0808
+    0.1942
+    0.2696
+    0.2469
+    0.2637
+    0.0876
+    0.3075
+   -0.2249
+   -0.3277
+   -0.2324
+   -0.0768
+   -0.0050
+    0.1106
+    0.1830
+    0.1189
+    0.2679
+    0.2793
+   -0.3332
+    0.3287
+   -0.2153
+   -0.1830
+    0.2983
+   -0.0736
+   -0.0243
+    0.2788
+   -0.1342
+
+2396 318 Newman/dolphins
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/dolphins'
+     title: 'social network of dolphins, Doubtful Sound, New Zealand'
+         A: [62x62 double]
+        id: 2396
+      date: '2003'
+    author: 'D. Lusseau'
+      kind: 'undirected graph'
+     notes: [19x75 char]
+       aux: [1x1 struct]
+        ed: 'M. Newman'
+
+nvals(A): 318
+Elapsed time is 0.002188 seconds.
+lambda: 0.172973 iters: 8 149
+
+x =
+
+   -0.0743
+    0.0997
+   -0.0876
+   -0.0832
+   -0.1193
+    0.2018
+    0.1868
+    0.0592
+   -0.0723
+    0.1952
+   -0.0781
+   -0.1193
+   -0.1124
+    0.1889
+   -0.0889
+   -0.0859
+   -0.0891
+    0.1769
+   -0.0924
+    0.0779
+   -0.0711
+   -0.0950
+    0.2139
+   -0.0759
+   -0.0946
+    0.1572
+    0.1370
+    0.1305
+   -0.0201
+   -0.0968
+   -0.0003
+    0.2139
+    0.2374
+   -0.0930
+   -0.0993
+   -0.1170
+   -0.0274
+   -0.0846
+   -0.0943
+    0.0810
+   -0.0619
+    0.1655
+   -0.0653
+   -0.1009
+   -0.0921
+   -0.0884
+   -0.1213
+   -0.0531
+    0.2120
+   -0.1207
+   -0.0871
+   -0.0987
+   -0.0893
+   -0.1098
+    0.1397
+   -0.1010
+    0.2127
+    0.1753
+   -0.1141
+   -0.0740
+    0.2871
+   -0.0998
+
+ 132 320 HB/dwt_66
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [66x66 double]
+      name: 'HB/dwt_66'
+        id: 132
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 254
+Elapsed time is 0.002765 seconds.
+lambda: 0.0114735 iters: 6 200
+
+x =
+
+   -0.1757
+   -0.1737
+   -0.1708
+   -0.1664
+   -0.1605
+   -0.1531
+   -0.1443
+   -0.1342
+   -0.1228
+   -0.1103
+   -0.1740
+   -0.1723
+   -0.1688
+   -0.1636
+   -0.1570
+   -0.1489
+   -0.1394
+   -0.1286
+   -0.1167
+   -0.1037
+    0.1753
+   -0.0968
+   -0.0825
+   -0.0673
+   -0.0516
+   -0.0353
+   -0.0185
+    0.0002
+    0.1704
+    0.1661
+    0.1602
+    0.1529
+    0.1441
+    0.1341
+    0.1228
+    0.1104
+    0.1736
+   -0.0898
+   -0.0750
+   -0.0595
+   -0.0435
+   -0.0273
+   -0.0114
+    0.0002
+    0.1684
+    0.1633
+    0.1567
+    0.1487
+    0.1393
+    0.1286
+    0.1167
+    0.1038
+    0.0970
+    0.0827
+    0.0676
+    0.0519
+    0.0357
+    0.0189
+    0.0899
+    0.0752
+    0.0598
+    0.0439
+    0.0276
+    0.0117
+    0.1733
+    0.1720
+
+1492 332 Pajek/GD97_a
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/GD97_a'
+     title: 'Pajek network: Graph Drawing contest 1997'
+         A: [84x84 double]
+        id: 1492
+      kind: 'directed graph'
+     notes: [5x78 char]
+       aux: [1x1 struct]
+      date: '1997'
+    author: 'Graph Drawing Contest'
+        ed: 'V. Batagelj'
+
+nvals(A): 332
+Elapsed time is 0.006859 seconds.
+lambda: 0.347032 iters: 22 416
+
+x =
+
+   -0.2173
+   -0.0297
+    0.0298
+    0.0298
+    0.1296
+    0.1056
+   -0.0822
+    0.0000
+   -0.0297
+    0.0298
+   -0.0755
+    0.0000
+    0.0298
+   -0.0297
+   -0.0582
+   -0.0897
+    0.0582
+    0.1479
+    0.1890
+    0.0000
+   -0.1622
+   -0.1479
+   -0.0582
+    0.1351
+    0.1621
+    0.0582
+    0.0000
+    0.1351
+    0.0755
+   -0.0822
+   -0.1622
+   -0.1296
+   -0.0897
+    0.0822
+    0.0457
+    0.0490
+   -0.0529
+   -0.2143
+   -0.1891
+    0.0000
+    0.0000
+   -0.0297
+   -0.0582
+    0.1577
+    0.2143
+    0.0490
+    0.2143
+   -0.0189
+   -0.1351
+   -0.1577
+    0.0189
+   -0.1577
+    0.0332
+   -0.0582
+   -0.1057
+    0.1890
+   -0.1351
+   -0.0458
+    0.0822
+   -0.0755
+    0.0755
+   -0.0189
+    0.1296
+    0.0457
+    0.0189
+    0.0332
+   -0.1057
+   -0.1296
+   -0.1891
+   -0.0331
+    0.0582
+    0.1577
+    0.1056
+   -0.0331
+    0.2173
+    0.0898
+    0.0898
+   -0.2143
+   -0.0458
+    0.0582
+    0.0528
+    0.1621
+   -0.0491
+   -0.0491
+
+1497 336 Pajek/GD98_c
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/GD98_c'
+     title: 'Pajek network: Graph Drawing contest 1998'
+         A: [112x112 double]
+        id: 1497
+      kind: 'undirected graph'
+     notes: [7x78 char]
+       aux: [1x1 struct]
+      date: '1998'
+    author: 'Graph Drawing Contest'
+        ed: 'V. Batagelj'
+
+nvals(A): 336
+Elapsed time is 0.123737 seconds.
+lambda: 0.496912 iters: 30 314
+
+x =
+
+   -0.3287
+   -0.0085
+   -0.1834
+    0.2792
+   -0.1403
+   -0.1529
+    0.1848
+    0.1773
+   -0.0093
+    0.4916
+   -0.0126
+    0.0226
+   -0.1970
+    0.1848
+   -0.1158
+    0.1773
+   -0.0031
+    0.1412
+   -0.0126
+   -0.1284
+    0.1964
+    0.0226
+    0.1605
+    0.1348
+   -0.3465
+   -0.1454
+   -0.0107
+    0.0158
+   -0.0126
+    0.1524
+   -0.1957
+   -0.3961
+   -0.0312
+    0.0226
+   -0.3604
+   -0.0002
+    0.0003
+    0.1605
+    0.0081
+    0.0226
+   -0.0031
+    0.1964
+   -0.0031
+    0.1773
+   -0.0002
+   -0.1525
+   -0.1834
+   -0.4927
+    0.0164
+   -0.2121
+   -0.1528
+   -0.1688
+   -0.4907
+    0.0274
+    0.1472
+   -0.0093
+   -0.0126
+   -0.0031
+   -0.0031
+    0.3696
+   -0.0107
+   -0.0166
+   -0.1690
+    0.1544
+   -0.0166
+    0.3696
+    0.0198
+   -0.1529
+    0.1964
+   -0.0093
+    0.3696
+    0.1472
+    0.3696
+    0.1544
+    0.0198
+   -0.1957
+   -0.1525
+    0.2924
+   -0.0085
+   -0.1970
+   -0.0093
+   -0.1690
+    0.1773
+   -0.1284
+   -0.2121
+    0.1480
+    0.1348
+    0.0158
+    0.1480
+   -0.0031
+   -0.2967
+   -0.0031
+    0.0081
+    0.1964
+   -0.1403
+   -0.0031
+   -0.1528
+    0.1524
+    0.0003
+   -0.0312
+   -0.1454
+    0.4916
+    0.1412
+   -0.2600
+   -0.3755
+    0.0164
+   -0.2595
+    0.0274
+    0.2924
+    0.2792
+   -0.0071
+   -0.0071
+
+2457 340 DIMACS10/chesapeake
+
+Prob = 
+
+  struct with fields:
+
+      name: 'DIMACS10/chesapeake'
+     title: 'DIMACS10 set: clustering/chesapeake'
+         A: [39x39 double]
+        id: 2457
+      date: '2011'
+    author: 'unknown'
+        ed: 'H. Meyerhenke'
+      kind: 'undirected graph'
+     notes: [147x72 char]
+
+nvals(A): 340
+Elapsed time is 0.003724 seconds.
+lambda: 1.63679 iters: 19 216
+
+x =
+
+   -0.1131
+    0.0083
+    0.1028
+   -0.1232
+   -0.3797
+   -0.1939
+   -0.0379
+    0.0192
+    0.0038
+    0.0123
+   -0.0088
+    0.0167
+   -0.0090
+    0.1112
+    0.1066
+    0.1095
+    0.0295
+    0.1042
+    0.0772
+    0.0785
+    0.0771
+    0.0462
+    0.0289
+    0.0785
+    0.1119
+    0.0942
+    0.0980
+    0.0987
+    0.1119
+    0.0778
+    0.0872
+    0.0807
+    0.0738
+   -0.6629
+   -0.0718
+    0.0589
+   -0.4109
+    0.0763
+    0.0312
+
+ 106 377 HB/can_73
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [73x73 double]
+      name: 'HB/can_73'
+        id: 106
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 304
+Elapsed time is 0.015810 seconds.
+lambda: 0.451164 iters: 23 330
+
+x =
+
+   -0.1871
+   -0.2062
+   -0.1323
+   -0.0855
+   -0.0000
+    0.0853
+    0.1322
+    0.2061
+    0.1870
+    0.2061
+    0.1322
+    0.0853
+   -0.0000
+   -0.0855
+   -0.1323
+   -0.2062
+   -0.2204
+   -0.1559
+   -0.0000
+    0.1558
+    0.2203
+    0.1558
+   -0.0000
+   -0.1559
+   -0.1701
+   -0.1543
+   -0.1701
+   -0.1091
+   -0.0704
+   -0.0000
+    0.0704
+    0.1091
+    0.1700
+    0.1543
+    0.1700
+    0.1091
+    0.0704
+   -0.0000
+   -0.0704
+   -0.1091
+   -0.1236
+   -0.1748
+   -0.1236
+    0.0000
+    0.1236
+    0.1748
+    0.1236
+    0.0000
+    0.0000
+    0.0376
+    0.0824
+    0.0908
+    0.1165
+    0.0908
+    0.0824
+    0.0376
+    0.0000
+   -0.0375
+   -0.0824
+   -0.0906
+   -0.1165
+   -0.0906
+   -0.0824
+   -0.0375
+    0.0001
+    0.0510
+    0.0721
+    0.0510
+    0.0001
+   -0.0509
+   -0.0720
+   -0.0509
+    0.0001
+
+1484 380 Pajek/GD06_theory
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Pajek/GD06_theory'
+     title: 'Pajek network: Graph Drawing contest 2006'
+         A: [101x101 double]
+        id: 1484
+      kind: 'undirected graph'
+     notes: [9x78 char]
+      date: '2006'
+    author: 'Graph Drawing Contest'
+        ed: 'V. Batagelj'
+
+nvals(A): 380
+Elapsed time is 0.000915 seconds.
+lambda: 1.10585 iters: 7 24
+
+x =
+
+   -0.2070
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+   -0.2057
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+    0.0514
+   -0.2057
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0514
+    0.0230
+   -0.0000
+
+ 337 396 Bai/tub100
+
+Prob = 
+
+  struct with fields:
+
+     title: 'TUBULAR REACTOR MODEL'
+         A: [100x100 double]
+      name: 'Bai/tub100'
+        id: 337
+      date: '1994'
+    author: 'K. Meerbergen, D. Roose'
+        ed: 'Z. Bai, D. Day, J. Demmel, J. Dongarra'
+      kind: 'computational fluid dynamics problem'
+
+nvals(A): 296
+Elapsed time is 0.005526 seconds.
+lambda: 0.00394656 iters: 6 250
+
+x =
+
+   -0.1415
+   -0.1415
+   -0.1409
+   -0.1409
+   -0.1398
+   -0.1398
+   -0.1382
+   -0.1382
+   -0.1359
+   -0.1359
+   -0.1332
+   -0.1332
+   -0.1299
+   -0.1299
+   -0.1261
+   -0.1261
+   -0.1218
+   -0.1218
+   -0.1170
+   -0.1170
+   -0.1118
+   -0.1118
+   -0.1061
+   -0.1061
+   -0.1000
+   -0.1000
+   -0.0935
+   -0.0935
+   -0.0866
+   -0.0866
+   -0.0794
+   -0.0794
+   -0.0719
+   -0.0719
+   -0.0641
+   -0.0641
+   -0.0561
+   -0.0561
+   -0.0478
+   -0.0478
+   -0.0393
+   -0.0393
+   -0.0307
+   -0.0307
+   -0.0220
+   -0.0220
+   -0.0132
+   -0.0132
+   -0.0043
+   -0.0043
+    0.0046
+    0.0046
+    0.0135
+    0.0135
+    0.0223
+    0.0223
+    0.0310
+    0.0310
+    0.0396
+    0.0396
+    0.0480
+    0.0480
+    0.0563
+    0.0563
+    0.0643
+    0.0643
+    0.0721
+    0.0721
+    0.0795
+    0.0795
+    0.0867
+    0.0867
+    0.0935
+    0.0935
+    0.1000
+    0.1000
+    0.1061
+    0.1061
+    0.1117
+    0.1117
+    0.1169
+    0.1169
+    0.1217
+    0.1217
+    0.1259
+    0.1259
+    0.1297
+    0.1297
+    0.1329
+    0.1329
+    0.1357
+    0.1357
+    0.1379
+    0.1379
+    0.1395
+    0.1395
+    0.1406
+    0.1406
+    0.1412
+    0.1412
+
+  23 400 HB/bcsstk01
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC STIFFNESS MATRIX SMALL GENERALIZED EIGENVALUE PROBLEM'
+         A: [48x48 double]
+      name: 'HB/bcsstk01'
+        id: 23
+      date: '1982'
+    author: 'J. Lewis'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 352
+Elapsed time is 0.004514 seconds.
+lambda: 1.35482 iters: 28 340
+
+x =
+
+   -0.1965
+    0.0994
+    0.1221
+    0.1964
+   -0.0995
+   -0.1221
+   -0.1591
+    0.0868
+    0.0868
+    0.1591
+   -0.0868
+   -0.0868
+   -0.1328
+    0.0847
+    0.0847
+    0.1328
+   -0.0846
+   -0.0846
+   -0.1457
+    0.0692
+    0.0788
+    0.1458
+   -0.0692
+   -0.0788
+   -0.2451
+    0.2506
+    0.2506
+    0.2450
+   -0.2507
+   -0.2507
+   -0.1965
+    0.1221
+    0.0994
+    0.1964
+   -0.1221
+   -0.0995
+   -0.1457
+    0.0788
+    0.0692
+    0.1458
+   -0.0788
+   -0.0692
+   -0.1320
+    0.1289
+    0.1289
+    0.1320
+   -0.1289
+   -0.1289
+
+ 883 450 Pothen/sphere2
+
+Prob = 
+
+  struct with fields:
+
+         A: [66x66 double]
+     title: 'sphere2, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/sphere2'
+        id: 883
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 384
+Elapsed time is 0.001355 seconds.
+lambda: 0.624646 iters: 14 129
+
+x =
+
+   -0.2529
+   -0.2134
+   -0.2134
+   -0.2134
+   -0.2134
+   -0.1628
+   -0.1628
+   -0.1628
+   -0.1628
+   -0.1416
+   -0.1416
+   -0.1416
+   -0.1416
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0826
+   -0.0571
+   -0.0571
+   -0.0571
+   -0.0571
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0000
+    0.0571
+    0.0571
+    0.0571
+    0.0571
+    0.0826
+    0.0826
+    0.0826
+    0.0826
+    0.0826
+    0.0826
+    0.0826
+    0.0826
+    0.1416
+    0.1416
+    0.1416
+    0.1416
+    0.1628
+    0.1628
+    0.1628
+    0.1628
+    0.2133
+    0.2133
+    0.2133
+    0.2133
+    0.2528
+
+2762 472 Mycielski/mycielskian6
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M6'
+         A: [47x47 double]
+      name: 'Mycielski/mycielskian6'
+        id: 2762
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 472
+Elapsed time is 0.004038 seconds.
+lambda: 4.69043 iters: 30 269
+
+x =
+
+   -0.0242
+    0.0182
+   -0.0070
+    0.0182
+   -0.0070
+   -0.0010
+    0.0072
+    0.0024
+    0.0072
+    0.0024
+   -0.0033
+    0.0054
+    0.0022
+    0.0044
+    0.0022
+    0.0044
+    0.0109
+   -0.0035
+    0.0057
+   -0.0035
+    0.0057
+    0.0040
+   -0.0027
+    0.0104
+   -0.0015
+    0.0061
+   -0.0015
+    0.0061
+    0.0167
+   -0.0102
+    0.0068
+   -0.0102
+    0.0068
+    0.0048
+    0.0350
+   -0.0272
+    0.0121
+   -0.0272
+    0.0121
+    0.0943
+   -0.1214
+    0.0270
+   -0.1214
+    0.0270
+    0.0052
+    0.0047
+   -0.0025
+
+  15 476 HB/bcspwr03
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC STRUCTURE OF 118 BUS IEEE STANDARD TEST CASE POWER NETWORK'
+         A: [118x118 double]
+      name: 'HB/bcspwr03'
+        id: 15
+      date: '1981'
+    author: 'B. Dembart, J. Lewis'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'power network problem'
+
+nvals(A): 358
+Elapsed time is 0.088489 seconds.
+lambda: 0.0271322 iters: 8 347
+
+x =
+
+   -0.1111
+   -0.1081
+   -0.1021
+   -0.0833
+   -0.0797
+   -0.0846
+   -0.0900
+   -0.0913
+   -0.0902
+   -0.0897
+   -0.0881
+   -0.0876
+   -0.0847
+   -0.0862
+   -0.1148
+   -0.1157
+   -0.1135
+   -0.1139
+   -0.1140
+   -0.1139
+   -0.1029
+   -0.1035
+   -0.1031
+   -0.1119
+   -0.1099
+   -0.1108
+   -0.0244
+   -0.0234
+    0.0505
+    0.0131
+    0.0128
+   -0.0237
+   -0.0242
+   -0.0242
+   -0.0239
+   -0.0242
+   -0.0489
+   -0.0416
+   -0.0615
+   -0.0550
+   -0.0197
+   -0.0191
+   -0.0096
+   -0.0216
+   -0.0228
+   -0.0231
+   -0.0222
+   -0.0236
+   -0.0230
+   -0.0233
+   -0.0229
+   -0.0234
+   -0.0198
+   -0.0091
+    0.0124
+   -0.0088
+   -0.0189
+   -0.0285
+    0.0017
+    0.0345
+    0.0451
+    0.0673
+    0.0782
+    0.0932
+    0.0546
+    0.1393
+    0.1384
+    0.1274
+    0.1363
+    0.1403
+    0.1442
+    0.1326
+    0.1364
+    0.1188
+    0.0229
+    0.1154
+    0.1306
+    0.1239
+    0.1112
+    0.1112
+    0.1366
+    0.1370
+    0.1671
+    0.1671
+    0.1630
+    0.1453
+    0.1488
+    0.1458
+    0.1502
+    0.1506
+    0.1589
+    0.1626
+    0.1325
+   -0.0839
+   -0.0805
+   -0.0898
+   -0.0850
+   -0.0750
+   -0.0576
+   -0.0432
+   -0.0710
+   -0.0696
+   -0.0705
+   -0.0810
+    0.0967
+    0.1337
+    0.1038
+    0.0869
+   -0.0935
+    0.0105
+   -0.0228
+   -0.0239
+   -0.0276
+   -0.0663
+   -0.0586
+   -0.0674
+   -0.0922
+   -0.1109
+
+2400 508 Newman/lesmis
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/lesmis'
+     title: 'co-appearences of characters in Les Miserables by Victor Hugo'
+         A: [77x77 double]
+        id: 2400
+      date: '1993'
+    author: 'D. Knuth'
+      kind: 'undirected weighted graph'
+     notes: [10x75 char]
+       aux: [1x1 struct]
+        ed: 'M. Newman'
+
+nvals(A): 508
+Elapsed time is 0.005834 seconds.
+lambda: 0.205 iters: 10 223
+
+x =
+
+   -0.2616
+   -0.3290
+   -0.1372
+   -0.1372
+   -0.3290
+   -0.3290
+   -0.3290
+   -0.3290
+   -0.3290
+   -0.3290
+    0.0194
+    0.0154
+    0.0323
+    0.0194
+    0.0194
+    0.0194
+    0.0493
+    0.0512
+    0.0512
+    0.0512
+    0.0512
+    0.0512
+    0.0512
+    0.0425
+    0.0393
+    0.0414
+    0.0389
+    0.0367
+    0.0306
+    0.0274
+    0.0440
+    0.0365
+    0.0194
+    0.0290
+    0.0239
+    0.0239
+    0.0239
+    0.0239
+    0.0239
+    0.0492
+    0.0521
+    0.0433
+    0.0444
+    0.0325
+    0.0256
+    0.0385
+    0.1117
+    0.0888
+    0.0478
+    0.0410
+    0.0448
+    0.0426
+    0.0512
+    0.0536
+    0.0442
+    0.0451
+    0.0480
+    0.0496
+    0.0455
+    0.0490
+    0.0493
+    0.0490
+    0.0486
+    0.0490
+    0.0466
+    0.0490
+    0.0493
+    0.0624
+    0.0392
+    0.0392
+    0.0390
+    0.0392
+    0.0325
+    0.0601
+    0.0601
+    0.0425
+    0.0494
+
+  11 523 HB/ash85
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN OF NORMAL MATRIX OF HOLLAND SURVEY. ASHKENAZI, 1974'
+         A: [85x85 double]
+      name: 'HB/ash85'
+        id: 11
+      date: '1974'
+    author: 'V. Askenazi'
+        ed: 'A. Curtis, I. Duff, J. Reid'
+      kind: 'least squares problem'
+
+nvals(A): 438
+Elapsed time is 0.008724 seconds.
+lambda: 0.108787 iters: 15 439
+
+x =
+
+   -0.0049
+    0.0521
+    0.0846
+    0.1072
+    0.1264
+   -0.0657
+   -0.0267
+    0.0214
+    0.0683
+    0.0853
+    0.1050
+    0.1229
+   -0.1115
+   -0.0692
+   -0.0383
+   -0.0009
+    0.0006
+    0.0384
+    0.0741
+    0.0945
+    0.1186
+    0.1268
+    0.1355
+    0.1384
+    0.1337
+    0.1232
+    0.0960
+    0.0654
+    0.0358
+    0.0002
+   -0.0316
+    0.1482
+    0.1510
+    0.1399
+    0.1348
+    0.1276
+    0.1101
+    0.1161
+    0.0754
+    0.0311
+    0.0506
+   -0.0042
+   -0.0304
+   -0.1475
+   -0.1092
+   -0.0946
+   -0.0729
+   -0.0629
+   -0.0557
+   -0.0335
+   -0.0544
+   -0.1440
+   -0.1845
+   -0.1721
+   -0.1955
+   -0.1861
+   -0.1198
+   -0.0918
+   -0.0804
+   -0.0683
+   -0.0754
+   -0.0771
+    0.1602
+    0.1519
+    0.1436
+    0.1321
+    0.1196
+    0.1165
+    0.1007
+    0.0648
+    0.0254
+   -0.0178
+   -0.0570
+   -0.0775
+   -0.0848
+   -0.0828
+   -0.0885
+   -0.0846
+   -0.0900
+   -0.1100
+   -0.1560
+   -0.1873
+   -0.1993
+   -0.2068
+   -0.2030
+
+ 136 541 HB/dwt_87
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [87x87 double]
+      name: 'HB/dwt_87'
+        id: 136
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 454
+Elapsed time is 0.005774 seconds.
+lambda: 0.0969179 iters: 11 327
+
+x =
+
+   -0.0996
+   -0.1070
+   -0.0802
+   -0.0878
+   -0.0495
+   -0.0618
+   -0.0284
+   -0.0289
+   -0.0020
+    0.0014
+    0.0268
+    0.0251
+    0.0518
+    0.0574
+    0.0966
+    0.0988
+    0.1341
+    0.1539
+    0.1459
+    0.1575
+   -0.0447
+   -0.0355
+   -0.0090
+   -0.1215
+   -0.1408
+   -0.1498
+   -0.1388
+   -0.1120
+   -0.1393
+   -0.1143
+   -0.1659
+   -0.1102
+   -0.1185
+   -0.0980
+   -0.1032
+   -0.0947
+    0.0082
+    0.1852
+   -0.1087
+    0.0110
+    0.2170
+   -0.1154
+    0.0120
+    0.2315
+   -0.1066
+    0.0120
+    0.2154
+   -0.0844
+    0.0132
+    0.1774
+   -0.1075
+    0.0106
+    0.2148
+   -0.0888
+    0.0064
+    0.1746
+   -0.0825
+    0.0133
+    0.2564
+   -0.1045
+   -0.0578
+   -0.0010
+    0.0557
+    0.1427
+   -0.0916
+   -0.0560
+   -0.0582
+   -0.0299
+   -0.0304
+   -0.0014
+   -0.0019
+    0.0265
+    0.0248
+    0.0583
+    0.0498
+    0.0952
+    0.0897
+    0.1305
+    0.1386
+    0.1475
+    0.1609
+   -0.0533
+   -0.0431
+   -0.0137
+   -0.1278
+   -0.1085
+   -0.1142
+
+ 102 557 HB/can_61
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [61x61 double]
+      name: 'HB/can_61'
+        id: 102
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 496
+Elapsed time is 0.002530 seconds.
+lambda: 0.363125 iters: 9 144
+
+x =
+
+   -0.1890
+   -0.1429
+   -0.1231
+   -0.1101
+   -0.0556
+    0.0048
+    0.0042
+    0.0584
+    0.1315
+    0.1159
+    0.1427
+    0.1978
+    0.1728
+   -0.1654
+   -0.1121
+   -0.1611
+   -0.0611
+    0.0700
+    0.1691
+   -0.1890
+   -0.1550
+   -0.1343
+   -0.1020
+   -0.1890
+   -0.1718
+   -0.1572
+   -0.1429
+   -0.1145
+   -0.1012
+   -0.1020
+   -0.1442
+   -0.1514
+   -0.1231
+   -0.0752
+   -0.1075
+   -0.0813
+   -0.0585
+   -0.0263
+    0.0030
+   -0.0192
+   -0.0414
+    0.0048
+    0.0333
+    0.0290
+    0.0505
+    0.0668
+    0.0879
+    0.1162
+    0.1162
+    0.0899
+    0.1315
+    0.1336
+    0.1525
+    0.1591
+    0.1620
+    0.1644
+    0.1820
+    0.1978
+    0.1797
+    0.1978
+    0.1820
+
+ 220 594 HB/nos4
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC MATRIX OF BEAM STRUCTURE, NOVEMBER 1982.'
+         A: [100x100 double]
+      name: 'HB/nos4'
+        id: 220
+      date: '1982'
+    author: 'H. Simon'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 494
+Elapsed time is 0.003797 seconds.
+lambda: 0.0715516 iters: 7 170
+
+x =
+
+   -0.1388
+   -0.1329
+   -0.1441
+   -0.1464
+   -0.1391
+   -0.1318
+   -0.1441
+   -0.1464
+   -0.1388
+   -0.1329
+   -0.1208
+   -0.1148
+   -0.1324
+   -0.1359
+   -0.1213
+   -0.1128
+   -0.1324
+   -0.1359
+   -0.1208
+   -0.1148
+   -0.0918
+   -0.0849
+   -0.1104
+   -0.1169
+   -0.0930
+   -0.0821
+   -0.1104
+   -0.1169
+   -0.0918
+   -0.0849
+   -0.0539
+   -0.0467
+   -0.0779
+   -0.0874
+   -0.0557
+   -0.0434
+   -0.0779
+   -0.0874
+   -0.0539
+   -0.0467
+   -0.0109
+   -0.0039
+   -0.0377
+   -0.0496
+   -0.0131
+   -0.0005
+   -0.0377
+   -0.0496
+   -0.0109
+   -0.0039
+    0.0333
+    0.0392
+    0.0060
+   -0.0070
+    0.0309
+    0.0425
+    0.0060
+   -0.0070
+    0.0333
+    0.0392
+    0.0742
+    0.0786
+    0.0492
+    0.0362
+    0.0718
+    0.0813
+    0.0492
+    0.0362
+    0.0742
+    0.0786
+    0.1079
+    0.1104
+    0.0876
+    0.0759
+    0.1057
+    0.1123
+    0.0876
+    0.0759
+    0.1079
+    0.1104
+    0.1314
+    0.1320
+    0.1176
+    0.1081
+    0.1296
+    0.1331
+    0.1176
+    0.1081
+    0.1314
+    0.1320
+    0.1485
+    0.1422
+    0.1379
+    0.1287
+    0.1430
+    0.1433
+    0.1379
+    0.1287
+    0.1485
+    0.1422
+
+ 108 768 HB/can_96
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [96x96 double]
+      name: 'HB/can_96'
+        id: 108
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 672
+Elapsed time is 0.007228 seconds.
+lambda: 0.404449 iters: 14 183
+
+x =
+
+   -0.1487
+   -0.1373
+   -0.1051
+   -0.0569
+   -0.0000
+    0.0569
+    0.1051
+    0.1373
+    0.1486
+    0.1373
+    0.1051
+    0.0569
+   -0.0000
+   -0.0569
+   -0.1051
+   -0.1373
+   -0.1434
+   -0.1325
+   -0.1014
+   -0.0549
+   -0.0000
+    0.0549
+    0.1014
+    0.1325
+    0.1434
+    0.1325
+    0.1014
+    0.0549
+   -0.0000
+   -0.0549
+   -0.1014
+   -0.1325
+   -0.1408
+   -0.1301
+   -0.0996
+   -0.0539
+   -0.0000
+    0.0539
+    0.0996
+    0.1301
+    0.1408
+    0.1301
+    0.0996
+    0.0539
+   -0.0000
+   -0.0539
+   -0.0996
+   -0.1301
+   -0.1408
+   -0.1301
+   -0.0996
+   -0.0539
+    0.0000
+    0.0539
+    0.0996
+    0.1301
+    0.1408
+    0.1301
+    0.0996
+    0.0539
+    0.0000
+   -0.0539
+   -0.0996
+   -0.1301
+   -0.1434
+   -0.1325
+   -0.1014
+   -0.0549
+    0.0000
+    0.0549
+    0.1014
+    0.1325
+    0.1434
+    0.1325
+    0.1014
+    0.0549
+    0.0000
+   -0.0549
+   -0.1014
+   -0.1325
+   -0.1486
+   -0.1373
+   -0.1051
+   -0.0569
+    0.0000
+    0.0569
+    0.1051
+    0.1373
+    0.1487
+    0.1373
+    0.1051
+    0.0569
+    0.0000
+   -0.0569
+   -0.1051
+   -0.1373
+
+ 907 785 vanHeukelum/cage6
+
+Prob = 
+
+  struct with fields:
+
+     title: 'DNA electrophoresis, 6 monomers in polymer. A. van Heukelum, Utrecht U.'
+         A: [93x93 double]
+      name: 'vanHeukelum/cage6'
+        id: 907
+      date: '2003'
+    author: 'A. van Heukelum'
+        ed: 'T. Davis'
+      kind: 'directed weighted graph'
+
+nvals(A): 692
+Elapsed time is 0.012019 seconds.
+lambda: 0.708956 iters: 30 508
+
+x =
+
+   -0.3513
+   -0.3512
+   -0.2174
+   -0.2174
+   -0.0836
+   -0.0835
+   -0.2174
+   -0.2174
+   -0.2173
+   -0.0834
+   -0.2174
+   -0.3511
+   -0.3512
+   -0.2173
+   -0.0835
+   -0.2174
+   -0.2250
+   -0.1649
+   -0.0569
+   -0.1171
+   -0.1168
+   -0.0566
+   -0.1646
+   -0.2247
+   -0.2247
+   -0.1646
+   -0.0566
+   -0.1168
+   -0.1171
+   -0.0569
+   -0.1649
+   -0.2250
+    0.1129
+    0.1086
+    0.1090
+    0.1233
+    0.1249
+    0.1106
+    0.1102
+    0.1146
+    0.1146
+    0.1102
+    0.1106
+    0.1249
+    0.1233
+    0.1090
+    0.1086
+    0.1129
+    0.0313
+    0.0666
+    0.0680
+    0.0327
+    0.0327
+    0.0680
+    0.0666
+    0.0313
+    0.1043
+    0.1102
+    0.1160
+    0.1102
+   -0.0790
+   -0.0304
+   -0.1276
+   -0.0790
+    0.1183
+    0.1265
+    0.1279
+    0.1197
+    0.1197
+    0.1279
+    0.1265
+    0.1183
+    0.1199
+    0.1195
+    0.1251
+    0.1300
+    0.1300
+    0.1251
+    0.1195
+    0.1199
+    0.1217
+    0.1257
+    0.1257
+    0.1217
+    0.0644
+    0.0805
+    0.0805
+    0.0644
+    0.1244
+    0.1295
+    0.1295
+    0.1244
+    0.1144
+
+ 298 796 Bai/bwm200
+
+Prob = 
+
+  struct with fields:
+
+     title: 'BRUSSELATOR WAVE MODEL IN TRANSPORT INTERACTION OF CHEMICAL SOLUTIONS'
+         A: [200x200 double]
+      name: 'Bai/bwm200'
+        id: 298
+      date: '1992'
+    author: 'Y. Saad'
+        ed: 'Z. Bai, D. Day, J. Demmel, J. Dongarra'
+      kind: 'chemical process simulation problem'
+
+nvals(A): 596
+Elapsed time is 0.295931 seconds.
+lambda: 0.000986933 iters: 30 1500
+
+x =
+
+ -101.3959
+ -101.2938
+ -101.0928
+ -100.7946
+ -100.3952
+  -99.8950
+  -99.2976
+  -98.6028
+  -97.8090
+  -96.9178
+  -95.9316
+  -94.8519
+  -93.6750
+  -92.4062
+  -91.0468
+  -89.5976
+  -88.0558
+  -86.4295
+  -84.7176
+  -82.9215
+  -81.0387
+  -79.0816
+  -77.0443
+  -74.9263
+  -72.7386
+  -70.4762
+  -68.1481
+  -65.7420
+  -63.2813
+  -60.7571
+  -58.1601
+  -55.5200
+  -52.8216
+  -50.0586
+  -47.2618
+  -44.4145
+  -41.5069
+  -38.5796
+  -35.6090
+  -32.5951
+  -29.5386
+  -26.4654
+  -23.3885
+  -20.3076
+  -17.2147
+  -14.1056
+  -10.9857
+   -7.8557
+   -4.7160
+   -1.5712
+    1.5716
+    4.7154
+    7.8556
+   10.9864
+   14.1054
+   17.2140
+   20.3086
+   23.3883
+   26.4647
+   29.5394
+   32.5945
+   35.6104
+   38.5765
+   41.5112
+   44.4113
+   47.2620
+   50.0611
+   52.8191
+   55.5201
+   58.1621
+   60.7556
+   63.2807
+   65.7435
+   68.1476
+   70.4753
+   72.7390
+   74.9274
+   77.0430
+   79.0816
+   81.0399
+   82.9208
+   84.7170
+   86.4301
+   88.0561
+   89.5972
+   91.0459
+   92.4077
+   93.6740
+   94.8519
+   95.9314
+   96.9187
+   97.8084
+   98.6022
+   99.2989
+   99.8945
+  100.3944
+  100.7956
+  101.0925
+  101.2933
+  101.3966
+ -101.3924
+ -101.2944
+ -101.0951
+ -100.7934
+ -100.3937
+  -99.8963
+  -99.2985
+  -98.6016
+  -97.8084
+  -96.9190
+  -95.9325
+  -94.8496
+  -93.6753
+  -92.4078
+  -91.0463
+  -89.5956
+  -88.0570
+  -86.4314
+  -84.7154
+  -82.9203
+  -81.0417
+  -79.0816
+  -77.0409
+  -74.9285
+  -72.7404
+  -70.4742
+  -68.1455
+  -65.7471
+  -63.2799
+  -60.7527
+  -58.1648
+  -55.5207
+  -52.8165
+  -50.0625
+  -47.2626
+  -44.4099
+  -41.5128
+  -38.5743
+  -35.6123
+  -32.5945
+  -29.5377
+  -26.4653
+  -23.3899
+  -20.3070
+  -17.2131
+  -14.1074
+  -10.9862
+   -7.8538
+   -4.7159
+   -1.5738
+    1.5734
+    4.7164
+    7.8540
+   10.9855
+   14.1076
+   17.2139
+   20.3061
+   23.3900
+   26.4660
+   29.5369
+   32.5952
+   35.6110
+   38.5774
+   41.5085
+   44.4131
+   47.2624
+   50.0600
+   52.8189
+   55.5206
+   58.1629
+   60.7542
+   63.2805
+   65.7456
+   68.1460
+   70.4750
+   72.7400
+   74.9274
+   77.0422
+   79.0816
+   81.0405
+   82.9210
+   84.7160
+   86.4308
+   88.0568
+   89.5959
+   91.0471
+   92.4062
+   93.6763
+   94.8496
+   95.9327
+   96.9182
+   97.8090
+   98.6022
+   99.2972
+   99.8968
+  100.3945
+  100.7924
+  101.0954
+  101.2948
+  101.3916
+
+2417 840 AG-Monien/grid1_dual
+
+Prob = 
+
+  struct with fields:
+
+      name: 'AG-Monien/grid1_dual'
+     title: '2D finite element problem'
+         A: [224x224 double]
+        id: 2417
+      date: '1998'
+    author: 'R. Diekmann, R. Preis'
+        ed: 'R. Diekmann, R. Preis'
+      kind: '2D/3D problem'
+     notes: [28x79 char]
+       aux: [1x1 struct]
+
+nvals(A): 840
+Elapsed time is 0.141667 seconds.
+lambda: 0.0456044 iters: 11 500
+
+x =
+
+   -0.0854
+   -0.0756
+   -0.0549
+   -0.0285
+   -0.0034
+    0.0133
+    0.0170
+    0.0066
+   -0.0150
+   -0.0417
+   -0.0661
+   -0.0819
+   -0.0839
+   -0.0736
+   -0.0518
+   -0.0237
+    0.0033
+    0.0214
+    0.0254
+    0.0141
+   -0.0092
+   -0.0378
+   -0.0636
+   -0.0803
+   -0.0811
+   -0.0700
+   -0.0459
+   -0.0137
+    0.0187
+    0.0400
+    0.0445
+    0.0315
+    0.0035
+   -0.0301
+   -0.0591
+   -0.0772
+   -0.0787
+   -0.0668
+   -0.0401
+   -0.0018
+    0.0428
+    0.0683
+    0.0731
+    0.0587
+    0.0207
+   -0.0219
+   -0.0548
+   -0.0746
+    0.0928
+    0.1038
+    0.1065
+    0.0986
+    0.1283
+    0.1309
+    0.1318
+    0.1293
+   -0.0821
+   -0.0815
+   -0.0849
+   -0.0663
+   -0.0655
+   -0.0749
+   -0.0420
+   -0.0407
+   -0.0538
+   -0.0153
+   -0.0134
+   -0.0269
+    0.0063
+    0.0089
+   -0.0012
+    0.0169
+    0.0197
+    0.0160
+    0.0134
+    0.0162
+    0.0198
+   -0.0032
+   -0.0009
+    0.0091
+   -0.0282
+   -0.0265
+   -0.0131
+   -0.0546
+   -0.0535
+   -0.0403
+   -0.0754
+   -0.0747
+   -0.0652
+   -0.0853
+   -0.0848
+   -0.0813
+   -0.0804
+   -0.0790
+   -0.0826
+   -0.0639
+   -0.0618
+   -0.0719
+   -0.0381
+   -0.0346
+   -0.0491
+   -0.0095
+   -0.0039
+   -0.0192
+    0.0139
+    0.0214
+    0.0100
+    0.0253
+    0.0336
+    0.0295
+    0.0216
+    0.0296
+    0.0337
+    0.0036
+    0.0103
+    0.0216
+   -0.0234
+   -0.0189
+   -0.0036
+   -0.0515
+   -0.0488
+   -0.0343
+   -0.0734
+   -0.0717
+   -0.0615
+   -0.0838
+   -0.0825
+   -0.0788
+   -0.0774
+   -0.0759
+   -0.0798
+   -0.0594
+   -0.0570
+   -0.0682
+   -0.0304
+   -0.0260
+   -0.0428
+    0.0032
+    0.0115
+   -0.0076
+    0.0313
+    0.0436
+    0.0295
+    0.0445
+    0.0578
+    0.0530
+    0.0401
+    0.0532
+    0.0578
+    0.0190
+    0.0297
+    0.0438
+   -0.0133
+   -0.0073
+    0.0118
+   -0.0456
+   -0.0424
+   -0.0257
+   -0.0698
+   -0.0680
+   -0.0567
+   -0.0811
+   -0.0797
+   -0.0757
+   -0.0747
+   -0.0741
+   -0.0782
+   -0.0551
+   -0.0540
+   -0.0660
+   -0.0222
+   -0.0198
+   -0.0386
+    0.0204
+    0.0282
+    0.0022
+    0.0585
+    0.0768
+    0.0608
+    0.0731
+    0.0898
+    0.0856
+    0.0685
+    0.0857
+    0.0898
+    0.0430
+    0.0610
+    0.0769
+   -0.0015
+    0.0026
+    0.0285
+   -0.0398
+   -0.0383
+   -0.0195
+   -0.0665
+   -0.0657
+   -0.0538
+   -0.0787
+   -0.0781
+   -0.0739
+    0.1144
+    0.1168
+    0.0987
+    0.1195
+    0.1211
+    0.1065
+    0.1211
+    0.1194
+    0.1037
+    0.1167
+    0.1142
+    0.0926
+    0.1351
+    0.1359
+    0.1294
+    0.1368
+    0.1374
+    0.1318
+    0.1374
+    0.1367
+    0.1308
+    0.1358
+    0.1350
+    0.1281
+
+2389 850 Newman/adjnoun
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/adjnoun'
+     title: 'Common adjective and nouns in "David Copperfield"'
+         A: [112x112 double]
+        id: 2389
+      date: '2006'
+    author: 'M. Newman'
+      kind: 'undirected graph'
+     notes: [11x75 char]
+       aux: [1x1 struct]
+        ed: 'M. Newman'
+
+nvals(A): 850
+Elapsed time is 0.096431 seconds.
+lambda: 0.69664 iters: 30 449
+
+x =
+
+   -0.0263
+   -0.0183
+   -0.0226
+   -0.0194
+   -0.0223
+   -0.0194
+   -0.0193
+   -0.0128
+   -0.0904
+   -0.0264
+   -0.0252
+   -0.0354
+   -0.0159
+   -0.0117
+   -0.0162
+   -0.0113
+   -0.0198
+   -0.0158
+    0.0172
+   -0.0179
+   -0.0076
+   -0.0092
+   -0.0219
+   -0.0225
+   -0.0187
+   -0.0182
+   -0.0153
+   -0.0166
+    0.0245
+    0.3937
+    0.0039
+   -0.0097
+   -0.0110
+   -0.0077
+   -0.0051
+   -0.0115
+   -0.0211
+    0.0213
+   -0.0149
+   -0.0213
+   -0.0319
+   -0.0201
+   -0.0273
+   -0.0160
+   -0.0062
+   -0.0204
+   -0.0236
+   -0.0125
+   -0.0151
+   -0.0186
+   -0.0123
+   -0.0142
+   -0.0197
+   -0.0097
+   -0.0111
+   -0.0252
+   -0.0286
+   -0.0039
+    0.3183
+   -0.0168
+   -0.0162
+   -0.0340
+   -0.0376
+   -0.0586
+   -0.1605
+   -0.0263
+   -0.0179
+   -0.0191
+   -0.0176
+   -0.0443
+   -0.0174
+   -0.0222
+   -0.0121
+   -0.0194
+    1.2985
+   -0.0158
+   -0.0145
+   -0.0217
+    0.0052
+    0.0356
+   -0.0160
+   -0.0104
+   -0.0542
+   -0.0087
+   -0.0153
+   -0.0272
+   -0.0197
+   -0.0185
+   -0.0174
+   -0.0097
+   -0.0956
+   -0.0649
+    0.0080
+   -0.0297
+   -0.0174
+    0.0470
+   -0.0104
+   -0.0778
+   -0.0233
+   -0.0196
+   -0.0001
+   -0.0236
+   -0.0159
+   -0.0150
+   -0.0177
+   -0.0199
+   -0.0161
+   -0.0099
+   -0.0170
+    0.1158
+    0.0271
+   -0.0778
+
+2403 882 Newman/polbooks
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/polbooks'
+     title: 'Books about US politics, compiled by V. Krebs'
+         A: [105x105 double]
+        id: 2403
+      date: '2001'
+    author: 'V. Krebs'
+      kind: 'undirected graph'
+     notes: [18x74 char]
+       aux: [1x1 struct]
+        ed: 'M. Newman'
+
+nvals(A): 882
+Elapsed time is 0.006410 seconds.
+lambda: 0.323607 iters: 10 189
+
+x =
+
+   -0.0584
+   -0.0750
+   -0.0311
+   -0.0955
+   -0.0080
+   -0.0504
+   -0.0714
+    0.0026
+   -0.1039
+   -0.0772
+   -0.1099
+   -0.0966
+   -0.1053
+   -0.1056
+   -0.0744
+   -0.1159
+   -0.1200
+   -0.1089
+   -0.1017
+   -0.0776
+   -0.0812
+   -0.1108
+   -0.0871
+   -0.1124
+   -0.0965
+   -0.0926
+   -0.0975
+   -0.1059
+    0.0689
+   -0.0766
+    0.0830
+    0.0747
+   -0.1165
+   -0.1177
+   -0.1304
+   -0.1209
+   -0.1224
+   -0.1218
+   -0.1239
+   -0.1210
+   -0.1045
+   -0.1093
+   -0.1159
+   -0.1168
+   -0.1155
+   -0.1032
+   -0.0662
+   -0.1064
+   -0.0651
+   -0.0048
+   -0.0574
+    0.0126
+   -0.0173
+   -0.0655
+   -0.1134
+   -0.1112
+   -0.0999
+   -0.0763
+    0.0202
+    0.1417
+    0.1334
+    0.1338
+    0.1340
+    0.1434
+    0.0506
+    0.0486
+    0.0980
+    0.0820
+    0.0563
+    0.0465
+    0.0925
+    0.0876
+    0.0944
+    0.1056
+    0.1023
+    0.0950
+    0.0736
+    0.0534
+    0.0971
+    0.1031
+    0.0987
+    0.1150
+    0.0951
+    0.1017
+    0.1092
+    0.0564
+    0.1108
+    0.1118
+    0.1100
+    0.1106
+    0.1087
+    0.1053
+    0.1102
+    0.1048
+    0.1118
+    0.1152
+    0.1153
+    0.1152
+    0.1154
+    0.1181
+    0.1148
+    0.1241
+    0.0722
+    0.0998
+    0.0853
+
+2416 952 AG-Monien/grid1
+
+Prob = 
+
+  struct with fields:
+
+      name: 'AG-Monien/grid1'
+     title: '2D finite element problem'
+         A: [252x252 double]
+        id: 2416
+      date: '1998'
+    author: 'R. Diekmann, R. Preis'
+        ed: 'R. Diekmann, R. Preis'
+      kind: '2D/3D problem'
+     notes: [28x79 char]
+       aux: [1x1 struct]
+
+nvals(A): 952
+Elapsed time is 0.251206 seconds.
+lambda: 0.044962 iters: 16 750
+
+x =
+
+   -0.0359
+   -0.0754
+   -0.0602
+   -0.0393
+   -0.0183
+   -0.0030
+    0.0026
+   -0.0032
+   -0.0187
+   -0.0397
+   -0.0605
+   -0.0756
+   -0.0785
+   -0.0726
+   -0.0565
+   -0.0342
+   -0.0117
+    0.0049
+    0.0108
+    0.0047
+   -0.0120
+   -0.0346
+   -0.0569
+   -0.0728
+   -0.0738
+   -0.0673
+   -0.0491
+   -0.0234
+    0.0032
+    0.0225
+    0.0294
+    0.0223
+    0.0029
+   -0.0238
+   -0.0495
+   -0.0675
+   -0.0690
+   -0.0616
+   -0.0407
+   -0.0095
+    0.0252
+    0.0488
+    0.0566
+    0.0486
+    0.0248
+   -0.0099
+   -0.0411
+   -0.0618
+   -0.0663
+   -0.0584
+   -0.0356
+    0.0013
+    0.0572
+    0.0822
+    0.0890
+    0.0820
+    0.0569
+    0.0009
+   -0.0810
+   -0.0586
+    0.1094
+    0.1152
+    0.1184
+    0.1154
+    0.1096
+    0.1298
+    0.1320
+    0.1335
+    0.1321
+    0.1300
+   -0.0795
+   -0.0744
+   -0.0770
+   -0.0801
+   -0.0688
+   -0.0589
+   -0.0656
+   -0.0501
+   -0.0376
+   -0.0458
+   -0.0285
+   -0.0161
+   -0.0226
+   -0.0096
+   -0.0003
+   -0.0023
+    0.0012
+    0.0054
+    0.0093
+    0.0011
+   -0.0005
+    0.0092
+   -0.0099
+   -0.0164
+   -0.0026
+   -0.0289
+   -0.0380
+   -0.0230
+   -0.0505
+   -0.0593
+   -0.0462
+   -0.0691
+   -0.0746
+   -0.0659
+   -0.0796
+   -0.0771
+   -0.0701
+   -0.0721
+   -0.0763
+   -0.0531
+   -0.0594
+   -0.0294
+   -0.0368
+   -0.0052
+   -0.0097
+    0.0125
+    0.0142
+    0.0189
+    0.0277
+    0.0123
+    0.0276
+   -0.0055
+    0.0139
+   -0.0298
+   -0.0101
+   -0.0535
+   -0.0372
+   -0.0703
+   -0.0597
+   -0.0722
+   -0.0643
+   -0.0671
+   -0.0713
+   -0.0448
+   -0.0527
+   -0.0166
+   -0.0261
+    0.0133
+    0.0081
+    0.0347
+    0.0390
+    0.0420
+    0.0547
+    0.0345
+    0.0546
+    0.0130
+    0.0387
+   -0.0170
+    0.0077
+   -0.0451
+   -0.0265
+   -0.0645
+   -0.0530
+   -0.0672
+   -0.0595
+   -0.0643
+   -0.0672
+   -0.0375
+   -0.0488
+   -0.0031
+   -0.0189
+    0.0391
+    0.0258
+    0.0648
+    0.0729
+    0.0725
+    0.0873
+    0.0646
+    0.0872
+    0.0388
+    0.0727
+   -0.0035
+    0.0254
+   -0.0378
+   -0.0193
+   -0.0597
+   -0.0491
+   -0.0644
+    0.0882
+    0.1121
+    0.0999
+    0.1175
+    0.1048
+    0.1176
+    0.1000
+    0.1123
+    0.0884
+    0.1231
+    0.1307
+    0.1263
+    0.1331
+    0.1283
+    0.1331
+    0.1264
+    0.1308
+    0.1232
+   -0.0786
+   -0.0677
+   -0.0487
+   -0.0265
+   -0.0072
+    0.0039
+    0.0038
+   -0.0075
+   -0.0269
+   -0.0491
+   -0.0680
+   -0.0788
+   -0.0747
+   -0.0628
+   -0.0418
+   -0.0169
+    0.0049
+    0.0173
+    0.0172
+    0.0046
+   -0.0173
+   -0.0421
+   -0.0631
+   -0.0748
+   -0.0695
+   -0.0559
+   -0.0314
+   -0.0012
+    0.0256
+    0.0402
+    0.0401
+    0.0253
+   -0.0016
+   -0.0318
+   -0.0562
+   -0.0696
+   -0.0653
+   -0.0502
+   -0.0217
+    0.0177
+    0.0545
+    0.0706
+    0.0705
+    0.0543
+    0.0173
+   -0.0220
+   -0.0505
+   -0.0654
+    0.0943
+    0.1035
+    0.1036
+    0.0945
+    0.1244
+    0.1277
+    0.1278
+    0.1246
+
+ 323 1065 Bai/pde225
+
+Prob = 
+
+  struct with fields:
+
+     title: 'MODEL PDE PROBLEM, H. ELMAN     NX = NY = 15'
+         A: [225x225 double]
+      name: 'Bai/pde225'
+        id: 323
+      date: '1982'
+    author: 'H. Elman'
+        ed: 'Z. Bai, D. Day, J. Demmel, J. Dongarra'
+      kind: '2D/3D problem'
+
+nvals(A): 840
+Elapsed time is 0.114816 seconds.
+lambda: 0.0437048 iters: 11 439
+
+x =
+
+   -0.1327
+   -0.1298
+   -0.1241
+   -0.1159
+   -0.1056
+   -0.0935
+   -0.0802
+   -0.0663
+   -0.0524
+   -0.0391
+   -0.0270
+   -0.0167
+   -0.0085
+   -0.0028
+    0.0001
+   -0.1298
+   -0.1269
+   -0.1212
+   -0.1130
+   -0.1027
+   -0.0906
+   -0.0773
+   -0.0634
+   -0.0495
+   -0.0362
+   -0.0241
+   -0.0138
+   -0.0056
+    0.0001
+    0.0030
+   -0.1241
+   -0.1212
+   -0.1156
+   -0.1074
+   -0.0970
+   -0.0849
+   -0.0716
+   -0.0577
+   -0.0439
+   -0.0306
+   -0.0185
+   -0.0081
+    0.0001
+    0.0058
+    0.0087
+   -0.1159
+   -0.1130
+   -0.1074
+   -0.0992
+   -0.0888
+   -0.0767
+   -0.0634
+   -0.0495
+   -0.0357
+   -0.0224
+   -0.0103
+    0.0001
+    0.0083
+    0.0140
+    0.0169
+   -0.1056
+   -0.1027
+   -0.0970
+   -0.0888
+   -0.0784
+   -0.0663
+   -0.0531
+   -0.0392
+   -0.0253
+   -0.0120
+    0.0000
+    0.0104
+    0.0186
+    0.0243
+    0.0272
+   -0.0935
+   -0.0906
+   -0.0849
+   -0.0767
+   -0.0663
+   -0.0543
+   -0.0410
+   -0.0271
+   -0.0132
+    0.0000
+    0.0121
+    0.0225
+    0.0307
+    0.0363
+    0.0392
+   -0.0802
+   -0.0773
+   -0.0716
+   -0.0634
+   -0.0531
+   -0.0410
+   -0.0277
+   -0.0139
+    0.0000
+    0.0133
+    0.0253
+    0.0357
+    0.0439
+    0.0496
+    0.0525
+   -0.0663
+   -0.0634
+   -0.0577
+   -0.0495
+   -0.0392
+   -0.0271
+   -0.0139
+    0.0000
+    0.0139
+    0.0271
+    0.0392
+    0.0495
+    0.0577
+    0.0634
+    0.0663
+   -0.0524
+   -0.0495
+   -0.0439
+   -0.0357
+   -0.0253
+   -0.0132
+    0.0000
+    0.0139
+    0.0277
+    0.0410
+    0.0530
+    0.0634
+    0.0716
+    0.0772
+    0.0801
+   -0.0391
+   -0.0362
+   -0.0306
+   -0.0224
+   -0.0120
+    0.0000
+    0.0133
+    0.0271
+    0.0410
+    0.0542
+    0.0663
+    0.0766
+    0.0848
+    0.0905
+    0.0934
+   -0.0270
+   -0.0241
+   -0.0185
+   -0.0103
+    0.0000
+    0.0121
+    0.0253
+    0.0392
+    0.0530
+    0.0663
+    0.0783
+    0.0887
+    0.0969
+    0.1025
+    0.1054
+   -0.0167
+   -0.0138
+   -0.0081
+    0.0001
+    0.0104
+    0.0225
+    0.0357
+    0.0495
+    0.0634
+    0.0766
+    0.0887
+    0.0990
+    0.1072
+    0.1129
+    0.1157
+   -0.0085
+   -0.0056
+    0.0001
+    0.0083
+    0.0186
+    0.0307
+    0.0439
+    0.0577
+    0.0716
+    0.0848
+    0.0969
+    0.1072
+    0.1154
+    0.1210
+    0.1239
+   -0.0028
+    0.0001
+    0.0058
+    0.0140
+    0.0243
+    0.0363
+    0.0496
+    0.0634
+    0.0772
+    0.0905
+    0.1025
+    0.1129
+    0.1210
+    0.1267
+    0.1296
+    0.0001
+    0.0030
+    0.0087
+    0.0169
+    0.0272
+    0.0392
+    0.0525
+    0.0663
+    0.0801
+    0.0934
+    0.1054
+    0.1157
+    0.1239
+    0.1296
+    0.1325
+
+1630 1120 Bai/rdb200
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Bai/rdb200'
+     title: 'REACTION-DIFFUSION BRUSSELATOR MODEL'
+         A: [200x200 double]
+        id: 1630
+      date: '1994'
+    author: 'K. Meerbergen'
+        ed: 'Z. Bai, D. Day, J. Demmel, J. Dongarra'
+      kind: 'computational fluid dynamics problem'
+
+nvals(A): 920
+Elapsed time is 0.074330 seconds.
+lambda: 0.097887 iters: 12 337
+
+x =
+
+   -0.1397
+   -0.1397
+   -0.1329
+   -0.1329
+   -0.1199
+   -0.1199
+   -0.1020
+   -0.1020
+   -0.0809
+   -0.0809
+   -0.0588
+   -0.0588
+   -0.0377
+   -0.0377
+   -0.0198
+   -0.0198
+   -0.0068
+   -0.0068
+    0.0001
+    0.0001
+   -0.1329
+   -0.1329
+   -0.1261
+   -0.1261
+   -0.1130
+   -0.1130
+   -0.0951
+   -0.0951
+   -0.0741
+   -0.0741
+   -0.0519
+   -0.0519
+   -0.0309
+   -0.0309
+   -0.0130
+   -0.0130
+    0.0001
+    0.0001
+    0.0069
+    0.0069
+   -0.1199
+   -0.1199
+   -0.1130
+   -0.1130
+   -0.1000
+   -0.1000
+   -0.0821
+   -0.0821
+   -0.0611
+   -0.0611
+   -0.0389
+   -0.0389
+   -0.0179
+   -0.0179
+    0.0000
+    0.0000
+    0.0130
+    0.0130
+    0.0199
+    0.0199
+   -0.1020
+   -0.1020
+   -0.0951
+   -0.0951
+   -0.0821
+   -0.0821
+   -0.0642
+   -0.0642
+   -0.0432
+   -0.0432
+   -0.0210
+   -0.0210
+    0.0000
+    0.0000
+    0.0179
+    0.0179
+    0.0309
+    0.0309
+    0.0378
+    0.0378
+   -0.0809
+   -0.0809
+   -0.0741
+   -0.0741
+   -0.0611
+   -0.0611
+   -0.0432
+   -0.0432
+   -0.0221
+   -0.0221
+    0.0000
+    0.0000
+    0.0210
+    0.0210
+    0.0389
+    0.0389
+    0.0520
+    0.0520
+    0.0588
+    0.0588
+   -0.0588
+   -0.0588
+   -0.0519
+   -0.0519
+   -0.0389
+   -0.0389
+   -0.0210
+   -0.0210
+    0.0000
+    0.0000
+    0.0221
+    0.0221
+    0.0432
+    0.0432
+    0.0611
+    0.0611
+    0.0741
+    0.0741
+    0.0809
+    0.0809
+   -0.0377
+   -0.0377
+   -0.0309
+   -0.0309
+   -0.0179
+   -0.0179
+    0.0000
+    0.0000
+    0.0210
+    0.0210
+    0.0432
+    0.0432
+    0.0642
+    0.0642
+    0.0821
+    0.0821
+    0.0951
+    0.0951
+    0.1019
+    0.1019
+   -0.0198
+   -0.0198
+   -0.0130
+   -0.0130
+    0.0000
+    0.0000
+    0.0179
+    0.0179
+    0.0389
+    0.0389
+    0.0611
+    0.0611
+    0.0821
+    0.0821
+    0.1000
+    0.1000
+    0.1130
+    0.1130
+    0.1198
+    0.1198
+   -0.0068
+   -0.0068
+    0.0001
+    0.0001
+    0.0130
+    0.0130
+    0.0309
+    0.0309
+    0.0520
+    0.0520
+    0.0741
+    0.0741
+    0.0951
+    0.0951
+    0.1130
+    0.1130
+    0.1260
+    0.1260
+    0.1328
+    0.1328
+    0.0001
+    0.0001
+    0.0069
+    0.0069
+    0.0199
+    0.0199
+    0.0378
+    0.0378
+    0.0588
+    0.0588
+    0.0809
+    0.0809
+    0.1019
+    0.1019
+    0.1198
+    0.1198
+    0.1328
+    0.1328
+    0.1396
+    0.1396
+
+1631 1120 Bai/rdb200l
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Bai/rdb200l'
+     title: 'REACTION-DIFFUSION BRUSSELATOR MODEL'
+         A: [200x200 double]
+        id: 1631
+      date: '1994'
+    author: 'K. Meerbergen'
+        ed: 'Z. Bai, D. Day, J. Demmel, J. Dongarra'
+      kind: 'computational fluid dynamics problem'
+
+nvals(A): 920
+Elapsed time is 0.070618 seconds.
+lambda: 0.097887 iters: 12 337
+
+x =
+
+   -0.1397
+   -0.1397
+   -0.1329
+   -0.1329
+   -0.1199
+   -0.1199
+   -0.1020
+   -0.1020
+   -0.0809
+   -0.0809
+   -0.0588
+   -0.0588
+   -0.0377
+   -0.0377
+   -0.0198
+   -0.0198
+   -0.0068
+   -0.0068
+    0.0001
+    0.0001
+   -0.1329
+   -0.1329
+   -0.1261
+   -0.1261
+   -0.1130
+   -0.1130
+   -0.0951
+   -0.0951
+   -0.0741
+   -0.0741
+   -0.0519
+   -0.0519
+   -0.0309
+   -0.0309
+   -0.0130
+   -0.0130
+    0.0001
+    0.0001
+    0.0069
+    0.0069
+   -0.1199
+   -0.1199
+   -0.1130
+   -0.1130
+   -0.1000
+   -0.1000
+   -0.0821
+   -0.0821
+   -0.0611
+   -0.0611
+   -0.0389
+   -0.0389
+   -0.0179
+   -0.0179
+    0.0000
+    0.0000
+    0.0130
+    0.0130
+    0.0199
+    0.0199
+   -0.1020
+   -0.1020
+   -0.0951
+   -0.0951
+   -0.0821
+   -0.0821
+   -0.0642
+   -0.0642
+   -0.0432
+   -0.0432
+   -0.0210
+   -0.0210
+    0.0000
+    0.0000
+    0.0179
+    0.0179
+    0.0309
+    0.0309
+    0.0378
+    0.0378
+   -0.0809
+   -0.0809
+   -0.0741
+   -0.0741
+   -0.0611
+   -0.0611
+   -0.0432
+   -0.0432
+   -0.0221
+   -0.0221
+    0.0000
+    0.0000
+    0.0210
+    0.0210
+    0.0389
+    0.0389
+    0.0520
+    0.0520
+    0.0588
+    0.0588
+   -0.0588
+   -0.0588
+   -0.0519
+   -0.0519
+   -0.0389
+   -0.0389
+   -0.0210
+   -0.0210
+    0.0000
+    0.0000
+    0.0221
+    0.0221
+    0.0432
+    0.0432
+    0.0611
+    0.0611
+    0.0741
+    0.0741
+    0.0809
+    0.0809
+   -0.0377
+   -0.0377
+   -0.0309
+   -0.0309
+   -0.0179
+   -0.0179
+    0.0000
+    0.0000
+    0.0210
+    0.0210
+    0.0432
+    0.0432
+    0.0642
+    0.0642
+    0.0821
+    0.0821
+    0.0951
+    0.0951
+    0.1019
+    0.1019
+   -0.0198
+   -0.0198
+   -0.0130
+   -0.0130
+    0.0000
+    0.0000
+    0.0179
+    0.0179
+    0.0389
+    0.0389
+    0.0611
+    0.0611
+    0.0821
+    0.0821
+    0.1000
+    0.1000
+    0.1130
+    0.1130
+    0.1198
+    0.1198
+   -0.0068
+   -0.0068
+    0.0001
+    0.0001
+    0.0130
+    0.0130
+    0.0309
+    0.0309
+    0.0520
+    0.0520
+    0.0741
+    0.0741
+    0.0951
+    0.0951
+    0.1130
+    0.1130
+    0.1260
+    0.1260
+    0.1328
+    0.1328
+    0.0001
+    0.0001
+    0.0069
+    0.0069
+    0.0199
+    0.0199
+    0.0378
+    0.0378
+    0.0588
+    0.0588
+    0.0809
+    0.0809
+    0.1019
+    0.1019
+    0.1198
+    0.1198
+    0.1328
+    0.1328
+    0.1396
+    0.1396
+
+ 239 1128 HB/saylr1
+
+Prob = 
+
+  struct with fields:
+
+     title: 'UNSYMMETRIC MATRIX OF PAUL SAYLOR - 14 BY 17 2D GRID   MAY, 1983'
+         A: [238x238 double]
+      name: 'HB/saylr1'
+        id: 239
+      date: '1984'
+    author: 'R. Kendall, D. Peaceman, H. Stone, W. Watts'
+        ed: 'P. Saylor'
+      kind: 'computational fluid dynamics problem'
+
+nvals(A): 890
+Elapsed time is 0.165324 seconds.
+lambda: 0.0340541 iters: 15 695
+
+x =
+
+   -0.0917
+   -0.0917
+   -0.0916
+   -0.0916
+   -0.0915
+   -0.0914
+   -0.0913
+   -0.0912
+   -0.0911
+   -0.0911
+   -0.0910
+   -0.0909
+   -0.0909
+   -0.0909
+   -0.0886
+   -0.0886
+   -0.0885
+   -0.0885
+   -0.0884
+   -0.0883
+   -0.0882
+   -0.0881
+   -0.0880
+   -0.0880
+   -0.0879
+   -0.0878
+   -0.0878
+   -0.0878
+   -0.0825
+   -0.0824
+   -0.0824
+   -0.0823
+   -0.0823
+   -0.0822
+   -0.0821
+   -0.0820
+   -0.0819
+   -0.0818
+   -0.0818
+   -0.0817
+   -0.0817
+   -0.0817
+   -0.0736
+   -0.0735
+   -0.0735
+   -0.0734
+   -0.0734
+   -0.0733
+   -0.0732
+   -0.0731
+   -0.0730
+   -0.0729
+   -0.0729
+   -0.0728
+   -0.0728
+   -0.0727
+   -0.0622
+   -0.0621
+   -0.0621
+   -0.0620
+   -0.0620
+   -0.0619
+   -0.0618
+   -0.0617
+   -0.0616
+   -0.0615
+   -0.0615
+   -0.0614
+   -0.0614
+   -0.0614
+   -0.0487
+   -0.0486
+   -0.0486
+   -0.0485
+   -0.0485
+   -0.0484
+   -0.0483
+   -0.0482
+   -0.0481
+   -0.0480
+   -0.0480
+   -0.0479
+   -0.0479
+   -0.0479
+   -0.0335
+   -0.0335
+   -0.0335
+   -0.0334
+   -0.0333
+   -0.0332
+   -0.0332
+   -0.0331
+   -0.0330
+   -0.0329
+   -0.0328
+   -0.0328
+   -0.0327
+   -0.0327
+   -0.0172
+   -0.0172
+   -0.0172
+   -0.0171
+   -0.0171
+   -0.0170
+   -0.0169
+   -0.0168
+   -0.0167
+   -0.0166
+   -0.0166
+   -0.0165
+   -0.0165
+   -0.0164
+   -0.0004
+   -0.0004
+   -0.0003
+   -0.0003
+   -0.0002
+   -0.0001
+   -0.0000
+    0.0000
+    0.0001
+    0.0002
+    0.0003
+    0.0003
+    0.0004
+    0.0004
+    0.0164
+    0.0165
+    0.0165
+    0.0166
+    0.0166
+    0.0167
+    0.0168
+    0.0169
+    0.0170
+    0.0171
+    0.0171
+    0.0172
+    0.0172
+    0.0172
+    0.0327
+    0.0327
+    0.0328
+    0.0328
+    0.0329
+    0.0330
+    0.0331
+    0.0332
+    0.0332
+    0.0333
+    0.0334
+    0.0335
+    0.0335
+    0.0335
+    0.0479
+    0.0479
+    0.0479
+    0.0480
+    0.0480
+    0.0481
+    0.0482
+    0.0483
+    0.0484
+    0.0485
+    0.0485
+    0.0486
+    0.0486
+    0.0487
+    0.0614
+    0.0614
+    0.0614
+    0.0615
+    0.0615
+    0.0616
+    0.0617
+    0.0618
+    0.0619
+    0.0620
+    0.0620
+    0.0621
+    0.0621
+    0.0622
+    0.0728
+    0.0728
+    0.0728
+    0.0729
+    0.0729
+    0.0730
+    0.0731
+    0.0732
+    0.0733
+    0.0734
+    0.0734
+    0.0735
+    0.0735
+    0.0736
+    0.0817
+    0.0817
+    0.0817
+    0.0818
+    0.0818
+    0.0819
+    0.0820
+    0.0821
+    0.0822
+    0.0823
+    0.0823
+    0.0824
+    0.0824
+    0.0825
+    0.0878
+    0.0878
+    0.0878
+    0.0879
+    0.0880
+    0.0880
+    0.0881
+    0.0882
+    0.0883
+    0.0884
+    0.0885
+    0.0885
+    0.0886
+    0.0886
+    0.0909
+    0.0909
+    0.0909
+    0.0910
+    0.0911
+    0.0911
+    0.0912
+    0.0913
+    0.0914
+    0.0915
+    0.0916
+    0.0916
+    0.0917
+    0.0917
+
+ 113 1182 HB/dwt_162
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [162x162 double]
+      name: 'HB/dwt_162'
+        id: 113
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 1020
+Elapsed time is 0.264653 seconds.
+lambda: 0.057601 iters: 30 1499
+
+x =
+
+   -1.2595
+   -1.2520
+   -1.2515
+   -1.2605
+   -1.2928
+   -1.4771
+   -1.1522
+   -0.9927
+   -0.8813
+   -0.8128
+   -0.7892
+   -1.2297
+   -1.2243
+   -1.2228
+   -1.2256
+   -1.2373
+   -1.1889
+   -1.0902
+   -0.9459
+   -0.8371
+   -0.7677
+   -0.7422
+   -1.1732
+   -1.1684
+   -1.1667
+   -1.1630
+   -1.1399
+   -1.0791
+   -0.9742
+   -0.8489
+   -0.7365
+   -0.6629
+   -0.6358
+   -1.0898
+   -1.0859
+   -1.0873
+   -1.0890
+   -1.0686
+   -1.0024
+   -0.8695
+   -0.7131
+   -0.5762
+   -0.4983
+   -0.4715
+   -0.9806
+   -0.9778
+   -0.9811
+   -1.0037
+   -1.0389
+   -0.9710
+   -0.8200
+   -0.4972
+   -0.3413
+   -0.2785
+   -0.2555
+   -0.8474
+   -0.8451
+   -0.8488
+   -0.0544
+   -0.0153
+    0.0003
+   -0.6931
+   -0.6911
+   -0.6922
+    0.2573
+    0.2706
+    0.2796
+   -0.5217
+   -0.5198
+   -0.5202
+    0.5553
+    0.5603
+    0.5654
+   -0.3375
+   -0.3362
+   -0.3362
+    0.8377
+    0.8396
+    0.8440
+   -0.1452
+   -0.1445
+   -0.1443
+    1.0996
+    1.1004
+    1.1052
+    0.0505
+    0.0507
+    0.0514
+    1.3355
+    1.3360
+    1.3415
+    0.2446
+    0.2447
+    0.2465
+    1.5400
+    1.5409
+    1.5475
+    0.4311
+    0.4324
+    0.4373
+    1.7083
+    1.7106
+    1.7186
+    0.6023
+    0.6077
+    0.6208
+    1.8359
+    1.8418
+    1.8525
+    0.7467
+    0.7596
+    0.7976
+    1.9177
+    1.9348
+    1.9497
+    0.8498
+    0.8717
+    0.9374
+    1.9618
+    1.9934
+    2.0134
+    0.8988
+    0.9240
+    1.0100
+    1.9816
+    2.0233
+    2.0495
+    1.9089
+    1.7848
+    1.6105
+    1.3900
+    1.0837
+    1.1756
+    1.3900
+    1.6105
+    1.7848
+    1.9064
+   -0.8542
+   -0.6957
+   -0.5225
+   -0.3376
+   -0.1448
+    0.0519
+    0.2485
+    0.4418
+    0.6313
+    0.8235
+   -0.0779
+    0.2500
+    0.5545
+    0.8399
+    1.1034
+    1.3403
+    1.5455
+    1.7137
+    1.8394
+    1.9149
+   -5.9472
+   -5.6054
+   -4.9415
+   -3.9937
+   -2.8163
+
+2397 1226 Newman/football
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Newman/football'
+     title: 'American football games between Div IA colleges, Fall 2000'
+         A: [115x115 double]
+        id: 2397
+      date: '2002'
+    author: 'M. Girvan, M. Newman'
+      kind: 'undirected multigraph'
+     notes: [24x73 char]
+       aux: [1x1 struct]
+        ed: 'M. Newman'
+
+nvals(A): 1226
+Elapsed time is 0.240537 seconds.
+lambda: 1.459 iters: 30 509
+
+x =
+
+   -0.0479
+    0.0913
+   -0.0151
+   -0.0702
+   -0.1124
+   -0.1005
+    0.0046
+   -0.1429
+   -0.1636
+   -0.1239
+   -0.0967
+   -0.0879
+    0.1112
+    0.0117
+    0.0965
+   -0.0081
+   -0.0817
+    0.0683
+    0.1271
+    0.1079
+    0.0655
+   -0.1361
+   -0.1572
+   -0.1304
+   -0.0495
+    0.0722
+    0.1057
+    0.0955
+   -0.0696
+    0.0878
+    0.0744
+    0.1167
+   -0.0115
+    0.0964
+    0.1264
+    0.0891
+    0.1088
+    0.1046
+    0.0780
+    0.0174
+   -0.1165
+   -0.1243
+    0.1273
+    0.1208
+    0.0722
+    0.0988
+   -0.1105
+   -0.0201
+    0.0211
+   -0.0897
+   -0.0997
+   -0.1461
+   -0.0889
+   -0.0699
+    0.1152
+    0.1009
+    0.0864
+    0.0734
+    0.0155
+    0.0592
+    0.0047
+    0.1107
+    0.0980
+    0.0642
+   -0.0235
+    0.0697
+    0.0510
+   -0.1132
+   -0.1523
+   -0.0527
+    0.0846
+    0.0951
+   -0.0788
+   -0.1179
+   -0.0932
+    0.0487
+    0.0853
+   -0.1543
+   -0.1615
+    0.1070
+    0.0526
+   -0.1015
+   -0.0258
+   -0.1053
+   -0.1033
+    0.1063
+    0.0406
+    0.0532
+   -0.0769
+    0.0948
+   -0.1063
+    0.0388
+    0.0556
+   -0.0762
+    0.0928
+    0.0808
+    0.0769
+   -0.0092
+   -0.0963
+    0.1154
+   -0.0032
+    0.0726
+   -0.0757
+    0.0911
+   -0.0961
+    0.1059
+    0.0204
+   -0.0934
+   -0.1689
+    0.1049
+   -0.0794
+   -0.1562
+    0.0448
+    0.0672
+   -0.0893
+
+  93 1296 HB/can_144
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [144x144 double]
+      name: 'HB/can_144'
+        id: 93
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 1152
+Elapsed time is 0.082756 seconds.
+lambda: 0.0916144 iters: 7 115
+
+x =
+
+   -0.1176
+   -0.1164
+   -0.1124
+   -0.1136
+   -0.1018
+   -0.1008
+   -0.0823
+   -0.0831
+   -0.0588
+   -0.0582
+   -0.0301
+   -0.0304
+    0.0000
+    0.0000
+    0.0301
+    0.0305
+    0.0588
+    0.0582
+    0.0823
+    0.0831
+    0.1018
+    0.1008
+    0.1124
+    0.1135
+    0.1175
+    0.1163
+    0.1124
+    0.1135
+    0.1018
+    0.1008
+    0.0823
+    0.0831
+    0.0588
+    0.0582
+    0.0301
+    0.0305
+    0.0000
+    0.0000
+   -0.0301
+   -0.0304
+   -0.0588
+   -0.0582
+   -0.0823
+   -0.0831
+   -0.1018
+   -0.1008
+   -0.1124
+   -0.1136
+   -0.1176
+   -0.1184
+   -0.1171
+   -0.1168
+   -0.1136
+   -0.1072
+   -0.1092
+   -0.1120
+   -0.1018
+   -0.0979
+   -0.0937
+   -0.0903
+   -0.0831
+   -0.0672
+   -0.0719
+   -0.0771
+   -0.0588
+   -0.0511
+   -0.0452
+   -0.0396
+   -0.0304
+   -0.0092
+   -0.0154
+   -0.0216
+    0.0000
+    0.0093
+    0.0155
+    0.0217
+    0.0305
+    0.0512
+    0.0452
+    0.0396
+    0.0588
+    0.0672
+    0.0719
+    0.0771
+    0.0831
+    0.0979
+    0.0937
+    0.0903
+    0.1018
+    0.1071
+    0.1091
+    0.1119
+    0.1135
+    0.1183
+    0.1171
+    0.1167
+    0.1175
+    0.1183
+    0.1171
+    0.1167
+    0.1135
+    0.1071
+    0.1091
+    0.1119
+    0.1018
+    0.0979
+    0.0937
+    0.0903
+    0.0831
+    0.0672
+    0.0719
+    0.0771
+    0.0588
+    0.0512
+    0.0452
+    0.0396
+    0.0305
+    0.0093
+    0.0155
+    0.0217
+    0.0000
+   -0.0092
+   -0.0154
+   -0.0216
+   -0.0304
+   -0.0511
+   -0.0452
+   -0.0396
+   -0.0588
+   -0.0672
+   -0.0719
+   -0.0771
+   -0.0831
+   -0.0979
+   -0.0937
+   -0.0903
+   -0.1018
+   -0.1072
+   -0.1092
+   -0.1120
+   -0.1136
+   -0.1184
+   -0.1171
+   -0.1168
+
+  94 1377 HB/can_161
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [161x161 double]
+      name: 'HB/can_161'
+        id: 94
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 1216
+Elapsed time is 0.103728 seconds.
+lambda: 0.290058 iters: 17 344
+
+x =
+
+   -0.0514
+   -0.0514
+   -0.0514
+   -0.0513
+   -0.0513
+   -0.0512
+   -0.0512
+   -0.0512
+   -0.0512
+   -0.0512
+   -0.0512
+   -0.0512
+   -0.0513
+   -0.0513
+   -0.0514
+   -0.0514
+   -0.0793
+   -0.0793
+   -0.0793
+   -0.0792
+   -0.0792
+   -0.0791
+   -0.0791
+   -0.0791
+   -0.0791
+   -0.0791
+   -0.0791
+   -0.0791
+   -0.0792
+   -0.0792
+   -0.0793
+   -0.0793
+   -0.0996
+   -0.0996
+   -0.0996
+   -0.0995
+   -0.0995
+   -0.0994
+   -0.0994
+   -0.0993
+   -0.0993
+   -0.0993
+   -0.0994
+   -0.0994
+   -0.0995
+   -0.0995
+   -0.0996
+   -0.0996
+   -0.1103
+   -0.1102
+   -0.1102
+   -0.1102
+   -0.1101
+   -0.1100
+   -0.1100
+   -0.1100
+   -0.1099
+   -0.1100
+   -0.1100
+   -0.1100
+   -0.1101
+   -0.1102
+   -0.1102
+   -0.1102
+   -0.0185
+   -0.0185
+   -0.0185
+   -0.0184
+   -0.0184
+   -0.0184
+   -0.0183
+   -0.0183
+   -0.0183
+   -0.0183
+   -0.0183
+   -0.0184
+   -0.0184
+   -0.0184
+   -0.0185
+   -0.0185
+    0.0162
+    0.0162
+    0.0162
+    0.0162
+    0.0163
+    0.0163
+    0.0163
+    0.0163
+    0.0164
+    0.0163
+    0.0163
+    0.0163
+    0.0163
+    0.0162
+    0.0162
+    0.0162
+    0.0492
+    0.0493
+    0.0493
+    0.0493
+    0.0493
+    0.0494
+    0.0494
+    0.0494
+    0.0494
+    0.0494
+    0.0494
+    0.0494
+    0.0493
+    0.0493
+    0.0493
+    0.0493
+    0.0776
+    0.0776
+    0.0776
+    0.0776
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0777
+    0.0776
+    0.0776
+    0.0776
+    0.0984
+    0.0984
+    0.0984
+    0.0984
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0985
+    0.0984
+    0.0984
+    0.0984
+    0.1097
+    0.1097
+    0.1097
+    0.1097
+    0.1097
+    0.1098
+    0.1098
+    0.1098
+    0.1098
+    0.1098
+    0.1098
+    0.1098
+    0.1097
+    0.1097
+    0.1097
+    0.1097
+    0.1118
+
+ 877 1377 Pothen/mesh3e1
+
+Prob = 
+
+  struct with fields:
+
+         A: [289x289 double]
+     title: 'mesh3e1, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/mesh3e1'
+     Zeros: [289x289 double]
+        id: 877
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 1600
+Elapsed time is 0.122316 seconds.
+lambda: 0.037138 iters: 9 399
+
+x =
+
+   -0.0579
+   -0.0677
+   -0.0772
+   -0.0859
+   -0.0937
+   -0.1005
+   -0.1060
+   -0.1100
+   -0.1123
+   -0.1123
+   -0.1100
+   -0.1059
+   -0.1004
+   -0.0937
+   -0.0858
+   -0.0771
+   -0.0676
+   -0.0577
+   -0.0476
+   -0.0375
+   -0.0278
+   -0.0187
+   -0.0106
+   -0.0041
+    0.0001
+    0.0043
+    0.0109
+    0.0189
+    0.0279
+    0.0377
+    0.0477
+    0.0578
+    0.0677
+    0.0772
+    0.0859
+    0.0937
+    0.1005
+    0.1060
+    0.1100
+    0.1124
+    0.1124
+    0.1100
+    0.1060
+    0.1005
+    0.0937
+    0.0859
+    0.0771
+    0.0677
+    0.0578
+    0.0476
+    0.0376
+    0.0278
+    0.0188
+    0.0108
+    0.0046
+    0.0014
+   -0.0002
+   -0.0017
+   -0.0049
+   -0.0111
+   -0.0190
+   -0.0280
+   -0.0377
+   -0.0478
+    0.0001
+    0.0061
+    0.0137
+    0.0224
+    0.0318
+    0.0418
+    0.0519
+    0.0619
+    0.0715
+    0.0806
+    0.0889
+    0.0962
+    0.1023
+    0.1071
+    0.1105
+   -0.0059
+    0.0001
+    0.0074
+    0.0159
+    0.0251
+    0.0349
+    0.0450
+    0.0551
+    0.0649
+    0.0743
+    0.0829
+    0.0907
+    0.0974
+    0.1029
+    0.1071
+   -0.0135
+   -0.0072
+    0.0001
+    0.0084
+    0.0175
+    0.0273
+    0.0373
+    0.0474
+    0.0574
+    0.0669
+    0.0759
+    0.0841
+    0.0913
+    0.0974
+    0.1023
+   -0.0222
+   -0.0157
+   -0.0082
+    0.0001
+    0.0092
+    0.0188
+    0.0288
+    0.0390
+    0.0490
+    0.0587
+    0.0679
+    0.0764
+    0.0840
+    0.0907
+    0.0962
+   -0.0317
+   -0.0249
+   -0.0174
+   -0.0090
+    0.0001
+    0.0097
+    0.0197
+    0.0299
+    0.0400
+    0.0498
+    0.0592
+    0.0679
+    0.0759
+    0.0829
+    0.0889
+   -0.0416
+   -0.0348
+   -0.0271
+   -0.0187
+   -0.0096
+    0.0000
+    0.0100
+    0.0202
+    0.0304
+    0.0403
+    0.0498
+    0.0587
+    0.0669
+    0.0742
+    0.0806
+   -0.0517
+   -0.0449
+   -0.0372
+   -0.0287
+   -0.0196
+   -0.0100
+    0.0000
+    0.0102
+    0.0204
+    0.0303
+    0.0399
+    0.0490
+    0.0573
+    0.0649
+    0.0715
+   -0.0618
+   -0.0550
+   -0.0473
+   -0.0389
+   -0.0298
+   -0.0202
+   -0.0102
+   -0.0000
+    0.0102
+    0.0202
+    0.0298
+    0.0389
+    0.0474
+    0.0550
+    0.0618
+   -0.0714
+   -0.0648
+   -0.0573
+   -0.0490
+   -0.0399
+   -0.0303
+   -0.0204
+   -0.0102
+   -0.0000
+    0.0100
+    0.0196
+    0.0287
+    0.0372
+    0.0449
+    0.0518
+   -0.0805
+   -0.0742
+   -0.0669
+   -0.0587
+   -0.0498
+   -0.0403
+   -0.0304
+   -0.0202
+   -0.0101
+   -0.0001
+    0.0096
+    0.0187
+    0.0272
+    0.0348
+    0.0417
+   -0.0888
+   -0.0829
+   -0.0758
+   -0.0679
+   -0.0592
+   -0.0498
+   -0.0400
+   -0.0299
+   -0.0197
+   -0.0097
+   -0.0001
+    0.0090
+    0.0174
+    0.0250
+    0.0317
+   -0.0961
+   -0.0906
+   -0.0840
+   -0.0764
+   -0.0679
+   -0.0587
+   -0.0490
+   -0.0390
+   -0.0289
+   -0.0188
+   -0.0092
+   -0.0001
+    0.0083
+    0.0157
+    0.0222
+   -0.1023
+   -0.0974
+   -0.0912
+   -0.0840
+   -0.0759
+   -0.0669
+   -0.0574
+   -0.0474
+   -0.0373
+   -0.0273
+   -0.0176
+   -0.0085
+   -0.0001
+    0.0073
+    0.0136
+   -0.1071
+   -0.1029
+   -0.0974
+   -0.0907
+   -0.0829
+   -0.0743
+   -0.0649
+   -0.0551
+   -0.0450
+   -0.0350
+   -0.0252
+   -0.0159
+   -0.0075
+   -0.0001
+    0.0060
+   -0.1105
+   -0.1071
+   -0.1023
+   -0.0962
+   -0.0889
+   -0.0806
+   -0.0715
+   -0.0619
+   -0.0519
+   -0.0418
+   -0.0319
+   -0.0225
+   -0.0138
+   -0.0063
+   -0.0001
+
+ 878 1377 Pothen/mesh3em5
+
+Prob = 
+
+  struct with fields:
+
+         A: [289x289 double]
+     title: 'mesh3em5, with coordinates.  From NASA, collected by Alex Pothen'
+      name: 'Pothen/mesh3em5'
+     Zeros: [289x289 double]
+        id: 878
+       aux: [1x1 struct]
+      date: '2003'
+    author: 'NASA'
+        ed: 'G. Kumfert, A. Pothen'
+      kind: 'structural problem'
+
+nvals(A): 1600
+Elapsed time is 0.149801 seconds.
+lambda: 0.037138 iters: 9 399
+
+x =
+
+   -0.0579
+   -0.0677
+   -0.0772
+   -0.0859
+   -0.0937
+   -0.1005
+   -0.1060
+   -0.1100
+   -0.1123
+   -0.1123
+   -0.1100
+   -0.1059
+   -0.1004
+   -0.0937
+   -0.0858
+   -0.0771
+   -0.0676
+   -0.0577
+   -0.0476
+   -0.0375
+   -0.0278
+   -0.0187
+   -0.0106
+   -0.0041
+    0.0001
+    0.0043
+    0.0109
+    0.0189
+    0.0279
+    0.0377
+    0.0477
+    0.0578
+    0.0677
+    0.0772
+    0.0859
+    0.0937
+    0.1005
+    0.1060
+    0.1100
+    0.1124
+    0.1124
+    0.1100
+    0.1060
+    0.1005
+    0.0937
+    0.0859
+    0.0771
+    0.0677
+    0.0578
+    0.0476
+    0.0376
+    0.0278
+    0.0188
+    0.0108
+    0.0046
+    0.0014
+   -0.0002
+   -0.0017
+   -0.0049
+   -0.0111
+   -0.0190
+   -0.0280
+   -0.0377
+   -0.0478
+    0.0001
+    0.0061
+    0.0137
+    0.0224
+    0.0318
+    0.0418
+    0.0519
+    0.0619
+    0.0715
+    0.0806
+    0.0889
+    0.0962
+    0.1023
+    0.1071
+    0.1105
+   -0.0059
+    0.0001
+    0.0074
+    0.0159
+    0.0251
+    0.0349
+    0.0450
+    0.0551
+    0.0649
+    0.0743
+    0.0829
+    0.0907
+    0.0974
+    0.1029
+    0.1071
+   -0.0135
+   -0.0072
+    0.0001
+    0.0084
+    0.0175
+    0.0273
+    0.0373
+    0.0474
+    0.0574
+    0.0669
+    0.0759
+    0.0841
+    0.0913
+    0.0974
+    0.1023
+   -0.0222
+   -0.0157
+   -0.0082
+    0.0001
+    0.0092
+    0.0188
+    0.0288
+    0.0390
+    0.0490
+    0.0587
+    0.0679
+    0.0764
+    0.0840
+    0.0907
+    0.0962
+   -0.0317
+   -0.0249
+   -0.0174
+   -0.0090
+    0.0001
+    0.0097
+    0.0197
+    0.0299
+    0.0400
+    0.0498
+    0.0592
+    0.0679
+    0.0759
+    0.0829
+    0.0889
+   -0.0416
+   -0.0348
+   -0.0271
+   -0.0187
+   -0.0096
+    0.0000
+    0.0100
+    0.0202
+    0.0304
+    0.0403
+    0.0498
+    0.0587
+    0.0669
+    0.0742
+    0.0806
+   -0.0517
+   -0.0449
+   -0.0372
+   -0.0287
+   -0.0196
+   -0.0100
+    0.0000
+    0.0102
+    0.0204
+    0.0303
+    0.0399
+    0.0490
+    0.0573
+    0.0649
+    0.0715
+   -0.0618
+   -0.0550
+   -0.0473
+   -0.0389
+   -0.0298
+   -0.0202
+   -0.0102
+   -0.0000
+    0.0102
+    0.0202
+    0.0298
+    0.0389
+    0.0474
+    0.0550
+    0.0618
+   -0.0714
+   -0.0648
+   -0.0573
+   -0.0490
+   -0.0399
+   -0.0303
+   -0.0204
+   -0.0102
+   -0.0000
+    0.0100
+    0.0196
+    0.0287
+    0.0372
+    0.0449
+    0.0518
+   -0.0805
+   -0.0742
+   -0.0669
+   -0.0587
+   -0.0498
+   -0.0403
+   -0.0304
+   -0.0202
+   -0.0101
+   -0.0001
+    0.0096
+    0.0187
+    0.0272
+    0.0348
+    0.0417
+   -0.0888
+   -0.0829
+   -0.0758
+   -0.0679
+   -0.0592
+   -0.0498
+   -0.0400
+   -0.0299
+   -0.0197
+   -0.0097
+   -0.0001
+    0.0090
+    0.0174
+    0.0250
+    0.0317
+   -0.0961
+   -0.0906
+   -0.0840
+   -0.0764
+   -0.0679
+   -0.0587
+   -0.0490
+   -0.0390
+   -0.0289
+   -0.0188
+   -0.0092
+   -0.0001
+    0.0083
+    0.0157
+    0.0222
+   -0.1023
+   -0.0974
+   -0.0912
+   -0.0840
+   -0.0759
+   -0.0669
+   -0.0574
+   -0.0474
+   -0.0373
+   -0.0273
+   -0.0176
+   -0.0085
+   -0.0001
+    0.0073
+    0.0136
+   -0.1071
+   -0.1029
+   -0.0974
+   -0.0907
+   -0.0829
+   -0.0743
+   -0.0649
+   -0.0551
+   -0.0450
+   -0.0350
+   -0.0252
+   -0.0159
+   -0.0075
+   -0.0001
+    0.0060
+   -0.1105
+   -0.1071
+   -0.1023
+   -0.0962
+   -0.0889
+   -0.0806
+   -0.0715
+   -0.0619
+   -0.0519
+   -0.0418
+   -0.0319
+   -0.0225
+   -0.0138
+   -0.0063
+   -0.0001
+
+ 119 1461 HB/dwt_245
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC CONNECTION TABLE FROM DTNSRDC, WASHINGTON'
+         A: [245x245 double]
+      name: 'HB/dwt_245'
+        id: 119
+      date: '1980'
+    author: 'G. Everstine, D. Taylor'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 1216
+Elapsed time is 0.216777 seconds.
+lambda: 0.0354294 iters: 13 600
+
+x =
+
+   -0.0583
+   -0.0589
+   -0.0574
+   -0.0564
+   -0.0540
+   -0.0540
+   -0.0545
+   -0.0539
+   -0.0540
+   -0.0539
+   -0.0526
+   -0.0531
+   -0.0537
+   -0.0533
+   -0.0539
+   -0.0527
+   -0.0506
+   -0.0512
+   -0.0513
+   -0.0508
+   -0.0506
+   -0.0504
+   -0.0490
+   -0.0494
+   -0.0529
+   -0.0538
+   -0.0512
+   -0.0518
+   -0.0530
+   -0.0529
+   -0.0550
+   -0.0508
+   -0.0511
+   -0.0508
+   -0.0516
+   -0.0485
+   -0.0491
+   -0.0499
+   -0.0498
+   -0.0518
+   -0.0482
+   -0.0484
+   -0.0465
+   -0.0465
+   -0.0456
+   -0.0459
+   -0.0472
+   -0.0481
+   -0.0450
+   -0.0454
+   -0.0419
+   -0.0424
+   -0.0436
+   -0.0448
+   -0.0437
+   -0.0437
+   -0.0437
+   -0.0453
+   -0.0442
+   -0.0433
+   -0.0405
+   -0.0418
+   -0.0421
+   -0.0426
+   -0.0420
+   -0.0419
+   -0.0419
+   -0.0437
+   -0.0435
+   -0.0416
+   -0.0402
+   -0.0401
+   -0.0383
+   -0.0389
+   -0.0413
+   -0.0413
+   -0.0398
+   -0.0418
+   -0.0407
+   -0.0348
+   -0.0315
+   -0.0399
+   -0.0400
+   -0.0381
+   -0.0340
+   -0.0372
+   -0.0291
+   -0.0391
+   -0.0391
+   -0.0376
+   -0.0406
+   -0.0297
+   -0.0243
+   -0.0316
+   -0.0304
+   -0.0250
+   -0.0251
+   -0.0141
+   -0.0151
+   -0.0031
+   -0.0046
+    0.0084
+    0.0069
+   -0.0154
+   -0.0178
+   -0.0188
+   -0.0202
+   -0.0162
+   -0.0147
+   -0.0147
+   -0.0147
+    0.0880
+    0.0849
+    0.0787
+    0.0681
+    0.0550
+    0.0881
+    0.0799
+    0.0694
+    0.0565
+    0.0897
+    0.1198
+    0.1173
+    0.1350
+    0.1478
+    0.1832
+    0.2121
+    0.2336
+    0.2467
+   -0.0476
+   -0.0193
+   -0.0186
+   -0.0199
+   -0.0185
+   -0.0162
+   -0.0138
+   -0.0119
+   -0.0037
+    0.0020
+    0.0103
+   -0.0191
+   -0.0185
+   -0.0179
+   -0.0131
+   -0.0135
+    0.2512
+   -0.0092
+    0.0983
+    0.0983
+    0.1052
+    0.1053
+    0.1028
+    0.1035
+    0.1073
+   -0.0102
+   -0.0091
+   -0.0098
+   -0.0087
+   -0.0027
+    0.0123
+    0.0130
+   -0.0112
+   -0.0108
+   -0.0102
+   -0.0113
+   -0.0136
+   -0.0110
+   -0.0092
+   -0.0105
+   -0.0123
+    0.0884
+    0.0852
+    0.0791
+    0.0696
+    0.0577
+    0.0885
+    0.0802
+    0.0707
+    0.0587
+    0.0910
+    0.1200
+    0.1174
+    0.1349
+    0.1477
+    0.1831
+    0.2121
+    0.2335
+    0.2467
+   -0.0047
+   -0.0048
+   -0.0047
+   -0.0046
+    0.0013
+    0.0005
+    0.0082
+    0.0058
+   -0.0058
+   -0.0056
+   -0.0028
+   -0.0029
+   -0.0112
+   -0.0107
+   -0.0082
+   -0.0094
+   -0.0099
+   -0.0057
+   -0.0090
+   -0.0110
+   -0.0125
+   -0.0138
+   -0.0112
+   -0.0085
+   -0.0084
+   -0.0069
+   -0.0093
+   -0.0115
+   -0.0138
+   -0.0144
+   -0.0146
+   -0.0061
+   -0.0060
+   -0.0059
+   -0.0060
+   -0.0057
+   -0.0064
+   -0.0060
+   -0.0054
+   -0.0051
+   -0.0043
+   -0.0048
+   -0.0065
+   -0.0065
+   -0.0066
+   -0.0063
+   -0.0064
+   -0.0064
+   -0.0064
+   -0.0064
+   -0.0065
+   -0.0063
+   -0.0062
+   -0.0059
+   -0.0054
+   -0.0057
+   -0.0067
+
+1198 1475 Rajat/rajat14
+
+Prob = 
+
+  struct with fields:
+
+      name: 'Rajat/rajat14'
+     title: 'Rajat/rajat14 circuit simulation matrix'
+         A: [180x180 double]
+     Zeros: [180x180 double]
+        id: 1198
+      date: '2004'
+    author: 'Rajat'
+        ed: 'T. Davis'
+      kind: 'circuit simulation problem'
+
+nvals(A): 1332
+Elapsed time is 0.204336 seconds.
+lambda: 0.67849 iters: 30 516
+
+x =
+
+   -0.0065
+   -0.0066
+   -0.0160
+    0.4456
+    0.0232
+   -0.0161
+   -0.0225
+   -0.0220
+   -0.0150
+   -0.0106
+   -0.0106
+   -0.0113
+   -0.0108
+   -0.0104
+   -0.0107
+   -0.0109
+   -0.0108
+   -0.0110
+   -0.0117
+   -0.0110
+   -0.0115
+   -0.0110
+   -0.0148
+   -0.0143
+   -0.0142
+   -0.0149
+   -0.0112
+   -0.0099
+   -0.0151
+   -0.0151
+   -0.0148
+   -0.0148
+   -0.0126
+   -0.0129
+   -0.0125
+   -0.0125
+   -0.0126
+   -0.0129
+   -0.0125
+   -0.0124
+   -0.0115
+   -0.0115
+   -0.0115
+   -0.0113
+   -0.0103
+   -0.0114
+   -0.0114
+   -0.0119
+   -0.0113
+   -0.0115
+   -0.0125
+   -0.0112
+   -0.0122
+   -0.0113
+   -0.0122
+   -0.0112
+   -0.0105
+   -0.0102
+   -0.0114
+   -0.0119
+   -0.0113
+   -0.0115
+   -0.0125
+   -0.0112
+   -0.0122
+   -0.0113
+   -0.0122
+   -0.0112
+   -0.0108
+   -0.0114
+   -0.0119
+   -0.0113
+   -0.0115
+   -0.0125
+   -0.0112
+   -0.0122
+   -0.0113
+   -0.0122
+   -0.0112
+   -0.0108
+   -0.0109
+   -0.0117
+   -0.0109
+   -0.0112
+   -0.0122
+   -0.0115
+   -0.0108
+   -0.0118
+   -0.0107
+   -0.0107
+   -0.0125
+   -0.0113
+   -0.0126
+   -0.0146
+   -0.0141
+   -0.0136
+   -0.0103
+   -0.0106
+   -0.0106
+   -0.0101
+   -0.0113
+   -0.0101
+   -0.0113
+   -0.0104
+   -0.0103
+   -0.0104
+   -0.0101
+   -0.0101
+   -0.0090
+   -0.0066
+   -0.0100
+   -0.0098
+    0.0366
+    0.0028
+    0.0137
+    0.1117
+   -0.0102
+   -0.0092
+   -0.0082
+   -0.0097
+    0.0005
+   -0.0029
+   -0.0050
+   -0.0073
+   -0.0099
+   -0.0088
+   -0.0099
+   -0.0090
+   -0.0100
+   -0.0093
+   -0.0102
+   -0.0090
+   -0.0113
+   -0.0043
+   -0.0028
+   -0.0065
+   -0.0075
+   -0.0096
+   -0.0092
+   -0.0068
+   -0.0058
+   -0.0099
+   -0.0005
+   -0.0100
+   -0.0100
+   -0.0089
+   -0.0018
+   -0.0115
+   -0.0136
+    0.0030
+   -0.0063
+   -0.0111
+   -0.0111
+   -0.0111
+   -0.0118
+   -0.0111
+   -0.0115
+   -0.0112
+   -0.0112
+   -0.0118
+   -0.0111
+   -0.0111
+   -0.0118
+   -0.0118
+   -0.0111
+   -0.0111
+   -0.0118
+   -0.0118
+   -0.0148
+   -0.0136
+   -0.0163
+   -0.0212
+    1.3820
+   -0.0486
+   -0.0451
+   -0.0675
+   -0.0693
+   -0.0518
+   -0.0213
+    0.1088
+
+  95 1491 HB/can_187
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC PATTERN FROM CANNES,LUCIEN MARRO,JUNE 1981.'
+         A: [187x187 double]
+      name: 'HB/can_187'
+        id: 95
+      date: '1981'
+    author: 'L. Marro'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'structural problem'
+
+nvals(A): 1304
+Elapsed time is 0.287947 seconds.
+lambda: 0.105971 iters: 30 1114
+
+x =
+
+   -0.9769
+   -0.8943
+   -0.7792
+   -0.6369
+   -0.4733
+   -0.2942
+   -0.1057
+    0.0859
+    0.2737
+    0.4509
+    0.6107
+    0.7466
+    0.8532
+    0.9255
+    0.9575
+    0.9646
+    0.9278
+    0.8518
+    0.7399
+    0.5981
+    0.4317
+    0.2472
+    0.0517
+   -0.1469
+   -0.3411
+   -0.5230
+   -0.6854
+   -0.8221
+   -0.9277
+   -0.9980
+   -1.0302
+   -1.0231
+   -0.9665
+   -0.8837
+   -0.7688
+   -0.6276
+   -0.4658
+   -0.2890
+   -0.1030
+    0.0863
+    0.2721
+    0.4475
+    0.6057
+    0.7404
+    0.8461
+    0.9182
+    0.9556
+    0.9564
+    0.9231
+    0.8438
+    0.7330
+    0.5925
+    0.4276
+    0.2447
+    0.0511
+   -0.1458
+   -0.3382
+   -0.5183
+   -0.6792
+   -0.8145
+   -0.9189
+   -0.9884
+   -1.0202
+   -1.0128
+   -0.9584
+   -0.8735
+   -0.7566
+   -0.6153
+   -0.4556
+   -0.2820
+   -0.0989
+    0.0881
+    0.2722
+    0.4463
+    0.6036
+    0.7376
+    0.8430
+    0.9157
+    0.9528
+    0.9531
+    0.9150
+    0.8396
+    0.7293
+    0.5896
+    0.4255
+    0.2435
+    0.0508
+   -0.1452
+   -0.3365
+   -0.5156
+   -0.6754
+   -0.8096
+   -0.9130
+   -0.9819
+   -1.0135
+   -1.0059
+   -0.9550
+   -0.8638
+   -0.7407
+   -0.5975
+   -0.4421
+   -0.2742
+   -0.0945
+    0.0906
+    0.2737
+    0.4472
+    0.6042
+    0.7382
+    0.8437
+    0.9165
+    0.9535
+    0.9530
+    0.9144
+    0.8388
+    0.7290
+    0.5894
+    0.4254
+    0.2435
+    0.0508
+   -0.1450
+   -0.3362
+   -0.5151
+   -0.6744
+   -0.8078
+   -0.9099
+   -0.9781
+   -1.0103
+   -1.0035
+   -0.9597
+   -0.8644
+   -0.7093
+   -0.5648
+   -0.4293
+   -0.2681
+   -0.0911
+    0.0931
+    0.2760
+    0.4499
+    0.6074
+    0.7419
+    0.8479
+    0.9210
+    0.9580
+    0.9572
+    0.9183
+    0.8423
+    0.7322
+    0.5920
+    0.4274
+    0.2447
+    0.0513
+   -0.1454
+   -0.3373
+   -0.5168
+   -0.6764
+   -0.8096
+   -0.9106
+   -0.9736
+   -1.0099
+   -1.0091
+   -0.5473
+   -0.4249
+   -0.2671
+   -0.0903
+    0.0947
+    0.2788
+    0.4541
+    0.6128
+    0.7486
+    0.8556
+    0.9294
+    0.9667
+    0.9659
+    0.9265
+    0.8499
+    0.7388
+    0.5975
+    0.4315
+    0.2472
+    0.0520
+   -0.1463
+   -0.3399
+   -0.5209
+   -0.6819
+   -0.8159
+   -0.9167
+   -0.9783
+
+2763 1510 Mycielski/mycielskian7
+
+Prob = 
+
+  struct with fields:
+
+     title: 'Mycielskian graph M7'
+         A: [95x95 double]
+      name: 'Mycielski/mycielskian7'
+        id: 2763
+      date: '2018'
+    author: 'J. Mycielski'
+        ed: 'S. Kolodziej'
+      kind: 'undirected graph'
+     notes: [21x72 char]
+
+nvals(A): 1510
+Elapsed time is 0.005669 seconds.
+lambda: 5.86401 iters: 30 270
+
+x =
+
+   -0.0089
+    0.0062
+   -0.0023
+    0.0062
+   -0.0023
+    0.0000
+    0.0025
+    0.0011
+    0.0025
+    0.0011
+   -0.0015
+    0.0010
+    0.0019
+    0.0014
+    0.0019
+    0.0014
+    0.0022
+    0.0011
+    0.0018
+    0.0011
+    0.0018
+    0.0014
+   -0.0014
+    0.0016
+    0.0015
+    0.0016
+    0.0015
+    0.0016
+    0.0026
+    0.0006
+    0.0019
+    0.0006
+    0.0019
+    0.0016
+    0.0034
+   -0.0001
+    0.0022
+   -0.0001
+    0.0022
+    0.0038
+   -0.0016
+    0.0019
+   -0.0016
+    0.0019
+    0.0019
+    0.0016
+   -0.0013
+    0.0020
+    0.0013
+    0.0018
+    0.0013
+    0.0018
+    0.0029
+    0.0003
+    0.0020
+    0.0003
+    0.0020
+    0.0017
+    0.0040
+   -0.0007
+    0.0023
+   -0.0007
+    0.0023
+    0.0046
+   -0.0029
+    0.0019
+   -0.0029
+    0.0019
+    0.0019
+    0.0017
+    0.0050
+   -0.0016
+    0.0027
+   -0.0016
+    0.0027
+    0.0064
+   -0.0054
+    0.0022
+   -0.0054
+    0.0022
+    0.0020
+    0.0131
+   -0.0131
+    0.0039
+   -0.0131
+    0.0039
+    0.0634
+   -0.1056
+    0.0285
+   -0.1056
+    0.0285
+    0.0014
+    0.0020
+    0.0017
+   -0.0012
+
+  16 1612 HB/bcspwr04
+
+Prob = 
+
+  struct with fields:
+
+     title: 'SYMMETRIC STRUCTURE EQUIVALENCED REPRESENTATION OF U.S. POWER NETWORK'
+         A: [274x274 double]
+      name: 'HB/bcspwr04'
+        id: 16
+      date: '1981'
+    author: 'B. Dembart, J. Lewis'
+        ed: 'I. Duff, R. Grimes, J. Lewis'
+      kind: 'power network problem'
+
+nvals(A): 1338
+{Operation terminated by user during mypcg2 (line 50)
+
+
+In hdip_fiedler (line 153)
+    [x,kk] = mypcg2 (L,u,v,alpha,C,x,1e-6,50) ;
+
+In domats (line 29)
+    [x, lambda, iters] = hdip_fiedler (L) ; % use HDIP to find Fiedler vector
+} 
+diary off
+
+% create a list of symmetric matrices with one component in them
+
+clear all
+diary georgy_list.txt
+type georgy_list.m
+index = ssget
+list = find (index.pattern_symmetry == 1 & index.ncc == 1) ;
+[ignore, i] = sort (index.nnz (list)) ;
+list = list (i)'
+nmatrices = length (list)
+for k = 1:nmatrices
+    id = list (k) ;
+    fprintf ('%4d %d %s/%s\n', id, index.nnz (id), index.Group{id}, ...
+        index.Name{id}) ;
+end
+
+
+diary off
+index = 
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+      LastRevisionDate: '08-Oct-2020 17:09:58'
+                 Group: {2893×1 cell}
+                  Name: {2893×1 cell}
+                 nrows: [1×2893 double]
+                 ncols: [1×2893 double]
+                   nnz: [1×2893 double]
+                 nzero: [1×2893 double]
+      pattern_symmetry: [1×2893 double]
+    numerical_symmetry: [1×2893 double]
+              isBinary: [1×2893 double]
+                isReal: [1×2893 double]
+               nnzdiag: [1×2893 double]
+                posdef: [1×2893 double]
+               amd_lnz: [1×2893 double]
+             amd_flops: [1×2893 double]
+               amd_vnz: [1×2893 double]
+               amd_rnz: [1×2893 double]
+               nblocks: [1×2893 double]
+                sprank: [1×2893 double]
+                RBtype: [2893×3 char]
+              cholcand: [1×2893 double]
+                   ncc: [1×2893 double]
+                  isND: [1×2893 double]
+               isGraph: [1×2893 double]
+        lowerbandwidth: [1×2893 double]
+        upperbandwidth: [1×2893 double]
+    rcm_lowerbandwidth: [1×2893 double]
+    rcm_upperbandwidth: [1×2893 double]
+                  xmin: [1×2893 double]
+                  xmax: [1×2893 double]
+     DownloadTimeStamp: 7.3807e+05
+              nentries: [1×2893 double]
+list =
+        2758
+        2759
+         904
+        2760
+         905
+        1438
+        1524
+          13
+        2761
+        2203
+        2399
+        2204
+          97
+          14
+        1177
+         103
+         133
+         906
+        1519
+        1490
+        1498
+         129
+         436
+         872
+         873
+         874
+        2396
+         132
+        1492
+        1497
+        2457
+         106
+        1484
+         337
+          23
+         883
+        2762
+          15
+        2400
+          11
+         136
+         102
+         220
+         108
+         907
+         298
+        2417
+        2389
+        2403
+        2416
+         323
+        1630
+        1631
+         239
+         113
+        2397
+          93
+          94
+         877
+         878
+         119
+        1198
+          95
+        2763
+          16
+          17
+         117
+        2361
+        2369
+           2
+         116
+         202
+         231
+          96
+        2748
+         884
+         875
+         876
+        2205
+           8
+         251
+        2421
+         926
+          27
+         207
+         122
+         206
+           3
+         121
+         100
+        1634
+        1635
+        2749
+         203
+         929
+        2206
+        2362
+        2370
+        2207
+          98
+         124
+          99
+         908
+         471
+         472
+         473
+           4
+         222
+        2691
+         114
+         125
+        2429
+          26
+        2431
+         101
+         204
+        2750
+         338
+           1
+        2407
+         278
+         279
+         281
+         167
+        1529
+         406
+          24
+         325
+        2751
+        2754
+         223
+        1636
+        2208
+         300
+         301
+         302
+         303
+         304
+         305
+        2752
+        2764
+        2755
+        2753
+         130
+        2436
+        2420
+         221
+         205
+          18
+        2363
+        2371
+        2665
+        2406
+         333
+         229
+          19
+         226
+         134
+         127
+          20
+        2465
+         176
+          21
+         105
+          41
+         225
+         177
+         194
+        2730
+        2423
+         104
+          62
+         135
+        1628
+        1629
+         178
+        1106
+        1107
+         138
+         137
+         182
+         183
+         159
+         180
+          28
+          29
+         299
+         494
+         495
+         496
+        2428
+        2209
+        2689
+         111
+         110
+         195
+        1188
+        2195
+        2196
+        1442
+         181
+        1239
+        1790
+        2690
+         184
+         475
+         479
+         477
+         482
+         476
+         481
+         474
+         478
+         179
+         230
+         107
+        2364
+        2372
+         112
+        1619
+         196
+        1430
+        2408
+         909
+         515
+         517
+         516
+         518
+         511
+         512
+         514
+         331
+        1632
+        1506
+          91
+        2419
+        2466
+          92
+        2210
+        1196
+        2418
+         197
+         539
+        1530
+        2404
+        2531
+         227
+        2765
+         324
+        2692
+        1537
+         198
+        2666
+        2422
+         219
+         139
+        1360
+         199
+          31
+        1633
+         418
+         830
+         831
+         540
+         506
+         507
+         508
+         509
+         510
+         521
+        1539
+         200
+         828
+         829
+         339
+        1538
+          22
+         241
+         419
+         498
+         503
+         497
+         501
+         500
+         505
+         499
+         504
+        2412
+         201
+        2731
+         344
+         422
+        2467
+        2411
+         120
+         358
+        2706
+        2410
+         327
+         416
+        2409
+         527
+        2732
+         332
+        2522
+          48
+        1547
+        1546
+        1542
+         871
+         434
+         530
+        2667
+         228
+        1187
+         357
+        1545
+        1444
+        1543
+         531
+        2668
+        2670
+        2669
+        1206
+        1448
+        1449
+         424
+        2671
+        2672
+         469
+         470
+         480
+         491
+         502
+         513
+         524
+         533
+         534
+         535
+         363
+         757
+        2733
+         483
+         484
+         485
+         486
+         487
+         488
+         489
+         490
+         492
+         493
+         532
+         866
+         910
+        2211
+         420
+        1548
+        2766
+         359
+          45
+         865
+        1190
+         421
+        2405
+         437
+        2468
+        1250
+        1544
+        1425
+        2104
+         427
+        1551
+        1552
+          49
+          77
+        2663
+        2425
+        2424
+         522
+         523
+        2415
+        2414
+        1245
+        1554
+        2850
+        1191
+        1553
+        2523
+        1549
+         412
+        1555
+         377
+        1432
+        1433
+         417
+        1234
+        1217
+         442
+        2430
+        2197
+        2198
+         758
+        1214
+        1242
+        1556
+         411
+        1215
+         425
+        1557
+        1550
+         410
+         443
+        1216
+        2707
+        1559
+         528
+         529
+        1192
+          35
+        2433
+         444
+        1563
+         887
+         888
+         889
+        1916
+        1917
+        2520
+        1249
+        2413
+         441
+        2693
+        2432
+        1380
+        1303
+        2521
+        2390
+        1183
+        2469
+        2440
+        2527
+         440
+        1437
+        1441
+        1262
+         763
+         881
+         365
+         760
+        1193
+         867
+        2643
+        1561
+        2638
+        2569
+        1426
+        2589
+        1558
+         868
+        2636
+         791
+         792
+         869
+        1194
+        1565
+         969
+         870
+        2767
+        1443
+        2437
+        1247
+        1248
+        2537
+         378
+        2434
+        2438
+        2694
+        1272
+        1295
+         911
+        2533
+        2695
+        2627
+          46
+        2708
+        1567
+        1365
+         364
+         759
+        1564
+        1204
+        1205
+        1447
+         832
+         833
+        2530
+        2634
+        2470
+        2435
+        2709
+        1366
+        1312
+        1854
+        2632
+        1611
+        2710
+        1907
+        1255
+        1566
+        2711
+        2712
+        1608
+        1610
+        1609
+        2269
+        2270
+        2271
+        2272
+          50
+        2713
+        2714
+        2715
+        2716
+        2717
+        1309
+        2611
+         970
+         808
+        2829
+        2515
+        1348
+        2532
+        1847
+         886
+        1293
+        1605
+        1607
+        1606
+        2538
+        1428
+        1429
+        2644
+        1908
+         814
+         815
+        2199
+        2200
+        1261
+        1302
+         379
+         933
+        1358
+        1577
+         350
+        2332
+        2261
+        2262
+        2602
+        2588
+        1330
+        1292
+         927
+        1291
+         343
+         445
+         541
+         842
+        2645
+        2641
+        2471
+         766
+         767
+         768
+         769
+         770
+         771
+         772
+         773
+         774
+        1220
+        1873
+        2768
+         775
+        2622
+        2614
+         879
+        1306
+        2536
+        2631
+        1237
+        1851
+        1224
+        1300
+        2811
+        1316
+         776
+         435
+         885
+         326
+        1288
+         777
+        1222
+         778
+        1381
+        1305
+        1210
+        1451
+        1311
+         779
+        1422
+        1263
+        1445
+        2212
+        2213
+        1246
+         912
+        1289
+        2625
+        1307
+         780
+          55
+         752
+         753
+        2635
+        2609
+         781
+        2607
+        1294
+        1227
+        2630
+        1912
+        1379
+         891
+         892
+         782
+        2601
+        1587
+         950
+        2257
+        2258
+        1913
+        1184
+         765
+        1394
+        1412
+        2594
+        2426
+        1363
+        1244
+        1230
+        1256
+         924
+        1347
+        2600
+        2472
+         848
+         783
+        2525
+        2612
+        2613
+        2606
+        2646
+        1359
+        2621
+        1914
+        1915
+        2584
+        2528
+        2610
+        1415
+        2628
+        1259
+         351
+         366
+         784
+        2587
+         847
+        2618
+        2599
+        1301
+        2575
+        2576
+         813
+        1202
+        1435
+        2593
+        1848
+         409
+        2639
+        2597
+         342
+         362
+         341
+        1892
+         785
+        2623
+        2585
+        2629
+        1296
+        2604
+        2769
+         361
+        2583
+        2617
+         953
+        1590
+        2596
+         817
+        1368
+        2526
+         786
+         890
+        2626
+        2608
+        2591
+        1900
+         340
+        1452
+        2518
+         816
+        1297
+         788
+         787
+         789
+         790
+        1308
+        2473
+        2603
+         855
+        2461
+        1231
+        1383
+        1919
+        2605
+         844
+         845
+        1251
+        1434
+         821
+         822
+         820
+        1878
+         352
+         367
+        1213
+        2616
+         804
+        2778
+         811
+        2788
+        1271
+        1417
+        1284
+        2462
+        1643
+          54
+         913
+          52
+        2619
+         846
+        2779
+        2427
+         964
+         965
+         966
+         967
+        2517
+         536
+        2595
+         851
+        1357
+        1235
+        2460
+        1287
+         928
+         853
+        2642
+        1286
+        2570
+         852
+         356
+         761
+         368
+        1431
+        1236
+        1382
+        2260
+        1274
+         973
+        1282
+         805
+        2510
+         849
+        2474
+         803
+         854
+         936
+        2529
+        1354
+        1852
+        2830
+        1849
+        1853
+        1276
+        2770
+        1909
+        1906
+        1278
+        1277
+        2439
+         850
+        2283
+         537
+         856
+        2373
+        1208
+        1209
+        1450
+        1275
+        1283
+        2624
+        1898
+        1910
+        1423
+        2516
+        1883
+        1882
+        1899
+        1361
+        1893
+        1861
+        1454
+        1352
+        2783
+        1350
+        2580
+        2475
+        2812
+         859
+        2519
+         971
+         937
+         914
+         858
+        1421
+        1349
+        2813
+        1355
+        1356
+        1290
+        2265
+        2266
+        1351
+        2571
+         538
+        1393
+        1269
+        2267
+        2268
+        1385
+        1257
+        1254
+        1364
+        2771
+        1367
+        1219
+        1260
+         369
+        1264
+        1285
+        2831
+        1265
+        2476
+        1857
+        2572
+        2483
+        2514
+        1258
+         938
+         860
+        1362
+        2498
+        2513
+        2486
+        1580
+        1581
+        1582
+        1583
+        1584
+        1585
+         940
+         941
+         942
+         943
+         944
+         945
+         946
+         947
+         948
+        1353
+        2487
+        1398
+        2579
+        2488
+        2329
+        2577
+        2578
+        2512
+        2581
+        2477
+        2385
+        2509
+        2573
+        1411
+         915
+        2495
+        1901
+         939
+        1856
+        2464
+        2463
+        2387
+        2772
+        2458
+        2484
+        1267
+        1455
+        2485
+        2386
+        2478
+        1586
+        2480
+        2459
+        2854
+        2481
+        2482
+        2781
+        1252
+        2496
+        2388
+        1902
+         916
+        2773
+        2479
+        2511
+        2544
+        1903
+        2782
+        2774
+        1904
+        1905
+        2775
+        2776
+        2780
+        2856
+nmatrices =
+   956
+2758 2 Mycielski/mycielskian2
+2759 10 Mycielski/mycielskian3
+ 904 19 vanHeukelum/cage3
+2760 40 Mycielski/mycielskian4
+ 905 49 vanHeukelum/cage4
+1438 82 Oberwolfach/LF10
+1524 90 Pajek/Stranke94
+  13 131 HB/bcspwr01
+2761 142 Mycielski/mycielskian5
+2203 147 JGD_Trefethen/Trefethen_20b
+2399 156 Newman/karate
+2204 158 JGD_Trefethen/Trefethen_20
+  97 160 HB/can_24
+  14 167 HB/bcspwr02
+1177 169 HB/lap_25
+ 103 218 HB/can_62
+ 133 222 HB/dwt_72
+ 906 233 vanHeukelum/cage5
+1519 248 Pajek/Sandi_authors
+1490 250 Pajek/GD96_c
+1498 252 Pajek/GD99_b
+ 129 267 HB/dwt_59
+ 436 279 FIDAP/ex5
+ 872 306 Pothen/mesh1e1
+ 873 306 Pothen/mesh1em1
+ 874 306 Pothen/mesh1em6
+2396 318 Newman/dolphins
+ 132 320 HB/dwt_66
+1492 332 Pajek/GD97_a
+1497 336 Pajek/GD98_c
+2457 340 DIMACS10/chesapeake
+ 106 377 HB/can_73
+1484 380 Pajek/GD06_theory
+ 337 396 Bai/tub100
+  23 400 HB/bcsstk01
+ 883 450 Pothen/sphere2
+2762 472 Mycielski/mycielskian6
+  15 476 HB/bcspwr03
+2400 508 Newman/lesmis
+  11 523 HB/ash85
+ 136 541 HB/dwt_87
+ 102 557 HB/can_61
+ 220 594 HB/nos4
+ 108 768 HB/can_96
+ 907 785 vanHeukelum/cage6
+ 298 796 Bai/bwm200
+2417 840 AG-Monien/grid1_dual
+2389 850 Newman/adjnoun
+2403 882 Newman/polbooks
+2416 952 AG-Monien/grid1
+ 323 1065 Bai/pde225
+1630 1120 Bai/rdb200
+1631 1120 Bai/rdb200l
+ 239 1128 HB/saylr1
+ 113 1182 HB/dwt_162
+2397 1226 Newman/football
+  93 1296 HB/can_144
+  94 1377 HB/can_161
+ 877 1377 Pothen/mesh3e1
+ 878 1377 Pothen/mesh3em5
+ 119 1461 HB/dwt_245
+1198 1475 Rajat/rajat14
+  95 1491 HB/can_187
+2763 1510 Mycielski/mycielskian7
+  16 1612 HB/bcspwr04
+  17 1623 HB/bcspwr05
+ 117 1629 HB/dwt_221
+2361 1633 Rommes/M10PI_n
+2369 1633 Rommes/S10PI_n
+   2 1666 HB/494_bus
+ 116 1743 HB/dwt_209
+ 202 1753 HB/lshp_265
+ 231 1760 HB/plskz362
+  96 1777 HB/can_229
+2748 1783 VDOL/tumorAntiAngiogenesis_1
+ 884 1794 Pothen/sphere3
+ 875 2018 Pothen/mesh2e1
+ 876 2018 Pothen/mesh2em5
+2205 2040 JGD_Trefethen/Trefethen_150
+   8 2208 HB/ash292
+ 251 2248 HB/steam1
+2421 2342 AG-Monien/netz4504_dual
+ 926 2417 FEMLAB/poisson2D
+  27 2423 HB/bcsstk05
+ 207 2441 HB/lund_b
+ 122 2448 HB/dwt_310
+ 206 2449 HB/lund_a
+   3 2474 HB/662_bus
+ 121 2523 HB/dwt_307
+ 100 2540 HB/can_292
+1634 2580 Bai/rdb450
+1635 2580 Bai/rdb450l
+2749 2699 VDOL/tumorAntiAngiogenesis_2
+ 203 2716 HB/lshp_406
+ 929 2779 FEMLAB/problem1
+2206 2873 JGD_Trefethen/Trefethen_200b
+2362 2881 Rommes/M20PI_n
+2370 2881 Rommes/S20PI_n
+2207 2890 JGD_Trefethen/Trefethen_200
+  98 2916 HB/can_256
+ 124 2953 HB/dwt_361
+  99 3082 HB/can_268
+ 908 3084 vanHeukelum/cage7
+ 471 3200 Gset/G11
+ 472 3200 Gset/G12
+ 473 3200 Gset/G13
+   4 3249 HB/685_bus
+ 222 3255 HB/nos6
+2691 3477 VDOL/hangGlider_1
+ 114 3493 HB/dwt_193
+ 125 3563 HB/dwt_419
+2429 3640 AG-Monien/L
+  26 3648 HB/bcsstk04
+2431 3736 AG-Monien/stufe
+ 101 3809 HB/can_445
+ 204 3889 HB/lshp_577
+2750 3952 VDOL/tumorAntiAngiogenesis_3
+ 338 3996 Bai/tub1000
+   1 4054 HB/1138_bus
+2407 4065 Arenas/celegans_metabolic
+ 278 4089 HB/young1c
+ 279 4089 HB/young2c
+ 281 4089 HB/young4c
+ 167 4182 HB/hor_131
+1529 4252 Pajek/USAir97
+ 406 4317 FIDAP/ex1
+  24 4356 HB/bcsstk02
+ 325 4380 Bai/pde900
+2751 4593 VDOL/tumorAntiAngiogenesis_4
+2754 4597 VDOL/tumorAntiAngiogenesis_7
+ 223 4617 HB/nos7
+1636 4640 Bai/rdb800l
+2208 4678 JGD_Trefethen/Trefethen_300
+ 300 4681 Bai/cdde1
+ 301 4681 Bai/cdde2
+ 302 4681 Bai/cdde3
+ 303 4681 Bai/cdde4
+ 304 4681 Bai/cdde5
+ 305 4681 Bai/cdde6
+2752 4690 VDOL/tumorAntiAngiogenesis_5
+2764 4720 Mycielski/mycielskian8
+2755 4776 VDOL/tumorAntiAngiogenesis_8
+2753 4795 VDOL/tumorAntiAngiogenesis_6
+ 130 5104 HB/dwt_592
+2436 5124 AG-Monien/cage
+2420 5156 AG-Monien/netz4504
+ 221 5172 HB/nos5
+ 205 5272 HB/lshp_778
+  18 5300 HB/bcspwr06
+2363 5341 Rommes/M40PI_n
+2371 5341 Rommes/S40PI_n
+2665 5367 VDOL/dynamicSoaringProblem_1
+2406 5484 Arenas/jazz
+ 333 5632 Bai/rdb968
+ 229 5786 HB/plat362
+  19 5824 HB/bcspwr07
+ 226 5970 HB/orsirr_2
+ 134 5994 HB/dwt_758
+ 127 6027 HB/dwt_503
+  20 6050 HB/bcspwr08
+2465 6112 DIMACS10/delaunay_n10
+ 176 6264 HB/jagmesh1
+  21 6511 HB/bcspwr09
+ 105 6665 HB/can_715
+  41 6853 HB/bcsstk19
+ 225 6858 HB/orsirr_1
+ 177 6865 HB/jagmesh2
+ 194 6865 HB/lshp1009
+2730 6891 VDOL/spaceShuttleEntry_1
+2423 7076 AG-Monien/ukerbe1_dual
+ 104 7228 HB/can_634
+  62 7252 HB/bcsstm07
+ 135 7285 HB/dwt_869
+1628 7300 Bai/rdb1250
+1629 7300 Bai/rdb1250l
+ 178 7361 HB/jagmesh3
+1106 7382 Sandia/fpga_trans_01
+1107 7382 Sandia/fpga_trans_02
+ 138 7384 HB/dwt_918
+ 137 7448 HB/dwt_878
+ 182 7450 HB/jagmesh7
+ 183 7465 HB/jagmesh8
+ 159 7744 HB/gr_30_30
+ 180 7750 HB/jagmesh5
+  28 7860 HB/bcsstk06
+  29 7860 HB/bcsstk07
+ 299 7996 Bai/bwm2000
+ 494 8000 Gset/G32
+ 495 8000 Gset/G33
+ 496 8000 Gset/G34
+2428 8184 AG-Monien/diag
+2209 8478 JGD_Trefethen/Trefethen_500
+2689 8498 VDOL/goddardRocketProblem_1
+ 111 8575 HB/dwt_1007
+ 110 8621 HB/dwt_1005
+ 195 8668 HB/lshp1270
+1188 8725 Rajat/rajat04
+2195 8736 JGD_SPG/EX1
+2196 8736 JGD_SPG/EX2
+1442 8985 Oberwolfach/rail_1357
+ 181 8993 HB/jagmesh6
+1239 9000 GHS_indef/laser
+1790 9000 Meszaros/iprob
+2690 9058 VDOL/goddardRocketProblem_2
+ 184 9101 HB/jagmesh9
+ 475 9322 Gset/G15
+ 479 9322 Gset/G19
+ 477 9334 Gset/G17
+ 482 9334 Gset/G21
+ 476 9344 Gset/G16
+ 481 9344 Gset/G20
+ 474 9388 Gset/G14
+ 478 9388 Gset/G18
+ 179 9504 HB/jagmesh4
+ 230 9662 HB/plsk1919
+ 107 10010 HB/can_838
+2364 10261 Rommes/M80PI_n
+2372 10261 Rommes/S80PI_n
+ 112 10426 HB/dwt_1242
+1619 10591 Bai/dwg961b
+ 196 10681 HB/lshp1561
+1430 10750 Oberwolfach/filter2D
+2408 10902 Arenas/email
+ 909 11003 vanHeukelum/cage8
+ 515 11818 Gset/G51
+ 517 11828 Gset/G53
+ 516 11832 Gset/G52
+ 518 11832 Gset/G54
+ 511 12000 Gset/G48
+ 512 12000 Gset/G49
+ 514 12000 Gset/G50
+ 331 12032 Bai/rdb2048
+1632 12032 Bai/rdb2048_noL
+1506 12068 Pajek/Journals
+  91 12196 HB/can_1054
+2419 12224 AG-Monien/grid2_dual
+2466 12254 DIMACS10/delaunay_n11
+  92 12444 HB/can_1072
+2210 12654 JGD_Trefethen/Trefethen_700
+1196 12818 Rajat/rajat12
+2418 12864 AG-Monien/grid2
+ 197 12904 HB/lshp1882
+ 539 13151 Hamm/add20
+1530 13188 Pajek/USpowerGrid
+2404 13188 Newman/power
+2531 13674 DIMACS10/uk
+ 227 14133 HB/orsreg_1
+2765 14542 Mycielski/mycielskian9
+ 324 14585 Bai/pde2961
+2692 14754 VDOL/hangGlider_2
+1537 15145 Schenk_IBMNA/c-18
+ 198 15337 HB/lshp2233
+2666 15588 VDOL/dynamicSoaringProblem_2
+2422 15704 AG-Monien/ukerbe1
+ 219 15844 HB/nos3
+ 139 16744 HB/dwt_992
+1360 17801 PARSEC/Si2
+ 199 17980 HB/lshp2614
+  31 18437 HB/bcsstk09
+1633 18880 Bai/rdb3200l
+ 418 18964 FIDAP/ex21
+ 830 19093 Wang/wang1
+ 831 19093 Wang/wang2
+ 540 19848 Hamm/add32
+ 506 19980 Gset/G43
+ 507 19980 Gset/G44
+ 508 19980 Gset/G45
+ 509 19980 Gset/G46
+ 510 19980 Gset/G47
+ 521 20000 Gset/G57
+1539 20445 Schenk_IBMNA/c-20
+ 200 20833 HB/lshp3025
+ 828 20841 Wang/swang1
+ 829 20841 Wang/swang2
+ 339 21418 Boeing/bcsstk34
+1538 21817 Schenk_IBMNA/c-19
+  22 21842 HB/bcspwr10
+ 241 22316 HB/saylr4
+ 419 22460 FIDAP/ex22
+ 498 23532 Gset/G36
+ 503 23532 Gset/G40
+ 497 23556 Gset/G35
+ 501 23556 Gset/G39
+ 500 23558 Gset/G38
+ 505 23558 Gset/G42
+ 499 23570 Gset/G37
+ 504 23570 Gset/G41
+2412 23626 AG-Monien/airfoil1_dual
+ 201 23896 HB/lshp3466
+2731 24073 VDOL/spaceShuttleEntry_2
+ 344 24270 Boeing/bcsstm34
+ 422 24369 FIDAP/ex25
+2467 24528 DIMACS10/delaunay_n12
+2411 24578 AG-Monien/airfoil1
+ 120 25026 HB/dwt_2680
+ 358 26198 Boeing/msc01050
+2706 26261 VDOL/lowThrust_2
+2410 26556 AG-Monien/3elt_dual
+ 327 26730 Bai/qc324
+ 416 26839 FIDAP/ex2
+2409 27444 AG-Monien/3elt
+ 527 28000 Gset/G62
+2732 28757 VDOL/spaceShuttleEntry_3
+ 332 29600 Bai/rdb5000
+2522 30186 DIMACS10/data
+  48 30336 HB/bcsstk26
+1547 30590 Schenk_IBMNA/c-28
+1546 30927 Schenk_IBMNA/c-27
+1542 31079 Schenk_IBMNA/c-23
+ 871 31680 Pothen/commanche_dual
+ 434 31849 FIDAP/ex4
+ 530 32000 Gset/G65
+2667 32022 VDOL/dynamicSoaringProblem_3
+ 228 32399 HB/plat1919
+1187 32653 Rajat/rajat03
+ 357 34518 Boeing/msc00726
+1545 34537 Schenk_IBMNA/c-26
+1444 35185 Oberwolfach/rail_5177
+1543 35699 Schenk_IBMNA/c-24
+ 531 36000 Gset/G66
+2668 36516 VDOL/dynamicSoaringProblem_4
+2670 36741 VDOL/dynamicSoaringProblem_6
+2669 36789 VDOL/dynamicSoaringProblem_5
+1206 37465 Oberwolfach/t2dal_a
+1448 37465 Oberwolfach/t2dal_bci
+1449 37465 Oberwolfach/t2dal
+ 424 37652 FIDAP/ex27
+2671 37680 VDOL/dynamicSoaringProblem_7
+2672 38136 VDOL/dynamicSoaringProblem_8
+ 469 38352 Gset/G1
+ 470 38352 Gset/G10
+ 480 38352 Gset/G2
+ 491 38352 Gset/G3
+ 502 38352 Gset/G4
+ 513 38352 Gset/G5
+ 524 38352 Gset/G6
+ 533 38352 Gset/G7
+ 534 38352 Gset/G8
+ 535 38352 Gset/G9
+ 363 39208 Boeing/nasa1824
+ 757 39208 Nasa/nasa1824
+2733 39669 VDOL/spaceShuttleEntry_4
+ 483 39980 Gset/G22
+ 484 39980 Gset/G23
+ 485 39980 Gset/G24
+ 486 39980 Gset/G25
+ 487 39980 Gset/G26
+ 488 39980 Gset/G27
+ 489 39980 Gset/G28
+ 490 39980 Gset/G29
+ 492 39980 Gset/G30
+ 493 39980 Gset/G31
+ 532 40000 Gset/G67
+ 866 40965 Pothen/barth4
+ 910 41594 vanHeukelum/cage9
+2211 41906 JGD_Trefethen/Trefethen_2000
+ 420 42760 FIDAP/ex23
+1548 43731 Schenk_IBMNA/c-29
+2766 44392 Mycielski/mycielskian10
+ 359 44998 Boeing/msc01440
+  45 45178 HB/bcsstk23
+ 865 46187 Pothen/barth
+1190 46983 Rajat/rajat06
+ 421 47901 FIDAP/ex24
+2405 48632 Arenas/PGPgiantcompo
+ 437 49062 FIDAP/ex6
+2468 49094 DIMACS10/delaunay_n13
+1250 49365 GHS_indef/tuma2
+1544 49635 Schenk_IBMNA/c-25
+1425 49999 GHS_indef/bloweybq
+2104 51480 JGD_Homology/n3c6-b7
+ 427 52685 FIDAP/ex3
+1551 54471 Schenk_IBMNA/c-32
+1552 56123 Schenk_IBMNA/c-33
+  49 56126 HB/bcsstk27
+  77 56126 HB/bcsstm27
+2663 57022 Moqri/MISKnowledgeMap
+2425 57162 AG-Monien/whitaker3_dual
+2424 57978 AG-Monien/whitaker3
+ 522 59140 Gset/G58
+ 523 59140 Gset/G59
+2415 60086 AG-Monien/crack_dual
+2414 60760 AG-Monien/crack
+1245 61046 GHS_indef/sit100
+1554 62891 Schenk_IBMNA/c-35
+2850 63024 Negre/dendrimer
+1191 63913 Rajat/rajat07
+1553 64333 Schenk_IBMNA/c-34
+2523 65636 DIMACS10/fe_4elt2
+1549 65693 Schenk_IBMNA/c-30
+ 412 65875 FIDAP/ex14
+1555 65941 Schenk_IBMNA/c-36
+ 377 66528 Brunetiere/thermal
+1432 67391 Oberwolfach/flowmeter0
+1433 67391 Oberwolfach/flowmeter5
+ 417 67830 FIDAP/ex20
+1234 69972 GHS_indef/dtoc
+1217 69984 GHS_indef/aug3d
+ 442 70842 Gaertner/nopoly
+2430 71192 AG-Monien/L-9
+2197 71760 JGD_SPG/EX3
+2198 71760 JGD_SPG/EX4
+ 758 72250 Nasa/nasa2146
+1214 72356 Cannizzo/sts4098
+1242 73963 GHS_indef/ncvxqp1
+1556 74676 Schenk_IBMNA/c-37
+ 411 75628 FIDAP/ex13
+1215 76832 GHS_indef/aug2d
+ 425 77031 FIDAP/ex28
+1557 77689 Schenk_IBMNA/c-38
+1550 78571 Schenk_IBMNA/c-31
+ 410 79077 FIDAP/ex12
+ 443 79566 Gaertner/pesa
+1216 80000 GHS_indef/aug2dc
+2707 80645 VDOL/lowThrust_3
+1559 81501 Schenk_IBMNA/c-40
+ 528 82918 Gset/G63
+ 529 82918 Gset/G64
+1192 83443 Rajat/rajat08
+  35 83883 HB/bcsstk13
+2433 84076 AG-Monien/biplane-9
+ 444 84723 Garon/garon1
+1563 85000 Schenk_IBMNA/c-44
+ 887 85264 Norris/fv1
+ 888 87025 Norris/fv2
+ 889 87025 Norris/fv3
+1916 87025 TKK/t2d_q4
+1917 87025 TKK/t2d_q9
+2520 87716 DIMACS10/cs4
+1249 87760 GHS_indef/tuma1
+2413 89858 AG-Monien/big_dual
+ 441 91465 Gaertner/big
+2693 92703 VDOL/hangGlider_3
+2432 92828 AG-Monien/stufe-10
+1380 94026 Andrianov/fxm3_6
+1303 95977 GHS_indef/linverse
+2521 96464 DIMACS10/cti
+2390 96872 Newman/as-22july06
+1183 97193 IBM_Austin/coupled
+2469 98244 DIMACS10/delaunay_n14
+2440 98300 AG-Monien/se
+2527 98304 DIMACS10/fe_sphere
+ 440 99471 FIDAP/ex9
+1437 99982 Oberwolfach/LF10000
+1441 100015 Oberwolfach/piston
+1262 101576 GHS_psdef/ford1
+ 763 103599 Nasa/shuttle_eddy
+ 881 103599 Pothen/shuttle_eddy
+ 365 104756 Boeing/nasa4704
+ 760 104756 Nasa/nasa4704
+1193 105573 Rajat/rajat09
+ 867 107362 Pothen/barth5
+2643 107736 DIMACS10/vsp_p0291_seymourl_iiasa
+1561 110285 Schenk_IBMNA/c-42
+2638 111732 DIMACS10/vsp_data_and_seymourl
+2569 113343 Bodendiek/CurlCurl_0
+1426 114962 GHS_indef/cvxqp3
+2589 116056 DIMACS10/de2010
+1558 116587 Schenk_IBMNA/c-39
+ 868 121550 Pothen/bodyy4
+2636 124368 DIMACS10/vsp_c-30_data_data
+ 791 125567 Okunbor/aft01
+ 792 127762 Okunbor/aft02
+ 869 128853 Pothen/bodyy5
+1194 130303 Rajat/rajat10
+1565 130397 Schenk_IBMNA/c-46
+ 969 130500 Schenk_ISEI/igbt3
+ 870 134208 Pothen/bodyy6
+2767 134710 Mycielski/mycielskian11
+1443 139233 Oberwolfach/rail_20209
+2437 139264 AG-Monien/cca
+1247 140034 GHS_indef/stokes64
+1248 140034 GHS_indef/stokes64s
+2537 141478 IPSO/OPF_3754
+ 378 142190 Cote/mplate
+2434 142580 AG-Monien/shock-9
+2438 147456 AG-Monien/ccc
+2694 149532 VDOL/hangGlider_4
+1272 149658 GHS_psdef/pds10
+1295 150009 GHS_indef/bloweya
+ 911 150645 vanHeukelum/cage10
+2533 150976 DIMACS10/wing_nodal
+2695 155246 VDOL/hangGlider_5
+2627 155598 DIMACS10/vt2010
+  46 159910 HB/bcsstk24
+2708 160947 VDOL/lowThrust_4
+1567 166080 Schenk_IBMNA/c-48
+1365 171903 PARSEC/SiH4
+ 364 174296 Boeing/nasa2910
+ 759 174296 Nasa/nasa2910
+1564 174452 Schenk_IBMNA/c-45
+1204 176117 Oberwolfach/t2dah_a
+1205 176117 Oberwolfach/t2dah_e
+1447 176117 Oberwolfach/t2dah
+ 832 177168 Wang/wang3
+ 833 177196 Wang/wang4
+2530 178880 DIMACS10/t60k
+2634 196448 DIMACS10/vsp_befref_fxm_2_4_air02
+2470 196548 DIMACS10/delaunay_n15
+2435 196608 AG-Monien/bfly
+2709 198369 VDOL/lowThrust_5
+1366 198787 PARSEC/SiNa
+1312 199200 GHS_psdef/jnlbrng1
+1854 201201 Watson/chem_master1
+2632 203610 DIMACS10/vsp_barth5_1Ksep_50in_5Kout
+1611 207123 Cylshell/s3rmt3m3
+2710 207349 VDOL/lowThrust_6
+1907 207695 TKK/g3rmt3m3
+1255 211064 GHS_psdef/copter1
+1566 211401 Schenk_IBMNA/c-47
+2711 211561 VDOL/lowThrust_7
+2712 216445 VDOL/lowThrust_8
+1608 217651 Cylshell/s1rmt3m1
+1610 217669 Cylshell/s3rmt3m1
+1609 217681 Cylshell/s2rmt3m1
+2269 218484 Puri/ABACUS_shell_ud
+2270 218484 Puri/ABACUS_shell_ld
+2271 218484 Puri/ABACUS_shell_md
+2272 218484 Puri/ABACUS_shell_hd
+  50 219024 HB/bcsstk28
+2713 219589 VDOL/lowThrust_9
+2714 222005 VDOL/lowThrust_10
+2715 223801 VDOL/lowThrust_11
+2716 224593 VDOL/lowThrust_12
+2717 224897 VDOL/lowThrust_13
+1309 229947 GHS_indef/spmsrtls
+2611 234550 DIMACS10/nh2010
+ 970 237130 Schenk_ISEI/nmos3
+ 808 237798 Rothberg/struct4
+2829 238627 TAMU_SmartGridCenter/ACTIVSg70K
+2515 239332 DIMACS10/luxembourg_osm
+1348 242669 PARSEC/benzene
+2532 243088 DIMACS10/wing
+1847 253009 UTEP/Dubcova1
+ 886 253350 Pothen/tandem_vtx
+1293 255004 GHS_indef/a5esindl
+1605 262411 Cylshell/s1rmq4m1
+1607 262943 Cylshell/s3rmq4m1
+1606 263351 Cylshell/s2rmq4m1
+2538 274697 IPSO/OPF_6000
+1428 281150 Oberwolfach/chipcool0
+1429 281150 Oberwolfach/chipcool1
+2644 281662 DIMACS10/vsp_sctap1-2b_and_seymourl
+1908 286341 TKK/t520
+ 814 293409 Simon/raefsky1
+ 815 293551 Simon/raefsky2
+2199 295680 JGD_SPG/EX5
+2200 295680 JGD_SPG/EX6
+1261 298496 GHS_psdef/finance256
+1302 299998 GHS_indef/dixmaanl
+ 379 301700 Cote/vibrobox
+ 933 303468 FEMLAB/waveguide3D
+1358 305630 PARSEC/Na5
+1577 310016 Schenk_IBMNA/c-61
+ 350 315891 Boeing/crystk01
+2332 323900 Gleich/usroads-48
+2261 327680 MaxPlanck/shallow_water1
+2262 327680 MaxPlanck/shallow_water2
+2602 335476 DIMACS10/me2010
+2588 336352 DIMACS10/ct2010
+1330 340200 MathWorks/Kuu
+1292 347222 GHS_indef/a2nnsnsl
+ 927 352762 FEMLAB/poisson3Da
+1291 355034 GHS_indef/a0nsdsil
+ 343 355460 Boeing/bcsstk38
+ 445 373235 Garon/garon2
+ 541 375558 Hamm/bcircuit
+ 842 378927 Cunningham/k3plates
+2645 379828 DIMACS10/vsp_south31_slptsk
+2641 379952 DIMACS10/vsp_model1_crew1_cr42_south31
+2471 393150 DIMACS10/delaunay_n16
+ 766 394808 Nemeth/nemeth02
+ 767 394808 Nemeth/nemeth03
+ 768 394808 Nemeth/nemeth04
+ 769 394808 Nemeth/nemeth05
+ 770 394808 Nemeth/nemeth06
+ 771 394812 Nemeth/nemeth07
+ 772 394816 Nemeth/nemeth08
+ 773 395506 Nemeth/nemeth09
+ 774 401448 Nemeth/nemeth10
+1220 403450 GHS_indef/c-55
+1873 406084 Dehghani/light_in_tissue
+2768 407200 Mycielski/mycielskian12
+ 775 408264 Nemeth/nemeth11
+2622 410722 DIMACS10/sd2010
+2614 416998 DIMACS10/nv2010
+ 879 419201 Pothen/onera_dual
+1306 424966 GHS_indef/ncvxqp5
+2536 426898 IPSO/OPF_10000
+2631 427586 DIMACS10/wy2010
+1237 428444 GHS_indef/helm3d01
+1851 430740 Botonakis/FEM_3D_thermal1
+1224 434704 GHS_indef/c-63
+1300 438795 GHS_indef/cont-201
+2811 439469 Guettel/TEM27623
+1316 443573 Rajat/rajat15
+ 776 446818 Nemeth/nemeth12
+ 435 456188 FIDAP/ex40
+ 885 460493 Pothen/tandem_dual
+ 326 463360 Bai/qc2534
+1288 471601 GHS_psdef/wathen100
+ 777 474472 Nemeth/nemeth13
+1222 480536 GHS_indef/c-59
+ 778 496144 Nemeth/nemeth14
+1381 497844 Andrianov/fxm4_6
+1305 499964 GHS_indef/ncvxqp3
+1210 509866 Oberwolfach/t3dl_a
+1451 509866 Oberwolfach/t3dl
+1311 512084 GHS_psdef/gridgena
+ 779 539802 Nemeth/nemeth15
+1422 542184 GHS_psdef/apache1
+1263 544688 GHS_psdef/ford2
+1445 553921 Oberwolfach/rail_79841
+2212 554435 JGD_Trefethen/Trefethen_20000b
+2213 554466 JGD_Trefethen/Trefethen_20000
+1246 558594 GHS_indef/stokes128
+ 912 559722 vanHeukelum/cage11
+1289 565761 GHS_psdef/wathen120
+2625 572066 DIMACS10/ut2010
+1307 574962 GHS_indef/ncvxqp7
+ 780 587012 Nemeth/nemeth16
+  55 591904 HB/bcsstk33
+ 752 596992 Mulvey/finan512
+ 753 596992 Mulvey/pfinan512
+2635 601602 DIMACS10/vsp_bump2_e18_aa01_model1_crew1
+2609 625946 DIMACS10/nd2010
+ 781 629620 Nemeth/nemeth17
+2607 638668 DIMACS10/mt2010
+1294 640033 GHS_indef/blockqp1
+1227 658986 GHS_indef/c-70
+2630 662922 DIMACS10/wv2010
+1912 676515 TKK/cbuckle
+1379 678998 Andrianov/ex3sta1
+ 891 680341 Norris/heart2
+ 892 680341 Norris/heart3
+ 782 695234 Nemeth/nemeth18
+2601 700378 DIMACS10/md2010
+1587 707601 Schenk_IBMNA/c-64b
+ 950 707985 Schenk_IBMNA/c-64
+2257 711558 Botonakis/thermomech_TC
+2258 711558 Botonakis/thermomech_TK
+1913 714241 TKK/cyl6
+1184 715804 ACUSIM/Pres_Poisson
+ 765 725054 Nemeth/nemeth01
+1394 725144 Andrianov/pf2177
+1412 726674 AMD/G2_circuit
+2594 728264 DIMACS10/id2010
+2426 733118 AG-Monien/brack2
+1363 738598 PARSEC/Si5H12
+1244 744216 GHS_indef/olesnik0
+1230 759952 GHS_indef/copter2
+1256 759952 GHS_psdef/copter2
+ 924 760154 Andrews/Andrews
+1347 770811 Lourakis/bundle1
+2600 776610 DIMACS10/ma2010
+2472 786352 DIMACS10/delaunay_n17
+ 848 810000 Chen/pkustk02
+ 783 818302 Nemeth/nemeth19
+2525 819186 DIMACS10/fe_ocean
+2612 829912 DIMACS10/nj2010
+2613 830970 DIMACS10/nm2010
+2606 839980 DIMACS10/ms2010
+2646 871172 DIMACS10/vsp_vibrobox_scagr7-2c_rlfddd
+1359 875923 PARSEC/Si10H16
+2621 893160 DIMACS10/sc2010
+1914 897056 TKK/tube1
+1915 897056 TKK/tube2
+2584 904310 DIMACS10/ar2010
+2528 905182 DIMACS10/fe_tooth
+2610 913854 DIMACS10/ne2010
+1415 940621 Sandia/ASIC_100k
+2628 947432 DIMACS10/wa2010
+1259 960946 DNVS/crplat2
+ 351 968583 Boeing/crystk02
+ 366 968583 Boeing/pcrystk02
+ 784 971870 Nemeth/nemeth20
+2587 974574 DIMACS10/co2010
+ 847 979380 Chen/pkustk01
+2618 979512 DIMACS10/or2010
+2599 980634 DIMACS10/la2010
+1301 988195 GHS_indef/cont-300
+2575 999970 DIMACS10/preferentialAttachment
+2576 999996 DIMACS10/smallworld
+ 813 1015156 Simon/olafu
+1202 1021159 Oberwolfach/gyro_k
+1435 1021159 Oberwolfach/gyro
+2593 1021170 DIMACS10/ia2010
+1848 1030225 UTEP/Dubcova2
+ 409 1096948 FIDAP/ex11
+2639 1104040 DIMACS10/vsp_finan512_scagr7-2c_rlfddd
+2597 1121798 DIMACS10/ks2010
+ 342 1140977 Boeing/bcsstk37
+ 362 1142686 Boeing/msc23052
+ 341 1143140 Boeing/bcsstk36
+1892 1156224 Castrillon/denormal
+ 785 1173746 Nemeth/nemeth21
+2623 1193966 DIMACS10/tn2010
+2585 1196094 DIMACS10/az2010
+2629 1209404 DIMACS10/wi2010
+1296 1211231 GHS_indef/boyd1
+2604 1227102 DIMACS10/mn2010
+2769 1227742 Mycielski/mycielskian13
+ 361 1229776 Boeing/msc10848
+2583 1230482 DIMACS10/al2010
+2617 1274148 DIMACS10/ok2010
+ 953 1279274 Schenk_IBMNA/c-73
+1590 1279274 Schenk_IBMNA/c-73b
+2596 1281716 DIMACS10/in2010
+ 817 1316789 Simon/raefsky4
+1368 1317655 PARSEC/SiO
+2526 1324862 DIMACS10/fe_rotor
+ 786 1358832 Nemeth/nemeth22
+ 890 1385317 Norris/heart1
+2626 1402128 DIMACS10/va2010
+2608 1416620 DIMACS10/nc2010
+2591 1418056 DIMACS10/ga2010
+1900 1434636 CEMW/vfem
+ 340 1450163 Boeing/bcsstk35
+1452 1482390 Oberwolfach/windscreen
+2518 1483868 DIMACS10/598a
+ 816 1488768 Simon/raefsky3
+1297 1500397 GHS_indef/boyd2
+ 788 1506550 Nemeth/nemeth24
+ 787 1506810 Nemeth/nemeth23
+ 789 1511758 Nemeth/nemeth25
+ 790 1511760 Nemeth/nemeth26
+1308 1548988 GHS_indef/sparsine
+2473 1572792 DIMACS10/delaunay_n18
+2603 1578090 DIMACS10/mi2010
+ 855 1583640 Chen/pkustk09
+2461 1628268 DIMACS10/coAuthorsCiteseer
+1231 1641672 GHS_indef/d_pretok
+1383 1643420 Andrianov/lp1
+1919 1647264 Um/2cubes_sphere
+2605 1656568 DIMACS10/mo2010
+ 844 1660579 Cunningham/qa8fk
+ 845 1660579 Cunningham/qa8fm
+1251 1690876 GHS_indef/turon_m
+1434 1703365 Oberwolfach/gas_sensor
+ 821 1717763 Simon/venkat25
+ 822 1717777 Simon/venkat50
+ 820 1717792 Simon/venkat01
+1878 1731206 Lee/fem_filter
+ 352 1751178 Boeing/crystk03
+ 367 1751178 Boeing/pcrystk03
+1213 1766400 Lin/Lin
+2616 1768240 DIMACS10/oh2010
+ 804 1825580 Rothberg/cfd1
+2778 1851744 SNAP/com-Amazon
+ 811 1853104 Simon/appu
+2788 1900654 SNAP/loc-Gowalla
+1271 1930655 GHS_psdef/opt1
+1417 1931828 Sandia/ASIC_320k
+1284 1935324 DNVS/trdheim
+2462 1955352 DIMACS10/coAuthorsDBLP
+1643 1990919 POLYFLOW/mixtank_new
+  54 2014701 HB/bcsstk32
+ 913 2032536 vanHeukelum/cage12
+  52 2043492 HB/bcsstk30
+2619 2058462 DIMACS10/pa2010
+ 846 2060662 Boeing/bcsstk39
+2779 2099732 SNAP/com-DBLP
+2427 2118662 AG-Monien/wave
+ 964 2129496 Schenk_ISEI/barrier2-1
+ 965 2129496 Schenk_ISEI/barrier2-2
+ 966 2129496 Schenk_ISEI/barrier2-3
+ 967 2129496 Schenk_ISEI/barrier2-4
+2517 2148786 DIMACS10/144
+ 536 2164210 Gupta/gupta1
+2595 2164464 DIMACS10/il2010
+ 851 2205144 Chen/pkustk05
+1357 2216736 PARSEC/H2O
+1235 2269500 GHS_indef/exdata_1
+2460 2313294 DIMACS10/citationCiteseer
+1287 2329056 GHS_psdef/vanbody
+ 928 2374949 FEMLAB/poisson3Db
+ 853 2418804 Chen/pkustk07
+2642 2442056 DIMACS10/vsp_msc10848_300sep_100in_1Kout
+1286 2454957 DNVS/tsyl201
+2570 2472071 Bodendiek/CurlCurl_1
+ 852 2571768 Chen/pkustk06
+ 356 2600295 Boeing/ct20stif
+ 761 2677324 Nasa/nasasrb
+ 368 2698463 Boeing/pct20stif
+1431 2707179 Oberwolfach/filter3D
+1236 2741935 GHS_indef/helm2d03
+1382 2751484 Andrianov/ins2
+2260 2846228 Botonakis/thermomech_dK
+1274 2866352 GHS_psdef/ramage02
+ 973 2930882 Schenk_ISEI/para-4
+1282 2962152 GHS_psdef/srb1
+ 805 3085406 Rothberg/cfd2
+2510 3099940 DIMACS10/belgium_osm
+ 849 3130416 Chen/pkustk03
+2474 3145646 DIMACS10/delaunay_n19
+ 803 3213618 Rothberg/3dtube
+ 854 3226671 Chen/pkustk08
+ 936 3279690 ND/nd3k
+2529 3358036 DIMACS10/m14b
+1354 3381809 PARSEC/GaAsH6
+1852 3489300 Botonakis/FEM_3D_thermal2
+2830 3599932 Embree/ifiss_mat
+1849 3636643 UTEP/Dubcova3
+1853 3674625 Wissgott/parabolic_fem
+1276 3686223 GHS_psdef/s3dkt3m2
+2770 3695512 Mycielski/mycielskian14
+1909 3749582 TKK/smt
+1906 3753461 TKK/s4dkt3m2
+1278 3777036 DNVS/ship_003
+1277 3896496 DNVS/ship_001
+2439 4194298 AG-Monien/debr
+ 850 4218660 Chen/pkustk04
+2283 4242673 Um/offshore
+ 537 4248286 Gupta/gupta2
+ 856 4308984 Chen/pkustk10
+2373 4344765 Williams/pdb1HYS
+1208 4352105 Oberwolfach/t3dh_a
+1209 4352105 Oberwolfach/t3dh_e
+1450 4352105 Oberwolfach/t3dh
+1275 4427725 GHS_psdef/s3dkq4m2
+1283 4444880 DNVS/thread
+2624 4456272 DIMACS10/tx2010
+1898 4584801 CEMW/tmt_unsym
+1910 4706073 TKK/engine
+1423 4817870 GHS_psdef/apache2
+2516 4882476 DIMACS10/netherlands_osm
+1883 4995991 McRae/ecology2
+1882 4996000 McRae/ecology1
+1899 5080961 CEMW/tmt_sym
+1361 5156379 PARSEC/Si34H36
+1893 5240084 QLi/largebasis
+1861 5294285 Koutsovasilis/F2
+1454 5516602 Oberwolfach/boneS01
+1352 5970947 PARSEC/Ga3As3H12
+2783 5975248 SNAP/com-Youtube
+1350 6115633 PARSEC/Ga10As10H30
+2580 6229636 DIMACS10/NACA0015
+2475 6291372 DIMACS10/delaunay_n20
+2812 6459326 Guettel/TEM152078
+ 859 6616827 Chen/pkustk13
+2519 6629222 DIMACS10/auto
+ 971 6869939 Schenk_ISEI/ohne2
+ 937 6897316 ND/nd6k
+ 914 7479343 vanHeukelum/cage13
+ 858 7512317 Chen/pkustk12
+1421 7660826 AMD/G3_circuit
+1349 7666057 PARSEC/CO
+2813 7839010 Guettel/TEM181302
+1355 7892195 PARSEC/Ge87H76
+1356 8451395 PARSEC/Ge99H100
+1290 8713602 DNVS/x104
+2265 8814880 Bourchtein/atmosmodd
+2266 8814880 Bourchtein/atmosmodj
+1351 8884839 PARSEC/Ga19As19H42
+2571 8921789 Bodendiek/CurlCurl_2
+ 538 9323427 Gupta/gupta3
+1393 9323432 Andrianov/pattern1
+1269 9753570 DNVS/m_t1
+2267 10319760 Bourchtein/atmosmodl
+2268 10319760 Bourchtein/atmosmodm
+1385 10352819 Andrianov/mip1
+1257 10614210 GHS_psdef/crankseg_1
+1254 10641602 GHS_psdef/bmwcra_1
+1364 10661631 PARSEC/Si87H76
+2771 11111110 Mycielski/mycielskian15
+1367 11283503 PARSEC/SiO2
+1219 11288630 GHS_indef/bmw3_2
+1260 11294316 DNVS/fcondp2
+ 369 11524432 Boeing/pwtk
+1264 11708077 DNVS/fullb
+1285 11985111 DNVS/troll
+2831 12143314 Hardesty/Hardesty1
+1265 12387821 DNVS/halfb
+2476 12582816 DIMACS10/delaunay_n21
+1857 12935272 Sinclair/3Dspectralwave2
+2572 13544618 Bodendiek/CurlCurl_3
+2483 13758266 DIMACS10/hugetrace-00000
+2514 14027956 DIMACS10/italy_osm
+1258 14148858 GHS_psdef/crankseg_2
+ 938 14220946 ND/nd12k
+ 860 14836504 Chen/pkustk14
+1362 15011265 PARSEC/Si41Ge41H72
+2498 16108474 DIMACS10/venturiLevel3
+2513 16313034 DIMACS10/great-britain_osm
+2486 17467046 DIMACS10/hugetric-00000
+1580 17550675 Schenk_AFE/af_0_k101
+1581 17550675 Schenk_AFE/af_1_k101
+1582 17550675 Schenk_AFE/af_2_k101
+1583 17550675 Schenk_AFE/af_3_k101
+1584 17550675 Schenk_AFE/af_4_k101
+1585 17550675 Schenk_AFE/af_5_k101
+ 940 17562051 Schenk_AFE/af_shell1
+ 941 17562051 Schenk_AFE/af_shell2
+ 942 17562051 Schenk_AFE/af_shell3
+ 943 17562051 Schenk_AFE/af_shell4
+ 944 17579155 Schenk_AFE/af_shell5
+ 945 17579155 Schenk_AFE/af_shell6
+ 946 17579155 Schenk_AFE/af_shell7
+ 947 17579155 Schenk_AFE/af_shell8
+ 948 17588845 Schenk_AFE/af_shell9
+1353 18488476 PARSEC/Ga41As41H72
+2487 19771708 DIMACS10/hugetric-00010
+1398 20316253 Rajat/rajat31
+2579 21003872 DIMACS10/M6
+2488 21361554 DIMACS10/hugetric-00020
+2329 21758924 Dziekonski/gsm_106857
+2577 22217266 DIMACS10/333SP
+2578 22736152 DIMACS10/AS365
+2512 24738362 DIMACS10/germany_osm
+2581 24975952 DIMACS10/NLR
+2477 25165738 DIMACS10/delaunay_n22
+2385 25309272 Dziekonski/dielFilterV2clx
+2509 25423206 DIMACS10/asia_osm
+2573 26515867 Bodendiek/CurlCurl_4
+1411 26837113 Koutsovasilis/F1
+ 915 27130349 vanHeukelum/cage14
+2495 27248640 DIMACS10/adaptive
+1901 28192672 Schenk/nlpkkt80
+ 939 28715634 ND/nd24k
+1856 30290827 Sinclair/3Dspectralwave
+2464 30491458 DIMACS10/coPapersDBLP
+2463 32073440 DIMACS10/coPapersCiteseer
+2387 32886208 Dziekonski/dielFilterV3clx
+2772 33382480 Mycielski/mycielskian16
+2458 33866826 DIMACS10/road_central
+2484 36164358 DIMACS10/hugetrace-00010
+1267 36816170 GHS_psdef/inline_1
+1455 40878708 Oberwolfach/boneS10
+2485 47997626 DIMACS10/hugetrace-00020
+2386 48538952 Dziekonski/dielFilterV2real
+2478 50331568 DIMACS10/delaunay_n23
+1586 52259885 Schenk_AFE/af_shell10
+2480 54940162 DIMACS10/hugebubbles-00000
+2459 57708624 DIMACS10/road_usa
+2854 57708624 GAP/GAP-road
+2481 58359528 DIMACS10/hugebubbles-00010
+2482 63580358 DIMACS10/hugebubbles-00020
+2781 69362378 SNAP/com-LiveJournal
+1252 77651847 GHS_psdef/audikw_1
+2496 85362744 DIMACS10/channel-500x100x100-b050
+2388 89306020 Dziekonski/dielFilterV3real
+1902 95117792 Schenk/nlpkkt120
+ 916 99199551 vanHeukelum/cage15
+2773 100245742 Mycielski/mycielskian17
+2479 100663202 DIMACS10/delaunay_n24
+2511 108109320 DIMACS10/europe_osm
+2544 114165372 Janna/Flan_1565
+1903 225422112 Schenk/nlpkkt160
+2782 234370166 SNAP/com-Orkut
+2774 300933832 Mycielski/mycielskian18
+1904 440225632 Schenk/nlpkkt200
+1905 760648352 Schenk/nlpkkt240
+2775 903194710 Mycielski/mycielskian19
+2776 2710370560 Mycielski/mycielskian20
+2780 3612134270 SNAP/com-Friendster
+2856 4294966740 GAP/GAP-urand

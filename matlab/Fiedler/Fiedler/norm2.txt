@@ -1,0 +1,18 @@
+
+import pygraphblas as gb
+from math import sqrt
+def norm2(v):
+    #print(v)
+    #print("Now this vector gets squared")
+    k=v.apply_second(gb.FP64.POW,2)
+    #print(k)
+    #print("Now this vector gets reduced to one float")
+    z=k.reduce_float()
+    #print(z)
+    #print("Now the values in vector v after applying sqrt")
+    g=sqrt(z)
+    #print(g)
+    return g
+    #print("No way I took the norm of vector v")
+v=gb.Vector.from_1_to_n(9)
+norm2(v)

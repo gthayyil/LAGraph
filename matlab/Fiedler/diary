@@ -1,0 +1,14 @@
+dir
+
+.               README.txt      diary           hd_orig.m       hexample.m      mypcg.m         notes.m         
+..              common.m        happly.m        hdip_fiedler.m  lap.m           mypcg2.m        
+
+rand(3)
+
+ans =
+
+    0.4218    0.9595    0.8491
+    0.9157    0.6557    0.9340
+    0.7922    0.0357    0.6787
+
+diary off
