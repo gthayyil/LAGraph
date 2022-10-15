@@ -44,13 +44,12 @@ int LAGraph_Happly //happly Checked for pointer issues
     char *msg
 )
 {
-    float reduced;
-    GRB_TRY (GrB_eWiseAdd (y,NULL, NULL, GrB_PLUS_FP32, GrB_PLUS_FP32, u, x, NULL));
-    GRB_TRY (GrB_reduce(reduced, NULL,GrB_PLUS_FP32,y,NULL));
+    float reduced = 0.0;
+    GRB_TRY (GrB_eWiseAdd (y,NULL, NULL, GrB_PLUS_FP32, u, x, NULL));
+    GRB_TRY (GrB_reduce(&reduced, NULL,GrB_PLUS_FP32,y,NULL));
     GRB_TRY (GrB_apply(y,NULL,NULL,GrB_TIMES_FP32,-reduced/alpha,y,NULL));
-    GRB_TRY (GrB_eWiseAdd(y,NULL,NULL,GrB_PLUS_FP32,GrB_PLUS_FP32,x,y,NULL));
+    GRB_TRY (GrB_eWiseAdd(y,NULL,NULL,GrB_PLUS_FP32,x,y,NULL));
     
-    GrB_free(&reduced);
     return (GrB_SUCCESS) ;
 } 
 //-------------------------------------------------------------------------------------------------
@@ -114,6 +113,22 @@ int LAGraph_hmhx //hmhx checked for pointer issues
     Authors: Georgy Thayyil, Tim Davis
     Acknowledgements: Michel Pelletier provided us with many helpful suggestions and assistance while developing this algorithm
 */
+
+#define LG_FREE_WORK                        \
+{                                           \
+    /* free any workspace used here */      \
+    GrB_free (&t) ;                         \
+}
+
+#define LG_FREE_ALL                         \
+{                                           \
+    /* free any workspace used here */      \
+    LG_FREE_WORK ;                          \
+    /* free all the output variable(s) */   \
+    /* take any other corrective action */  \
+}
+
+
 int LAGraph_norm2 //norm2 checked for pointer mistakes
 (
     //outputs:
@@ -135,13 +150,12 @@ int LAGraph_norm2 //norm2 checked for pointer mistakes
     GRB_TRY (GrB_apply (t, NULL, NULL, GxB_POW_FP32, v, (float) 2, NULL)) ;
 #else
     // t = t.*t
-    GRB_TRY (GrB_eWiseMult (t, NULL, NULL, GrB_TIMES_FP32, t, t, NULL)) :
+    GRB_TRY (GrB_eWiseMult (t, NULL, NULL, GrB_TIMES_FP32, t, t, NULL));
 #endif
-    GRB_TRY (GrB_reduce (&norm2, NULL, NULL, GrB_PLUS_FP32, t, NULL)) :
+    GRB_TRY (GrB_reduce (&norm2, NULL, NULL, GrB_PLUS_FP32, t, NULL));
     norm2 = sqrtf (norm2) ;
 
     GrB_free (&t);
-    GrB_free (&len);
     return (GrB_SUCCESS) ;
 }
 
@@ -167,6 +181,26 @@ int LAGraph_norm2 //norm2 checked for pointer mistakes
     Authors: Georgy Thayyil, Tim Davis
     Acknowledgements: Michel Pelletier provided us with many helpful suggestions and assistance while developing this algorithm
 */
+
+#undef LG_FREE_WORK                         
+#undef LG_FREE_ALL                          
+#define LG_FREE_WORK                        \
+{                                           \
+    /* free any workspace used here */      \
+    GrB_free (&k);                          \
+    GrB_free (&t);                          \
+    GrB_free (&sparseM);                    \
+    GrB_free (&DMatrix);                    \
+}                                           
+
+#define LG_FREE_ALL                         \
+{                                           \
+    /* free any workspace used here */      \
+    LG_FREE_WORK ;                          \
+    /* free all the output variable(s) */   \
+    /* take any other corrective action */  \
+}
+
 int LAGraph_Laplacian   // compute the Laplacian matrix  
 (
     //Question/TODO:Should i change matricies from pointers to normal variable names?
@@ -189,7 +223,7 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     // Lap = (float) offdiag (G->A)
     GRB_TRY (GrB_Matrix_ncols(&ncol, G));
     GRB_TRY (GrB_Matrix_new (Lap, GrB_FP32, ncol, ncol));
-    GRB_TRY (GrB_select (*Lap,NULL,NULL,GrB_OFFDIAG,G->A,0,NULL,NULL));
+    GRB_TRY (GrB_Matrix_select (*Lap,NULL,NULL,GrB_OFFDIAG,G,0,NULL,NULL));
 
     // TODO: ASSERT NO SELF EDGES
 
@@ -203,17 +237,17 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     //creates a sparse Matrix with same dimensions as &Lap, and assigns -1 with &Lap as a Mask
     GRB_TRY (GrB_Matrix_new (sparseM, GrB_FP32, ncol, ncol));
     //Python code has descriptor = S indicating structural mask
-    GRB_TRY(GrB_assign(sparseM,Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_SC);
+    GRB_TRY(GrB_assign(sparseM,Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_SC));
 
     
     //create a mask of 0s in vector t, and use that to replace the 0s with 1s. 
     GRB_TRY (GrB_Vector_new (&k, GrB_FP32, ncol));
-    GRB_TRY(GxB_select(k,NULL,NULL,GxB_EQ_ZERO,t,NULL,NULL);
+    GRB_TRY(GrB_Vector_select(k,NULL,NULL,GxB_EQ_ZERO,t,NULL,NULL));
     //Python code has descriptor = S indicating structural mask
-    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL,GrB_DESC_SC);
+    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL,GrB_DESC_SC));
 
     //inf norm calc using vector d and MAX_MONOID 
-    GRB_TRY (GrB_reduce (*inform, NULL, GrB_MAX_MONOID, t, NULL));
+    GRB_TRY (GrB_reduce (&inform, NULL, GrB_MAX_MONOID, t, NULL));
     inform=inform*2;
     
     //Using Matrix_diag to create a diagonal matrix from a vector    
@@ -222,13 +256,6 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     
     //Calculating the Laplacian by adding the Dmatrix with SparseM.    
     GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, DMatrix, sparseM, NULL));
-    
-    //FREE everything
-    GrB_free (&ncol);
-    GrB_free (&k);
-    GrB_free (&t);
-    GrB_free (&sparseM);
-    GrB_free (&DMatrix);
     
     return (GrB_SUCCESS);
 
@@ -293,11 +320,32 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     Authors: Georgy Thayyil, Tim Davis
     Acknowledgements: Michel Pelletier provided us with many helpful suggestions and assistance while developing this algorithm
 */
+
+#undef LG_FREE_WORK                        
+#undef LG_FREE_ALL                         
+#define LG_FREE_WORK                        \
+{                                           \
+    /* free any workspace used here */      \
+    GrB_free (&r);                          \
+    GrB_free (&z);                          \
+    GrB_free (&rho_helper);                 \
+    GrB_free (&p);                          \
+    GrB_free (&q);                          \
+    GrB_free (&gamma_helper);                \
+}                                           
+
+#define LG_FREE_ALL                         \
+{                                           \
+    /* free any workspace used here */      \
+    LG_FREE_WORK ;                          \
+    /* free all the output variable(s) */   \
+    /* take any other corrective action */  \
+}
 int LAGraph_mypcg2
 (
     //outputs
     GrB_Vector steper,
-    float k
+    float k,
     // inputs:
     GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
     GrB_Vector u, //vector u will be passed into another function to create Householder reflection
@@ -477,12 +525,32 @@ int LAGraph_mypcg2
     Authors: Georgy Thayyil, Tim Davis
     Acknowledgements: Michel Pelletier provided us with many helpful suggestions and assistance while developing this algorithm
 */
+
+#undef LG_FREE_WORK                        
+#undef LG_FREE_ALL                         
+#define LG_FREE_WORK                        \
+{                                           \
+    /* free any workspace used here */      \
+    GrB_free (&u);                          \
+    GrB_free (&y);                          \
+    GrB_free (&lamb_helper);                \
+    GrB_free (&indiag);                     \
+}                                               
+
+#define LG_FREE_ALL                         \
+{                                           \
+    /* free any workspace used here */      \
+    LG_FREE_WORK ;                          \
+    /* free all the output variable(s) */   \
+    /* take any other corrective action */  \
+}
+
 int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
 (
     // outputs:
-    GrB_Vector iters, //This is a vector with number of inner and outer iterations listed in that order.
-    float lamb,    // Lambda of hdip_fiedler
-    GrB_Vector x; // the hdip fielder result vector
+    GrB_Vector *iters, //This is a vector with number of inner and outer iterations listed in that order.
+    float *lamb,    // Lambda of hdip_fiedler
+    GrB_Vector *x, // the hdip fielder result vector
     // inputs:
     GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
     float InfNorm,
@@ -520,9 +588,9 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     alpha = n+sqrtf(n);
 
     //Set x(0) = 0 and x(1:n) = 1
-    GRB_TRY (GrB_Vector_new (&x, GrB_FP32, n));
-    GRB_TRY (GrB_apply (x, NULL, NULL, GxB_ONE_FP32, x, NULL));
-    GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
+    GRB_TRY (GrB_Vector_new (x, GrB_FP32, n));
+    GRB_TRY (GrB_apply (*x, NULL, NULL, GxB_ONE_FP32, *x, NULL));
+    GRB_TRY (GrB_Vector_setElement_FP32(*x, 0, 0));
 
     //indiag = diagonal matrix with indiag = 1/L[0], as a preconditioner
     GRB_TRY (GrB_Matrix_new(&indiag, GrB_FP32, n, n));
@@ -537,9 +605,9 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     for (i=1;i<=kmaxZero;k++)
     {
         //compute beta = 2-norm of x and set x = x/beta
-        GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
-        LG_TRY (LAGraph_norm2(beta,x,msg));// z  = happly with z,u and alpha
-        GRB_TRY (GrB_apply (x, NULL, NULL, GrB_RDIV_FP32, beta,x, NULL));
+        GRB_TRY (GrB_Vector_setElement_FP32(*x, 0, 0));
+        LG_TRY (LAGraph_norm2(beta,*x,msg));// z  = happly with z,u and alpha
+        GRB_TRY (GrB_apply (*x, NULL, NULL, GrB_RDIV_FP32, beta,*x, NULL));
                 
         //Set y = hmhx with m being L
         GRB_TRY (GrB_Vector_new (&y, GrB_FP32, n));
@@ -547,13 +615,13 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
         GRB_TRY (GrB_Vector_setElement_FP32(y, 0, 0));
         //lamb = x.emult(y).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
         GRB_TRY (GrB_Vector_new (&lambhelper, GrB_FP32, n));
-        GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, x, y, NULL));
-        GRB_TRY (GrB_reduce(lamb,NULL,GrB_PLUS_FP32,lambhelper,NULL));
+        GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, *x, y, NULL));
+        GRB_TRY (GrB_reduce((*lamb),NULL,GrB_PLUS_FP32,lambhelper,NULL));
         GRB_TRY (GrB_Vector_clear(lambhelper));
 
         //getting the inf norm for the vector normer using norm(v,inf) = max(sum(abs(v))) vector v
-        GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_TIMES_FP32,-lamb,x, NULL)) ;
-        GRB_TRY (GrB_eWiseAdd (lambhelper, NULL, NULL, GrB_PLUS_FP32, GrB_PLUS_FP32,y,lambhelper,NULL);
+        GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_TIMES_FP32,-(*lamb),*x, NULL)) ;
+        GRB_TRY (GrB_eWiseAdd (lambhelper, NULL, NULL, GrB_PLUS_FP32, y,lambhelper,NULL);
         //getting abs(lambhelper)
         GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_ABS_FP32,lambhelper, NULL));
         GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_MAX_FP32,lambhelper, NULL));
@@ -569,27 +637,27 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
         }
         lasterr=e;
         //x=mypcg2(L,u,alpha,indiag,x,tol,kmax[1])
-        LG_TRY (LAGRAPH_mypcg2(x,kk,*L,alpha,indiag,x,tol,kmaxOne,msg));
+        LG_TRY (LAGRAPH_mypcg2(*x,kk,*L,alpha,indiag,x,tol,kmaxOne,msg));
         k_inner=k_inner+kk
-        GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
+        GRB_TRY (GrB_Vector_setElement_FP32(*x, 0, 0));
  
     }
     
     //beta = u.emult(x).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
     GRB_TRY (GrB_Vector_clear(lambhelper));
-    GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, u, x, NULL));
+    GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, u,*x, NULL));
     GRB_TRY (GrB_reduce(beta,NULL,GrB_PLUS_FP32,lambhelper,NULL));
     beta = beta/alpha;
        
    
     GRB_TRY (GrB_Vector_clear(lambhelper));
     GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_TIMES_FP32,-beta,u, NULL));
-    GRB_TRY (GrB_eWiseAdd (x, NULL, NULL, GrB_PLUS_FP32, GrB_PLUS_FP32,x,lambhelper,NULL);
+    GRB_TRY (GrB_eWiseAdd (*x, NULL, NULL, GrB_PLUS_FP32, *x,lambhelper,NULL);
 
     //vectors start at 0
-    GRB_TRY (GrB_Vector_new (&iters, GrB_FP32, 2));
-    GRB_TRY (GrB_Vector_setElement(iters,k_inner,0));
-    GRB_TRY (GrB_Vector_setElement(iters,k_outer,1));
+    GRB_TRY (GrB_Vector_new (iters, GrB_FP32, 2));
+    GRB_TRY (GrB_Vector_setElement(*iters,k_inner,0));
+    GRB_TRY (GrB_Vector_setElement(*iters,k_outer,1));
 
     return (GrB_SUCCESS);
 }
