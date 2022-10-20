@@ -45,10 +45,10 @@ cmake_policy ( SET CMP0048 NEW )
 set ( CMAKE_MACOSX_RPATH TRUE )
 
 # version of LAGraph
-set ( LAGraph_DATE "Sept 6, 2022" )
-set ( LAGraph_VERSION_MAJOR 0 )
-set ( LAGraph_VERSION_MINOR 9 )
-set ( LAGraph_VERSION_SUB   38 )
+set ( LAGraph_DATE "Sept 20, 2022" )
+set ( LAGraph_VERSION_MAJOR 1 )
+set ( LAGraph_VERSION_MINOR 0 )
+set ( LAGraph_VERSION_SUB   0 )
 
 project ( lagraph
           VERSION "${LAGraph_VERSION_MAJOR}.${LAGraph_VERSION_MINOR}.${LAGraph_VERSION_SUB}" )
@@ -113,7 +113,7 @@ endif ( )
 # or uncomment the next line:
 # set ( ENV{GRAPHBLAS_ROOT} ${CMAKE_SOURCE_DIR}/../GraphBLAS )
 message ( STATUS "GraphBLAS root:              " ${GRAPHBLAS_ROOT} )
-find_package (GraphBLAS REQUIRED MODULE)
+find_package (GraphBLAS 7.0.1 REQUIRED MODULE)
 
 #-------------------------------------------------------------------------------
 # determine what user threading model to use
