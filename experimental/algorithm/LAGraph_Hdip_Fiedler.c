@@ -48,7 +48,7 @@ int LAGraph_Happly //happly Checked for pointer issues
     // y = u + x
     GRB_TRY (GrB_eWiseAdd (y,NULL, NULL, GrB_PLUS_FP32, u, x, NULL));
     // reduced = sum (y)
-    GRB_TRY (GrB_reduce(&reduced, NULL,GrB_PLUS_FP32,y,NULL));
+    GRB_TRY (GrB_reduce(&reduced, NULL,GrB_PLUS_MONOID_FP32,y,NULL));
     // y = (-reduced/alpha)*y
     GRB_TRY (GrB_apply(y,NULL,NULL,GrB_TIMES_FP32,-reduced/alpha,y,NULL));
     // y = x + y
@@ -138,7 +138,7 @@ int LAGraph_hmhx //hmhx checked for pointer issues
 int LAGraph_norm2 //norm2 checked for pointer mistakes
 (
     //outputs:
-    float *norm2,
+    float *norm2_helper,
     //inputs:
     GrB_Vector v,
     //error msg
@@ -148,6 +148,7 @@ int LAGraph_norm2 //norm2 checked for pointer mistakes
 {
     GrB_Vector t = NULL ;
     GrB_Index len ;
+    float norm2;
 
     GRB_TRY (GrB_Vector_size (&len, v)) ;
     GRB_TRY (GrB_Vector_new (&t, GrB_FP32, len)) ;
@@ -158,10 +159,11 @@ int LAGraph_norm2 //norm2 checked for pointer mistakes
     // t = t.*t
     GRB_TRY (GrB_eWiseMult (t, NULL, NULL, GrB_TIMES_FP32, t, t, NULL));
 #endif
-    GRB_TRY (GrB_reduce (&norm2, NULL, NULL, GrB_PLUS_FP32, t, NULL));
+    GRB_TRY (GrB_reduce (&norm2,NULL, GrB_PLUS_MONOID_FP32, t, NULL));
     norm2 = sqrtf (norm2) ;
-
-    GrB_free (&t);
+    
+    (*norm2_helper) = norm2 ;
+    LG_FREE_WORK ;
     return (GrB_SUCCESS) ;
 }
 
@@ -211,7 +213,7 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
 (
     //Question/TODO:Should i change matricies from pointers to normal variable names?
     // outputs:
-    GrB_Matrix *Lap,    // the output Laplacian matrix 
+    GrB_Matrix *Lap_helper,    // the output Laplacian matrix 
     float inform,      // infinity norm of Lap
     // inputs:
     GrB_Matrix G,    // input matrix, symmetric
@@ -224,12 +226,12 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     GrB_Vector t = NULL;
     GrB_Matrix sparseM;
     GrB_Matrix DMatrix;
-    
+    GrB_Matrix Lap;    
     // Assert G->A is symmetric
     // Lap = (float) offdiag (G->A)
     GRB_TRY (GrB_Matrix_ncols(&ncol, G));
-    GRB_TRY (GrB_Matrix_new (Lap, GrB_FP32, ncol, ncol));
-    GRB_TRY (GrB_Matrix_select (*Lap,NULL,NULL,GrB_OFFDIAG,G,0,NULL,NULL));
+    GRB_TRY (GrB_Matrix_new (&Lap, GrB_FP32, ncol, ncol));
+    GRB_TRY (GrB_select (Lap,NULL,NULL,GrB_OFFDIAG,G,0,NULL));
 
     // TODO: ASSERT NO SELF EDGES
 
@@ -237,34 +239,36 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
 
     // t = Lap * x via the LAGraph_plus_one_fp32 semiring
     GRB_TRY (GrB_Vector_new (&t, GrB_FP32, ncol));
-    GRB_TRY(GrB_mxv(t,NULL,GrB_FP32,LAGraph_plus_one_fp32,*Lap,t,NULL));
+    GRB_TRY(GrB_mxv(t,NULL,GrB_PLUS_FP32,LAGraph_plus_one_fp32,Lap,t,NULL));
 
 
-    //creates a sparse Matrix with same dimensions as &Lap, and assigns -1 with &Lap as a Mask
-    GRB_TRY (GrB_Matrix_new (sparseM, GrB_FP32, ncol, ncol));
+    //creates a sparse Matrix with same dimensions as Lap, and assigns -1 with Lap as a Mask
+    GRB_TRY (GrB_Matrix_new (&sparseM, GrB_FP32, ncol, ncol));
     //Python code has descriptor = S indicating structural mask
-    GRB_TRY(GrB_assign(sparseM,Lap,NULL,-1,NULL,NULL,NULL,NULL, GrB_DESC_SC));
+    GRB_TRY(GrB_assign(sparseM, Lap, NULL,((double) -1), 
+    GrB_ALL, ncol, GrB_ALL, ncol, GrB_DESC_SC));
 
     
     //create a mask of 0s in vector t, and use that to replace the 0s with 1s. 
     GRB_TRY (GrB_Vector_new (&k, GrB_FP32, ncol));
-    GRB_TRY(GrB_Vector_select(k,NULL,NULL,GxB_EQ_ZERO,t,NULL,NULL));
+    GRB_TRY(GrB_select(k,NULL,NULL,GrB_VALUEEQ_FP32,t,0,NULL));
     //Python code has descriptor = S indicating structural mask
-    GRB_TRY(GrB_assign(t,k,NULL,1,NULL,NULL,GrB_DESC_SC));
+    GRB_TRY(GrB_assign(t,k,NULL,((double) 1),GrB_ALL,ncol,GrB_DESC_SC));
 
     //inf norm calc using vector d and MAX_MONOID 
-    GRB_TRY (GrB_reduce (&inform, NULL, GrB_MAX_MONOID, t, NULL));
+    GRB_TRY (GrB_reduce (&inform, NULL, GrB_MAX_MONOID_FP32, t, NULL));
     inform=inform*2;
     
     //Using Matrix_diag to create a diagonal matrix from a vector    
     GRB_TRY (GrB_Matrix_new (&DMatrix, GrB_FP32, ncol, ncol));
-    GRB_TRY (GrB_Matrix_diag(DMatrix,t,NULL,NULL));
+    GRB_TRY (GrB_Matrix_diag(&DMatrix,t,0));
     
     //Calculating the Laplacian by adding the Dmatrix with SparseM.    
-    GRB_TRY (GrB_eWiseAdd (*Lap, NULL, NULL, NULL, DMatrix, sparseM, NULL));
-    
+    GRB_TRY (GrB_eWiseAdd (Lap, NULL, NULL, GrB_PLUS_FP32, DMatrix, sparseM, NULL));
+    (*Lap_helper)= Lap;
+    LG_FREE_WORK;
     return (GrB_SUCCESS);
-
+}
 //-------------------------------------------------------------------------------------------------
 /*
  mypcg2: Preconditioned conjugate gradient
@@ -347,6 +351,7 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     /* free all the output variable(s) */   \
     /* take any other corrective action */  \
 }
+/*
 int LAGraph_mypcg2
 (
     //outputs
@@ -449,7 +454,7 @@ int LAGraph_mypcg2
         //gamma=p.emult(q).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
         GRB_TRY (GrB_eWiseMult (gamma_helper, NULL, NULL, GrB_TIMES_FP32, p, q, NULL));
         GRB_TRY (GrB_reduce(gamma,NULL,GrB_PLUS_FP32,gamma_helper,NULL));
-        GRB_TRY (GrB_Vector_clear(gamma_helper));
+        //GRB_TRY (GrB_Vector_clear(gamma_helper));
         
         //stepsize to take
         stepsize = rho/gamma;
@@ -473,7 +478,7 @@ int LAGraph_mypcg2
     return (GrB_SUCCESS);
 }
 
-
+*/
 //-------------------------------------------------------------------------------------------------
 /*
    Hdip_fiedler: This function computes the Fiedler Vector of a graph by using the HDIP methos.
@@ -550,7 +555,7 @@ int LAGraph_mypcg2
     /* free all the output variable(s) */   \
     /* take any other corrective action */  \
 }
-
+/*
 int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
 (
     // outputs:
@@ -605,7 +610,9 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     last_err = FLT_MAX;   
     
     GRB_TRY (GrB_Vector_new (&lambhelper, GrB_FP32, n));
-
+    
+    //used to set y = hmhx with m being L
+    GRB_TRY (GrB_Vector_new (&y, GrB_FP32, n));
     //for i from 1 to kmax[0]+1
     GRB_TRY(GrB_Vector_extractElement(&kmaxZero,kmax,0));
     //setting up kmax[1]
@@ -618,7 +625,7 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
         GRB_TRY (GrB_apply (*x, NULL, NULL, GrB_RDIV_FP32, beta,*x, NULL));
                 
         //Set y = hmhx with m being L
-        GRB_TRY (GrB_Vector_new (&y, GrB_FP32, n));
+        //GRB_TRY (GrB_Vector_new (&y, GrB_FP32, n));
         LG_TRY (LAGraph_hmhx(y,*L,u,x,alpha,msg)); 
         GRB_TRY (GrB_Vector_setElement_FP32(y, 0, 0));
         //lamb = x.emult(y).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
@@ -670,7 +677,7 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     (*lambda_result) = lambda ;
     LG_FREE_WORK ;
     return (GrB_SUCCESS);
-}
+}*/
 
 
 
