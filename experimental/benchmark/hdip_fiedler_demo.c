@@ -56,6 +56,7 @@ int main (int argc, char **argv)
     char msg [LAGRAPH_MSG_LEN] ;        // for error messages from LAGraph
     LAGraph_Graph G = NULL ;
     GrB_Matrix Y = NULL ;
+    GrB_Matrix A = NULL;
 
     // start GraphBLAS and LAGraph
     bool burble = false ;               // set true for diagnostic outputs
@@ -89,9 +90,21 @@ int main (int argc, char **argv)
     //--------------------------------------------------------------------------
     // try the LAGraph_HelloWorld "algorithm"
     //--------------------------------------------------------------------------
+    GrB_Index n, nvals ;
+    GRB_TRY (GrB_Matrix_nrows (&n, G->A)) ;
+    GRB_TRY (GrB_Matrix_nvals (&nvals, G->A)) ;
+    LAGRAPH_TRY (LAGraph_Graph_Print (G, LAGraph_SHORT, stdout, msg)) ;
+    GRB_TRY (GrB_Matrix_new (&A, GrB_FP32, n, n)) ;
+    GRB_TRY (GrB_assign (A, G->A, NULL, (double) 1,
+        GrB_ALL, n, GrB_ALL, n, GrB_DESC_S)) ;
+    GrB_free (&(G->A)) ;
+    G->A = A ;
+
+    GRB_TRY (GrB_Matrix_new (&Y, GrB_FP32, n, n)) ; 
+    
     float inform;
     t = LAGraph_WallClockTime ( ) ;
-    LG_TRY (LAGraph_Laplacian(&Y,inform, G, msg)) ;
+    LG_TRY (LAGraph_Laplacian(&Y,inform, A, msg)) ;
     t = LAGraph_WallClockTime ( ) - t ;
     printf ("Time for LAGraph_HelloWorld: %g sec\n", t) ;
 
