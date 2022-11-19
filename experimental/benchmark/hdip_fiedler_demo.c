@@ -102,10 +102,46 @@ int main (int argc, char **argv)
 
     GRB_TRY (GrB_Matrix_new (&Y, GrB_FP32, n, n)) ; 
     
+    //Variables needed to test Laplacian
     float inform;
-    t = LAGraph_WallClockTime ( ) ;
     LG_TRY (LAGraph_Laplacian(&Y,inform, A, msg)) ;
-    t = LAGraph_WallClockTime ( ) - t ;
+    
+    //Additional variables and modifications needed to test MYPCG2
+    GrB_Vector steper = NULL;
+    GrB_Vector u = NULL; // a vector of size nrowsLap, filled with 1.
+    //set u[0] = 1+sqrt(nrowsLap)
+    GrB_Matrix indiag = NULL;
+    GrB_Vector x = NULL;
+    GrB_Index k;
+    GrB_Index nrows;
+    float nrowsLap; //number of rows of laplacian matrix
+    float alpha;
+    GRB_TRY (GrB_Matrix_nrows(&nrows,Y ));
+    
+    nrowsLap = nrows;
+    GRB_TRY (GrB_Vector_new (&u, GrB_FP32, nrowsLap));
+    GRB_TRY (GrB_apply (u, NULL, NULL, GxB_ONE_FP32, u, NULL)) ;
+    GRB_TRY (GrB_Vector_setElement_FP32(u, 1+sqrt(nrowsLap), 0));
+    
+    alpha = nrowsLap + sqrt(nrowsLap);
+    
+    //printf("works?4");
+    GRB_TRY (GrB_Matrix_new (&indiag, GrB_FP32, nrows,nrows));
+    GRB_TRY (GrB_select (indiag, NULL, NULL, GrB_DIAG, Y,0, NULL));
+    //printf("works?4");
+    GRB_TRY (GrB_apply (indiag, NULL, NULL, GrB_MINV_FP32, indiag, NULL));
+    
+    //printf("works?3");
+    GRB_TRY (GrB_Vector_new (&x, GrB_FP32, nrowsLap));
+    GRB_TRY (GrB_apply (x, NULL, NULL, GxB_ONE_FP32, x, NULL));
+    GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
+    
+    //printf("works?2");
+    //t = LAGraph_WallClockTime( );
+    printf("works?");
+    LG_TRY (LAGraph_mypcg2(steper, k, Y, u, alpha, indiag, x, .000001, 50, msg));
+    printf("aftermypcg2");
+    //t = LAGraph_WallClockTime( ) - t;
     printf ("Time for LAGraph_HelloWorld: %g sec\n", t) ;
 
     //--------------------------------------------------------------------------
@@ -132,11 +168,14 @@ int main (int argc, char **argv)
 
     printf ("\n===============================The result matrix Y:\n") ;
     LG_TRY (LAGraph_Matrix_Print (Y, LAGraph_SHORT, stdout, msg)) ;
+    LG_TRY (LAGraph_Vector_Print (steper, LAGraph_SHORT, stdout, msg)) ;
 
     //--------------------------------------------------------------------------
     // free everyting and finish
     //--------------------------------------------------------------------------
-
+         
+                          
+                        
     LG_FREE_ALL ;
     LG_TRY (LAGraph_Finalize (msg)) ;
     return (GrB_SUCCESS) ;
