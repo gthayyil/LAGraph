@@ -1055,23 +1055,24 @@ int LAGraph_Laplacian   // compute the Laplacian matrix
     Authors: Georgy Thayyil, Tim Davis
     Acknowledgements: Michel Pelletier provided us with many helpful suggestions and assistance while developing this algorithm
 */
+
 LAGRAPH_PUBLIC
 int LAGraph_mypcg2
 (
     //outputs
-    GrB_Vector steper,
-    float k,
+    GrB_Vector *steper,
+    GrB_Index *k_result,
     // inputs:
     GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
     GrB_Vector u, //vector u will be passed into another function to create Householder reflection
-    float malpha,  //This float
+    float malpha,  //This float 
     GrB_Matrix invdiag,
     GrB_Vector b,
     float tol,
-    float maxit,
+    float maxit, 
     //error msging
     char *msg
-);
+) ;
 
 
 //-------------------------------------------------------------------------------------------------

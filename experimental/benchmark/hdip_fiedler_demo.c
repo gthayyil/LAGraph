@@ -43,7 +43,12 @@
 #define LG_FREE_ALL                             \
 {                                               \
     GrB_free (&Y) ;                             \
+    GrB_free (&x) ;                             \
+    GrB_free (&u) ;                             \
+    GrB_free (&steper) ;                        \
+    GrB_free (&indiag) ;                        \
     LAGraph_Delete (&G, msg) ;                  \
+    LAGraph_Finalize (msg) ;                    \
 }
 
 int main (int argc, char **argv)
@@ -57,10 +62,21 @@ int main (int argc, char **argv)
     LAGraph_Graph G = NULL ;
     GrB_Matrix Y = NULL ;
     GrB_Matrix A = NULL;
+    GrB_Matrix indiag = NULL;
+    GrB_Vector x = NULL;
+    //Additional variables and modifications needed to test MYPCG2
+    GrB_Vector steper = NULL;
+    GrB_Vector u = NULL; // a vector of size nrowsLap, filled with 1.
+    //set u[0] = 1+sqrt(nrowsLap)
 
     // start GraphBLAS and LAGraph
     bool burble = false ;               // set true for diagnostic outputs
     demo_init (burble) ;
+
+    // debug only:
+    int64_t free_pool_limit [64] ;
+    for (int k = 0 ; k < 64 ; k++) free_pool_limit [k] = 0 ;
+    GxB_set (GxB_MEMORY_POOL, free_pool_limit) ;
 
     //--------------------------------------------------------------------------
     // read in the graph: this method is defined in LAGraph_demo.h
@@ -100,46 +116,48 @@ int main (int argc, char **argv)
     GrB_free (&(G->A)) ;
     G->A = A ;
 
-    GRB_TRY (GrB_Matrix_new (&Y, GrB_FP32, n, n)) ; 
-    
     //Variables needed to test Laplacian
     float inform;
     LG_TRY (LAGraph_Laplacian(&Y,inform, A, msg)) ;
-    
-    //Additional variables and modifications needed to test MYPCG2
-    GrB_Vector steper = NULL;
-    GrB_Vector u = NULL; // a vector of size nrowsLap, filled with 1.
-    //set u[0] = 1+sqrt(nrowsLap)
-    GrB_Matrix indiag = NULL;
-    GrB_Vector x = NULL;
+
     GrB_Index k;
     GrB_Index nrows;
     float nrowsLap; //number of rows of laplacian matrix
     float alpha;
     GRB_TRY (GrB_Matrix_nrows(&nrows,Y ));
     
-    nrowsLap = nrows;
-    GRB_TRY (GrB_Vector_new (&u, GrB_FP32, nrowsLap));
-    GRB_TRY (GrB_apply (u, NULL, NULL, GxB_ONE_FP32, u, NULL)) ;
+    nrowsLap = (float) n ;
+
+    GRB_TRY (GrB_Vector_new (&u, GrB_FP32, n));
+    // u = all ones vector
+    GRB_TRY (GrB_assign (u, NULL, NULL, 1, GrB_ALL, n, NULL)) ;
+    // u [0] = 1+sqrt(n)
     GRB_TRY (GrB_Vector_setElement_FP32(u, 1+sqrt(nrowsLap), 0));
-    
+
     alpha = nrowsLap + sqrt(nrowsLap);
-    
+
     //printf("works?4");
-    GRB_TRY (GrB_Matrix_new (&indiag, GrB_FP32, nrows,nrows));
+    GRB_TRY (GrB_Matrix_new (&indiag, GrB_FP32, n, n));
     GRB_TRY (GrB_select (indiag, NULL, NULL, GrB_DIAG, Y,0, NULL));
     //printf("works?4");
     GRB_TRY (GrB_apply (indiag, NULL, NULL, GrB_MINV_FP32, indiag, NULL));
     
     //printf("works?3");
-    GRB_TRY (GrB_Vector_new (&x, GrB_FP32, nrowsLap));
-    GRB_TRY (GrB_apply (x, NULL, NULL, GxB_ONE_FP32, x, NULL));
+    GRB_TRY (GrB_Vector_new (&x, GrB_FP32, n));
+    // GRB_TRY (GrB_apply (x, NULL, NULL, GxB_ONE_FP32, x, NULL));
+    GRB_TRY (GrB_assign (x, NULL, NULL, 1, GrB_ALL, n, NULL)) ;
     GRB_TRY (GrB_Vector_setElement_FP32(x, 0, 0));
     
     //printf("works?2");
     //t = LAGraph_WallClockTime( );
     printf("works?");
-    LG_TRY (LAGraph_mypcg2(steper, k, Y, u, alpha, indiag, x, .000001, 50, msg));
+    GxB_print (x, 3) ;
+    GxB_print (u, 3) ;
+    int result = LAGraph_mypcg2(&steper, &k, Y, u, alpha, indiag, x, .000001, 50, msg) ;
+    GxB_print (steper, 3) ;
+    printf ("result: %d %s\n", result, msg) ;
+    LG_TRY (result) ;
+    printf ("k = %lu\n", k) ;
     printf("aftermypcg2");
     //t = LAGraph_WallClockTime( ) - t;
     printf ("Time for LAGraph_HelloWorld: %g sec\n", t) ;
@@ -148,7 +166,7 @@ int main (int argc, char **argv)
     // check the results (make sure Y is a copy of G->A)
     //--------------------------------------------------------------------------
 
-    bool isequal ;
+    bool isequal = false ;
     t = LAGraph_WallClockTime ( ) ;
     //LG_TRY (LAGraph_Matrix_IsEqual (&isequal, Y, G->A, msg)) ;
     t = LAGraph_WallClockTime ( ) - t ;
@@ -177,6 +195,7 @@ int main (int argc, char **argv)
                           
                         
     LG_FREE_ALL ;
+    printf ("finalize\n") ;
     LG_TRY (LAGraph_Finalize (msg)) ;
     return (GrB_SUCCESS) ;
 }
