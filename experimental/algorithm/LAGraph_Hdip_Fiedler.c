@@ -599,7 +599,7 @@ int LAGraph_mypcg2
     GrB_free (&x) ;                         \
     GrB_free (&iters) ;                     \
 }
-/*
+
 int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
 (
     // outputs:
@@ -608,10 +608,10 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     GrB_Vector *x_handle, // the hdip fielder result vector
     // inputs:
     GrB_Matrix L,    // input matrix, symmetric, result from Laplacian
-    float InfNorm,
-    GrB_Vector kmax,
-    float emax,
-    float tol,
+    float InfNorm, // passed in from laplacian output
+    GrB_Vector kmax, // a vector [20,50]
+    float emax, // emax = .000001
+    float tol,  // tol = .000001
 //  GrB_Type type,      // the type of Lap, typically GrB_FP32, ...
     char *msg
 )
@@ -620,21 +620,21 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     //TODO: Setup freeing memory.
 
     GrB_Index n;
+    GrB_Index k_inner;
+    GrB_Index k_outer;
+    GrB_Index kk; //used to hold output from mypcg2
+    GrB_Index i; // This is the integer used in for loop
     GrB_Vector u = NULL;
     GrB_Vector y = NULL;
     GrB_Vector x = NULL;
     GrB_Vector iters = NULL;
     GrB_Vector lambhelper = NULL;
     float alpha, lambda ;
-    float k_inner;
-    float k_outer;
     float last_err;
     float beta;
     float e;
-    float kk; //used to hold output from mypcg2
-    int i; // This is the integer used in for loop
-    int kmaxZero; // kmax[0]
-    int kmaxOne; // kmax[1]
+    int kmaxZero; // kmax[0] set to 20
+    int kmaxOne; // kmax[1] set to 50
     GrB_Matrix indiag = NULL ;
     
     //Set u(0) = 1+sqrt(n). u(1:n) = 1 and alpha = n+sqrt(n)
@@ -660,9 +660,9 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     //used to set y = hmhx with m being L
     GRB_TRY (GrB_Vector_new (&y, GrB_FP32, n));
     //for i from 1 to kmax[0]+1
-    GRB_TRY(GrB_Vector_extractElement(&kmaxZero,kmax,0));
+    GRB_TRY(GrB_Vector_extractElement(kmaxZero,kmax,0));
     //setting up kmax[1]
-    GRB_TRY(GrB_Vector_extractElement(&kmaxOne,kmax,1));
+    GRB_TRY(GrB_Vector_extractElement(kmaxOne,kmax,1));
     for (i=1;i<=kmaxZero;i++)
     {
         //compute beta = 2-norm of x and set x = x/beta
@@ -677,12 +677,12 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
         //lamb = x.emult(y).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
   
         GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, x, y, NULL));
-        GRB_TRY (GrB_reduce(&lambda,NULL,GrB_PLUS_FP32,lambhelper,NULL));
+        GRB_TRY (GrB_reduce(&lambda,NULL,GrB_PLUS_MONOID_FP32,lambhelper,NULL));
         // GRB_TRY (GrB_Vector_clear(lambhelper));
 
         //getting the inf norm for the vector normer using norm(v,inf) = max(sum(abs(v))) vector v
         GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_TIMES_FP32,-lambda,x, NULL)) ;
-        GRB_TRY (GrB_eWiseAdd (lambhelper, NULL, NULL, GrB_PLUS_FP32, y,lambhelper,NULL);
+        GRB_TRY (GrB_eWiseAdd (lambhelper, NULL, NULL, GrB_MINUS_FP32, y,lambhelper,NULL);
         //getting abs(lambhelper)
         GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_ABS_FP32,lambhelper, NULL));
         GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_MAX_FP32,lambhelper, NULL));
@@ -707,18 +707,20 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     //beta = u.emult(x).reduce_float(mon=gb.types.FP32.PLUS_MONOID)
 //  GRB_TRY (GrB_Vector_clear(lambhelper));
     GRB_TRY (GrB_eWiseMult (lambhelper, NULL, NULL, GrB_TIMES_FP32, u,x, NULL));
-    GRB_TRY (GrB_reduce(beta,NULL,GrB_PLUS_FP32,lambhelper,NULL));
+    GRB_TRY (GrB_reduce(&beta,NULL,GrB_PLUS_MONOID_FP32,lambhelper,NULL));
     beta = beta/alpha;
        
    
  // GRB_TRY (GrB_Vector_clear(lambhelper));
+    // set x=x-beta*u
     GRB_TRY (GrB_apply (lambhelper, NULL, NULL, GrB_TIMES_FP32,-beta,u, NULL));
     GRB_TRY (GrB_eWiseAdd (x, NULL, NULL, GrB_PLUS_FP32, x,lambhelper,NULL);
 
     //vectors start at 0
+    //iters is used to return no. of inner and outer iterations
     GRB_TRY (GrB_Vector_new (&iters, GrB_FP32, 2));
-    GRB_TRY (GrB_Vector_setElement(iters,k_inner,0));
-    GRB_TRY (GrB_Vector_setElement(iters,k_outer,1));
+    GRB_TRY (GrB_Vector_setElement_FP32(iters,k_inner,0));
+    GRB_TRY (GrB_Vector_setElement_FP32(iters,k_outer,1));
 
     // free workspace and return result
     LG_FREE_WORK ;
@@ -726,7 +728,7 @@ int LAGraph_Hdip_Fiedler   // compute the Hdip_Fiedler
     (*x_handle) = x ;
     (*iters_handle) = iters ;
     return (GrB_SUCCESS);
-}*/
+}
 
 
 
